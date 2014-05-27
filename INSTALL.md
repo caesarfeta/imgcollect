@@ -1,9 +1,26 @@
+# Setup AWS instance
+	https://www.amazon.com/ap/signin?openid.assoc_handle=aws&openid.return_to=https%3A%2F%2Fsignin.aws.amazon.com%2Foauth%3Fresponse_type%3Dcode%26client_id%3Darn%253Aaws%253Aiam%253A%253A015428540659%253Auser%252Fhomepage%26redirect_uri%3Dhttps%253A%252F%252Fconsole.aws.amazon.com%252Fconsole%252Fhome%253Fstate%253DhashArgs%252523%2526isauthcode%253Dtrue%26noAuthCookie%3Dtrue&openid.mode=checkid_setup&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&action=&disableCorpSignUp=&clientContext=&marketPlaceId=&poolName=326712126324&authCookies=&pageId=aws.iam&siteState=&accountStatusPolicy=P1&sso=&openid.pape.preferred_auth_policies=MultifactorPhysical&openid.pape.max_auth_age=120&openid.ns.pape=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fpape%2F1.0&server=%2Fap%2Fsignin%3Fie%3DUTF8&accountPoolAlias=326712126324&forceMobileApp=0
+	EC2
+
+	Launch Instance
+		Ubuntu Server 14.04 LTS (PV) 
+			64-bit
+			Select
+
+	Step 2: Choose an Instance Type
+		m1.small
+		6. Configure Security Group
+			Select an existing security group
+				sosolrails
+				Review and Launch
+
 # Install system dependencies
 	sudo apt-get update
 	sudo apt-get install build-essential
 	sudo apt-get install unzip
 	sudo apt-get install zlib1g-dev
 	sudo apt-get install git
+	sudo apt-get install openjdk-6-jre
 
 # Setup shell
 	mkdir ~/lib
@@ -30,3 +47,4 @@
 
 # Install linkeddata gem
 	gem install linkeddata
+
