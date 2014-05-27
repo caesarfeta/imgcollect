@@ -44,6 +44,7 @@
 
 # Install rails
 	sudo apt-get install ruby-railties-3.2
+	sudo apt-get install bundler
 	gem install rails -v 3.2.3
 
 # Install linkeddata gem
@@ -53,3 +54,11 @@
 	sudo chown ubuntu /usr/local
 	git clone https://github.com/caesarfeta/imgcollect.git /usr/local/imgcollect
 
+# Install jena-fuseki
+	cd /usr/local/imgcollect
+	curl -O http://www.interior-dsgn.com/apache//jena/binaries/jena-fuseki-1.0.1-distribution.tar.gz
+	tar xvzf jena-fuseki-1.0.1-distribution.tar.gz
+
+# Start it up
+	cd /usr/local/imgcollect/rails3
+	bundle exec rails server
