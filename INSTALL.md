@@ -43,8 +43,13 @@
 	rbenv rehash
 
 # Install rails
+	sudo apt-get install ruby-railties-3.2
 	gem install rails -v 3.2.3
 
 # Install linkeddata gem
 	gem install linkeddata
+
+# Install imgcollect
+	sudo chown ubuntu /usr/local
+	git clone https://github.com/caesarfeta/imgcollect.git /usr/local/imgcollect
 
