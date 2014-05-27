@@ -47,8 +47,9 @@
 	sudo apt-get install bundler
 	gem install rails -v 3.2.3
 
-# Install linkeddata gem
+# Install linked-data/RDF related gems
 	gem install linkeddata
+	gem install spira
 
 # Install imgcollect
 	sudo chown ubuntu /usr/local
@@ -58,7 +59,21 @@
 	cd /usr/local/imgcollect
 	curl -O http://www.interior-dsgn.com/apache//jena/binaries/jena-fuseki-1.0.1-distribution.tar.gz
 	tar xvzf jena-fuseki-1.0.1-distribution.tar.gz
+	ln -s jena-fuseki-1.0.1 fuseki
+	chmod +x fuseki/fuseki-server fuseki/s-**
 
-# Start it up
+# Start it up!
+## Fuseki
+	cd /usr/local/imgcollect/fuseki
+	./fuseki-server --update --mem --port=8080 /ds &
+## Rails
 	cd /usr/local/imgcollect/rails3
+	bundle install
+
+Start the webserver...
+
 	bundle exec rails server
+
+... or if you're developing and just need a console
+
+	rails console development
