@@ -55,5 +55,15 @@ module Imgcollect
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    #-------------------------------------------------------------
+    #  Fuseki
+    #-------------------------------------------------------------
+    config.fuseki_port = '8080'
+    config.fuseki_url = 'http://localhost'
+    #-------------------------------------------------------------
+    #  Filesystem
+    #-------------------------------------------------------------
+    config.img_root = '/usr/local/imgcollect/images'
   end
 end

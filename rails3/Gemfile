@@ -39,5 +39,5 @@ gem 'jquery-rails'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 # Spira and RDF data
-gem 'spira'
 gem 'rdf'
+gem 'sparql'

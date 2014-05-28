@@ -50,6 +50,7 @@
 # Install linked-data/RDF related gems
 	gem install linkeddata
 	gem install spira
+	gem install sparql
 
 # Install imgcollect
 	sudo chown ubuntu /usr/local
