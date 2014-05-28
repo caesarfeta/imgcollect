@@ -38,10 +38,10 @@ Thumbs.db
 
 # Scratch files #
 #################
-SCRATCH.md
-scratch
+/SCRATCH.md
+/scratch
 
 # Jena-fuseki #
 ###############
-jena-fuseki-1.0.1
-fuseki
+/jena-fuseki-1.0.1
+/fuseki

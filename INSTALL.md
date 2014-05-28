@@ -67,6 +67,10 @@
 ## Fuseki
 	cd /usr/local/imgcollect/fuseki
 	./fuseki-server --update --mem --port=8080 /ds &
+
+If you don't want output sent to STDOUT and would rather have it logged to nohup.out
+
+	nohup ./fuseki-server --update --mem --port=8080 /ds &
 ## Rails
 	cd /usr/local/imgcollect/rails3
 	bundle install
