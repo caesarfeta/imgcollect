@@ -38,6 +38,9 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-# Spira and RDF data
+#-------------------------------------------------------------
+#  Custom Gems
+#-------------------------------------------------------------
 gem 'rdf'
 gem 'sparql'
+gem 'haml-rails'

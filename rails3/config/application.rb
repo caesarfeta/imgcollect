@@ -16,7 +16,7 @@ module Imgcollect
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    # config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -55,7 +55,16 @@ module Imgcollect
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+    #-------------------------------------------------------------
+    #  Autoload library
+    #-------------------------------------------------------------
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    #-------------------------------------------------------------
+    #  HAML templating engine
+    #-------------------------------------------------------------
+    config.generators do |g|
+      g.template_engine :haml
+    end
     #-------------------------------------------------------------
     #  Fuseki
     #-------------------------------------------------------------
@@ -64,6 +73,6 @@ module Imgcollect
     #-------------------------------------------------------------
     #  Filesystem
     #-------------------------------------------------------------
-    config.img_root = '/usr/local/imgcollect/images'
+    config.upload_dir = '/usr/local/imgcollect/uploads'
   end
 end

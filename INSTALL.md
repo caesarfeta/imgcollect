@@ -47,6 +47,9 @@
 	sudo apt-get install bundler
 	gem install rails -v 3.2.3
 
+# Install haml
+	gem install haml-rails
+
 # Install linked-data/RDF related gems
 	gem install linkeddata
 	gem install spira
