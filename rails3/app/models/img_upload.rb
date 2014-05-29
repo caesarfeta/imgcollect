@@ -24,11 +24,12 @@ class ImgUpload
   end
   
   def toImgDir
-    @imgDir = UploadUtils.monthDir( Rails.configuration.img_dir )
+    @imgDir = UploadUtils.monthDir( Rails.configuration.img_dir, Rails.configuration.original_dir )
     path = File.join( @imgDir, @original )
     res = UploadUtils.filename( path )
     @imgPath = res['path']
     FileUtils.cp( @uploadPath, @imgPath )
+    return report
   end
   
   def report

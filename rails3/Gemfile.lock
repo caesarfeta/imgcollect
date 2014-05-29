@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    ImageResize (0.0.5)
     actionmailer (3.2.3)
       actionpack (= 3.2.3)
       mail (~> 2.4.4)
@@ -145,6 +146,7 @@ PLATFORMS
   java
 
 DEPENDENCIES
+  ImageResize
   activerecord-jdbcsqlite3-adapter
   coffee-rails (~> 3.2.1)
   haml-rails

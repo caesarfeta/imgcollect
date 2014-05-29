@@ -53,7 +53,6 @@
 	gem install spira
 	gem install sparql
 	gem install rubyzip
-	gem install ImageResize
 
 # Install imgcollect
 	sudo chown ubuntu /usr/local

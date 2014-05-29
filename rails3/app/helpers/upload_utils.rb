@@ -4,7 +4,7 @@ class UploadUtils
   #   ex. 2014/JAN, 2014/FEB
   # _dir { String } Parent directory
   # _subdir { String } Optional subdirectory
-  def self.monthDir( _dir, _subdir=nil )
+  def self.monthDir( _dir, _subdir='' )
     time = Time.now
     dir = File.join( _dir, time.year.to_s, time.strftime( '%^b' ), _subdir )
     FileUtils.mkdir_p( dir )

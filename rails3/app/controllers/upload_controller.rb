@@ -3,6 +3,10 @@ class UploadController < ActionController::Base
     render :file => 'app/views/upload/form.haml'
   end
   def file
+    if params['file'] == nil
+      render :text => "No file uploaded"
+      return
+    end
     #-------------------------------------------------------------
     #  Save the file
     #-------------------------------------------------------------
@@ -23,13 +27,21 @@ class UploadController < ActionController::Base
       #-------------------------------------------------------------
       report.push( file.toImgDir )
     #-------------------------------------------------------------
-    #  File type is not supported...
+    #  Not supported
     #-------------------------------------------------------------
     else
+      render :text => "Filetype is not supported"
+      return
     end
     #-------------------------------------------------------------
     #  Build the thumbnails
     #-------------------------------------------------------------
+    report.each do |item|
+      if item['path'] != nil && item['error'] == nil
+        item['thumb'] = ImgThumb.create( item['path'] )
+      end
+    end
+    
     puts report
     
     render :text => "File has been uploaded to #{ file.uploadPath } successfully"

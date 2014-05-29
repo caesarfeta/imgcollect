@@ -15,7 +15,7 @@ class ImgUnzip
   # _file { String }
   # @return { Array } @report The full unzip report
   def unzip( _file )
-    @dir = UploadUtils.monthDir( Rails.configuration.img_dir )
+    @dir = UploadUtils.monthDir( Rails.configuration.img_dir, Rails.configuration.original_dir )
     Zip::File.open( _file ) do |zip|
       zip.each do |entry|
         @report.push( check( entry ) )
