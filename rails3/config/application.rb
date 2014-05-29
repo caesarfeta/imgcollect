@@ -74,5 +74,7 @@ module Imgcollect
     #  Filesystem
     #-------------------------------------------------------------
     config.upload_dir = '/usr/local/imgcollect/uploads'
+    config.img_dir = '/usr/local/imgcollect/images'
+    config.zip_dir = '/usr/local/imgcollect/unzip'
   end
 end

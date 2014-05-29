@@ -46,6 +46,7 @@ Thumbs.db
 /jena-fuseki-1.0.1
 /fuseki
 
-# Uploads #
-###########
+# Uploads & Images #
+####################
 /uploads
+/images

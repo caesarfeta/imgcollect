@@ -55,6 +55,9 @@
 	gem install spira
 	gem install sparql
 
+# Install rubyzip
+	gem install rubyzip
+
 # Install imgcollect
 	sudo chown ubuntu /usr/local
 	git clone https://github.com/caesarfeta/imgcollect.git /usr/local/imgcollect
