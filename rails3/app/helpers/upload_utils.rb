@@ -2,10 +2,11 @@ class UploadUtils
   
   # Create a YEAR/MONTH subdirectory
   #   ex. 2014/JAN, 2014/FEB
-  # _dir { String }
-  def self.monthDir( _dir )
+  # _dir { String } Parent directory
+  # _subdir { String } Optional subdirectory
+  def self.monthDir( _dir, _subdir=nil )
     time = Time.now
-    dir = File.join( _dir, time.year.to_s, time.strftime( '%^b' ) )
+    dir = File.join( _dir, time.year.to_s, time.strftime( '%^b' ), _subdir )
     FileUtils.mkdir_p( dir )
     return dir
   end
@@ -36,7 +37,7 @@ class UploadUtils
       _num += 1
       return filename( _file, _num )
     end
-    return Hash[ "original" => _file, "path" => path, "ext" => ext ]
+    return Hash[ "original" => _file, "path" => path, "ext" => ext, "filename" => file ]
   end
   
 end

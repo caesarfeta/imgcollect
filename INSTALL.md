@@ -42,21 +42,18 @@
 	rbenv global jruby-1.7.11
 	rbenv rehash
 
-# Install rails
+# Install rails and bundler
 	sudo apt-get install ruby-railties-3.2
 	sudo apt-get install bundler
 	gem install rails -v 3.2.3
 
-# Install haml
+# Install required gems
 	gem install haml-rails
-
-# Install linked-data/RDF related gems
 	gem install linkeddata
 	gem install spira
 	gem install sparql
-
-# Install rubyzip
 	gem install rubyzip
+	gem install ImageResize
 
 # Install imgcollect
 	sudo chown ubuntu /usr/local
