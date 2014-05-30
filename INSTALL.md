@@ -47,12 +47,16 @@
 	sudo apt-get install bundler
 	gem install rails -v 3.2.3
 
+# Install imagemagick
+	sudo apt-get install imagemagick --fix-missing
+
 # Install required gems
 	gem install haml-rails
 	gem install linkeddata
 	gem install spira
 	gem install sparql
 	gem install rubyzip
+	gem install mini_magick
 
 # Install imgcollect
 	sudo chown ubuntu /usr/local
