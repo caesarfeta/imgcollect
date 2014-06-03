@@ -11,9 +11,10 @@ function startRails() {
 function startFuseki() {
 	cd $DIR
 	cd fuseki
-	./fuseki-server --update --mem --port=8080 /ds & # <-- this is problematic
-	echo $! > fuseki.pid
+	./fuseki-server --update --mem --port=$SPARQL_PORT /ds & # <-- this is problematic
+	echo $! > $DIR/fuseki.pid
 }
 
+source $DIR/fuseki_config
 startFuseki
 startRails

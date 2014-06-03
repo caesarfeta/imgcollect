@@ -72,32 +72,16 @@
 	ln -s jena-fuseki-1.0.1 fuseki
 	chmod +x fuseki/fuseki-server fuseki/s-**
 
+# Configuration
+
 # Start it up!
 The easiest way is to just use...
 
-	start.sh
+	./start.sh
 
-But if you need something custom here's a good starting point...
-
-## Fuseki
-	cd /usr/local/imgcollect/fuseki
-	./fuseki-server --update --mem --port=8080 /ds &
-
-If you don't want output sent to STDOUT and would rather have it logged to nohup.out
-
-	nohup ./fuseki-server --update --mem --port=8080 /ds &
-## Rails
-	cd /usr/local/imgcollect/rails3
-	bundle install
-
-Start the webserver...
-
-	bundle exec rails server
-
-... or if you're developing and just need a console
+if you need a console...
 
 	rails console development
 
-# Load test data into Fuseki
-	cd /usr/local/imgcollect/fuseki
-	./s-put http://localhost:8080/ds/data default /usr/local/imgcollect/rails3/test/fixtures/collection.ttl
+# Load test data
+	./load_test.sh

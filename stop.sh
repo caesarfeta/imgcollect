@@ -12,7 +12,7 @@ function stopRails() {
 
 function stopFuseki() {
 	cd $DIR
-	file="fuseki.pid"
+	file="${DIR}/fuseki.pid"
 	pid=`cat ${file}`
 	kill $pid
 	rm $file
