@@ -5,9 +5,19 @@ Imgcollect::Application.routes.draw do
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
-  match 'upload' => 'upload#index'
-  match 'upload/file' => 'upload#file'
+  match 'image/upload' => 'image#upload'
+  match 'image/report' => 'image#report'
+  match 'image/show/*dir' => 'image#show', :as => :custom_image
+  
+  match 'collection/create' => 'collection#create'
+  match 'collection/report' => 'collection#report'
+  match 'collection/showall' => 'collection#showall'
 
+  # map.connect 'collection/show/:name',
+  #   :controller => 'collection',
+  #   :action => 'show',
+  #   :name => /[0-9a-fA-F]/
+    
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)

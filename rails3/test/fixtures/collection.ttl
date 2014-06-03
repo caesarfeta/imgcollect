@@ -1,0 +1,125 @@
+@prefix hmt: <http://www.homermultitext.org/hmt/rdf/> .
+@prefix cite: <http://www.homermultitext.org/cite/rdf/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+
+# TODO: Create license triples?
+
+# Collection 1: Forests [ COMPLETE ]
+<urn:cite:perseus:forest> rdf:type cite:ImageArchive .
+<urn:cite:perseus:forest> rdf:label "Images of forests" .
+<urn:cite:perseus:forest> rdf:name "Forests" .
+<urn:cite:perseus:forest> rdf:date_created "" . # best timestamp?
+<urn:cite:perseus:forest> rdf:created_by "johndoe@email.com" .
+	## images
+	## 1
+	<urn:cite:perseus:forest.1> hmt:path "images/TEST/forest1.JPG" .
+	<urn:cite:perseus:forest.1> cite:belongsTo <urn:cite:perseus:forest> .
+	<urn:cite:perseus:forest> cite:possesses <urn:cite:perseus:forest.1> .
+	<urn:cite:perseus:forest.1> rdf:date_added "" . # best timestamp?
+	<urn:cite:perseus:forest.1> rdf:order 1 .
+	<urn:cite:perseus:forest.1> rdf:added_by "johndoe@email.com" .
+		## keywords
+		<urn:cite:perseus:forest.1> rdf:keyword "onion" .
+		<urn:cite:perseus:forest.1> rdf:keyword "tribe" .
+		<urn:cite:perseus:forest.1> rdf:keyword "slick" .
+	## 2
+	<urn:cite:perseus:forest.2> hmt:path "images/TEST/forest2.JPG" .
+	<urn:cite:perseus:forest.2> cite:belongsTo <urn:cite:perseus:forest> .
+	<urn:cite:perseus:forest> cite:possesses <urn:cite:perseus:forest.2> .
+	<urn:cite:perseus:forest.2> rdf:date_added "" . # best timestamp?
+	<urn:cite:perseus:forest.2> rdf:order 2 .
+	<urn:cite:perseus:forest.2> rdf:added_by "johndoe@email.com" .
+		## keywords
+		<urn:cite:perseus:forest.2> rdf:keyword "benzo" .
+		<urn:cite:perseus:forest.2> rdf:keyword "glib" .
+		<urn:cite:perseus:forest.2> rdf:keyword "cart" .
+	## 3
+	<urn:cite:perseus:forest.3> hmt:path "images/TEST/forest3.JPG" .
+	<urn:cite:perseus:forest.3> cite:belongsTo <urn:cite:perseus:forest> .
+	<urn:cite:perseus:forest> cite:possesses <urn:cite:perseus:forest.3> .
+	<urn:cite:perseus:forest.3> rdf:date_added "" . # best timestamp?
+	<urn:cite:perseus:forest.3> rdf:order 3 .
+	<urn:cite:perseus:forest.3> rdf:added_by "johndoe@email.com" .
+		## keywords
+		<urn:cite:perseus:forest.3> rdf:keyword "dog" .
+		<urn:cite:perseus:forest.3> rdf:keyword "cat" .
+		<urn:cite:perseus:forest.3> rdf:keyword "mouse" .
+	
+
+
+# Collection 2: Deserts
+<urn:cite:perseus:desert> rdf:type cite:ImageArchive .
+<urn:cite:perseus:desert> rdf:label "Images of deserts" .
+<urn:cite:perseus:desert> rdf:name "Deserts" .
+<urn:cite:perseus:desert> rdf:date_created "" . # best timestamp?
+	## images
+	## 1
+	<urn:cite:perseus:desert.1> hmt:path "images/TEST/desert1.JPG" .
+	<urn:cite:perseus:desert.1> cite:belongsTo <urn:cite:perseus:desert> .
+	<urn:cite:perseus:desert> cite:possesses <urn:cite:perseus:desert.1> .
+	<urn:cite:perseus:desert.1> rdf:date_added "" . # best timestamp?
+	<urn:cite:perseus:desert.1> rdf:order 1 .
+		## keywords
+		<urn:cite:perseus:desert.1> rdf:keyword "leaf" .
+		<urn:cite:perseus:desert.1> rdf:keyword "cloud" .
+		<urn:cite:perseus:desert.1> rdf:keyword "shower" .
+	## 2
+	<urn:cite:perseus:desert.2> hmt:path "images/TEST/desert2.JPG" .
+	<urn:cite:perseus:desert.2> cite:belongsTo <urn:cite:perseus:desert> .
+	<urn:cite:perseus:desert> cite:possesses <urn:cite:perseus:desert.2> .
+	<urn:cite:perseus:desert.2> rdf:date_added "" . # best timestamp?
+	<urn:cite:perseus:desert.2> rdf:order 2 .
+		## keywords
+		<urn:cite:perseus:desert.2> rdf:keyword "cloud" .
+		<urn:cite:perseus:desert.2> rdf:keyword "glamour" .
+		<urn:cite:perseus:desert.2> rdf:keyword "friend" .
+	## 3
+	<urn:cite:perseus:desert.3> hmt:path "images/TEST/desert3.JPG" .
+	<urn:cite:perseus:desert.3> cite:belongsTo <urn:cite:perseus:desert> .
+	<urn:cite:perseus:desert> cite:possesses <urn:cite:perseus:desert.3> .
+	<urn:cite:perseus:desert.3> rdf:date_added "" . # best timestamp?
+	<urn:cite:perseus:desert.3> rdf:order 3 .
+		## keywords
+		<urn:cite:perseus:desert.3> rdf:keyword "meek" .
+		<urn:cite:perseus:desert.3> rdf:keyword "shout" .
+		<urn:cite:perseus:desert.3> rdf:keyword "shirt" .
+
+
+
+# Collection 2: Insects
+<urn:cite:perseus:insects> rdf:type cite:ImageArchive .
+<urn:cite:perseus:insects> rdf:label "Images of insects" .
+<urn:cite:perseus:insects> rdf:name "Insects" .
+<urn:cite:perseus:insects> rdf:date_created "" . # best timestamp?
+	## images
+	## 1
+	<urn:cite:perseus:insects.1> hmt:path "images/TEST/insects1.JPG" .
+	<urn:cite:perseus:insects.1> cite:belongsTo <urn:cite:perseus:insects> .
+	<urn:cite:perseus:insects> cite:possesses <urn:cite:perseus:insects.1> .
+	<urn:cite:perseus:insects.1> rdf:date_added "" . # best timestamp?
+	<urn:cite:perseus:insects.1> rdf:order 1 .
+		## keywords
+		<urn:cite:perseus:insects.1> rdf:keyword "gold" .
+		<urn:cite:perseus:insects.1> rdf:keyword "silver" .
+		<urn:cite:perseus:insects.1> rdf:keyword "precious" .
+	## 2
+	<urn:cite:perseus:insects.2> hmt:path "images/TEST/insects2.JPG" .
+	<urn:cite:perseus:insects.2> cite:belongsTo <urn:cite:perseus:insects> .
+	<urn:cite:perseus:insects> cite:possesses <urn:cite:perseus:insects.2> .
+	<urn:cite:perseus:insects.2> rdf:date_added "" . # best timestamp?
+	<urn:cite:perseus:insects.2> rdf:order 2 .
+		## keywords
+		<urn:cite:perseus:insects.2> rdf:keyword "glow" .
+		<urn:cite:perseus:insects.2> rdf:keyword "guilt" .
+		<urn:cite:perseus:insects.2> rdf:keyword "black" .
+	## 3
+	<urn:cite:perseus:insects.3> hmt:path "images/TEST/insects3.JPG" .
+	<urn:cite:perseus:insects.3> cite:belongsTo <urn:cite:perseus:insects> .
+	<urn:cite:perseus:insects> cite:possesses <urn:cite:perseus:insects.3> .
+	<urn:cite:perseus:insects.3> rdf:date_added "" . # best timestamp?
+	<urn:cite:perseus:insects.3> rdf:order 3 .
+		## keywords
+		<urn:cite:perseus:insects.3> rdf:keyword "meek" .
+		<urn:cite:perseus:insects.3> rdf:keyword "shout" .
+		<urn:cite:perseus:insects.3> rdf:keyword "shirt" .

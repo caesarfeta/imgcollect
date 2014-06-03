@@ -8,17 +8,14 @@ class ImgThumb
     #-------------------------------------------------------------
     #  Build the thumbnail filename
     #-------------------------------------------------------------
-    dim = Rails.configuration.thumb_max_width.to_s + 'x' + Rails.configuration.thumb_max_height.to_s
-    dir = File.dirname( _file )
-    ext = File.extname( _file )
-    base = File.basename( _file, ext )
-    file = base + count + dim + ext
+    file = File.basename( _src )
     path = File.join( dir, file )
     res = UploadUtils.filename( path )
     #-------------------------------------------------------------
-    #  Resize the source image and save it
+    #  Create the thumbnail
     #-------------------------------------------------------------
     image = MiniMagick::Image.open( _src )
+    dim = Rails.configuration.thumb_max_width.to_s + 'x' + Rails.configuration.thumb_max_height.to_s
     image.resize( dim )
     image.write( res['path'] )
     return res['path']

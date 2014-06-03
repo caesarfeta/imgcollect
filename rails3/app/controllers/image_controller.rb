@@ -1,8 +1,21 @@
-class UploadController < ActionController::Base
-  def index
-    render :file => 'app/views/upload/form.haml'
+class ImageController < ActionController::Base
+  
+  # TODO: Secure this sunnamabitch.
+  def show
+    file = File.join( Rails.configuration.img_dir, params[:dir]+'.'+params[:format] )
+    if File.exist?( file ) == false
+      raise "File: #{file} could not be found"
+    end
+    send_file file, :disposition => 'inline'
   end
-  def file
+  
+  # Display upload form
+  def upload
+    render :file => 'app/views/image/form.haml'
+  end
+  
+  # The backside of upload()
+  def report
     if params['file'] == nil
       render :text => "No file uploaded"
       return
@@ -33,17 +46,20 @@ class UploadController < ActionController::Base
       render :text => "Filetype is not supported"
       return
     end
-    #-------------------------------------------------------------
-    #  Build the thumbnails
-    #-------------------------------------------------------------
     report.each do |item|
       if item['path'] != nil && item['error'] == nil
+        #-------------------------------------------------------------
+        #  Build the thumbnails
+        #-------------------------------------------------------------
         item['thumb'] = ImgThumb.create( item['path'] )
+        #-------------------------------------------------------------
+        #  Update the database with this new image
+        #-------------------------------------------------------------
+        image = Image.new
+        image.update_attributes({ 'path' => item['path'], 'original' => item['original'], 'thumb' => item['thumb'] })
       end
     end
-    
-    puts report
-    
     render :text => "File has been uploaded to #{ file.uploadPath } successfully"
   end
+  
 end

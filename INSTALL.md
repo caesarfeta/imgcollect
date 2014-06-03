@@ -62,6 +62,9 @@
 	sudo chown ubuntu /usr/local
 	git clone https://github.com/caesarfeta/imgcollect.git /usr/local/imgcollect
 
+# Run the db:migrate
+	rake db:migrate
+
 # Install jena-fuseki
 	cd /usr/local/imgcollect
 	curl -O http://www.interior-dsgn.com/apache//jena/binaries/jena-fuseki-1.0.1-distribution.tar.gz
@@ -70,6 +73,12 @@
 	chmod +x fuseki/fuseki-server fuseki/s-**
 
 # Start it up!
+The easiest way is to just use...
+
+	start.sh
+
+But if you need something custom here's a good starting point...
+
 ## Fuseki
 	cd /usr/local/imgcollect/fuseki
 	./fuseki-server --update --mem --port=8080 /ds &
@@ -88,3 +97,7 @@ Start the webserver...
 ... or if you're developing and just need a console
 
 	rails console development
+
+# Load test data into Fuseki
+	cd /usr/local/imgcollect/fuseki
+	./s-put http://localhost:8080/ds/data default /usr/local/imgcollect/rails3/test/fixtures/collection.ttl

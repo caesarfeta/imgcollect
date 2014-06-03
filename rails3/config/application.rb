@@ -66,10 +66,9 @@ module Imgcollect
       g.template_engine :haml
     end
     #-------------------------------------------------------------
-    #  Fuseki
+    #  Sparql
     #-------------------------------------------------------------
-    config.fuseki_port = '8080'
-    config.fuseki_url = 'http://localhost'
+    config.sparql_endpoint = 'http://localhost:8080/ds'
     #-------------------------------------------------------------
     #  Filesystem
     #-------------------------------------------------------------

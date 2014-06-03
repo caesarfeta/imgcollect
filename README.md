@@ -42,7 +42,10 @@ See INSTALL.md
 		
 		* addKeyword
 		* removeKeyword
-	
+ 
+	My start...
+	rails generate model Image name:text path:text original:text thumb:text license:integer copyright:integer uploaded_by:integer
+
 * Collection << RDF
 	* attributes
 		* id ( int )
