@@ -53,7 +53,6 @@
 # Install required gems
 	gem install haml-rails
 	gem install linkeddata
-	gem install spira
 	gem install sparql
 	gem install rubyzip
 	gem install mini_magick
@@ -73,6 +72,10 @@
 	chmod +x fuseki/fuseki-server fuseki/s-**
 
 # Configuration
+Edit the following files for any custom environment configuration
+
+	/usr/local/imgcollect/fuseki_config
+	/usr/local/imgcollect/rails3/config/application.rb
 
 # Start it up!
 The easiest way is to just use...
