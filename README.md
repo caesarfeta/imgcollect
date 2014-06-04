@@ -181,6 +181,11 @@ Collections should be nestable.
 ### Upload Testing
 UploadUtils.upload( "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG", "http://localhost:3000/image/upload" )
 
+### Exif Testing
+ImgMeta.exif( "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG" )
+
+ImgMeta.xmp( "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG" )
+
 
 ## Configuration
 	Fuseki port ex. 8080, 3030

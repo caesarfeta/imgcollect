@@ -59,6 +59,7 @@
 	gem install exifr
 	gem install xmp
 	gem install rest_client
+	gem install mimemagic
 
 # Install imgcollect
 	sudo chown ubuntu /usr/local
