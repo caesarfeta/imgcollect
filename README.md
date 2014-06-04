@@ -156,6 +156,27 @@ I'm thinking the update class will accept a URI.  Prefixes can be added one by o
 
 
 
+## Brainstorming
+When a parameter is set the triple-store needs to update.
+
+Triplestore | Ruby Class
+predicates  |  attribute
+
+Ruby Class becomes the one point of entry...
+
+Collection < ActiveTriple < SPARQL:Client
+
+### Image Conversion
+Image conversion
+
+### Metadata
+Metadata extraction from the image file
+EXIF
+XMP
+
+### Collections
+Collections should be nestable
+
 
 
 ## Configuration

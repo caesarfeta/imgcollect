@@ -56,6 +56,9 @@
 	gem install sparql
 	gem install rubyzip
 	gem install mini_magick
+	gem install exifr
+	gem install xmp
+	gem install rest_client
 
 # Install imgcollect
 	sudo chown ubuntu /usr/local
