@@ -2,8 +2,14 @@ class ImageController < ActionController::Base
   
   # TODO: Secure this sunnamabitch.
   def show
+    #-------------------------------------------------------------
+    #  TODO: Check the access restrictions on the file
+    #-------------------------------------------------------------
     file = File.join( Rails.configuration.img_dir, params[:dir]+'.'+params[:format] )
     if File.exist?( file ) == false
+      #-------------------------------------------------------------
+      #  TODO: Return an error image and not an error message
+      #-------------------------------------------------------------
       raise "File: #{file} could not be found"
     end
     send_file file, :disposition => 'inline'
