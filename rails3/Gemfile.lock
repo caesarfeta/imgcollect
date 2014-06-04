@@ -49,6 +49,7 @@ GEM
       sxp (~> 0.1, >= 0.1.3)
     erubis (2.7.0)
     execjs (2.0.2)
+    exifr (1.1.3)
     haml (4.0.5)
       tilt
     haml-rails (0.4)
@@ -65,7 +66,6 @@ GEM
       thor (>= 0.14, < 2.0)
     jruby-openssl (0.9.4)
       bouncy-castle-java (>= 1.5.0147)
-    json (1.8.1)
     json (1.8.1-java)
     mail (2.4.4)
       i18n (>= 0.4.0)
@@ -76,6 +76,8 @@ GEM
       subexec (~> 0.2.1)
     multi_json (1.10.1)
     net-http-persistent (2.9.4)
+    netrc (0.7.7)
+    nokogiri (1.5.11-java)
     polyglot (0.3.4)
     rack (1.4.5)
     rack-cache (1.2)
@@ -107,6 +109,8 @@ GEM
       rdf (>= 1.1)
     rdoc (3.12.2)
       json (~> 1.4)
+    rest_client (1.7.3)
+      netrc (~> 0.7.7)
     rubyzip (1.1.3)
     sass (3.3.7)
     sass-rails (3.2.6)
@@ -144,6 +148,8 @@ GEM
     uglifier (2.5.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    xmp (0.2.0)
+      nokogiri (~> 1.5.0)
 
 PLATFORMS
   java
@@ -151,14 +157,17 @@ PLATFORMS
 DEPENDENCIES
   activerecord-jdbcsqlite3-adapter
   coffee-rails (~> 3.2.1)
+  exifr
   haml-rails
   jquery-rails
   jruby-openssl
   mini_magick
   rails (= 3.2.3)
   rdf
+  rest_client
   rubyzip
   sass-rails (~> 3.2.3)
   sparql
   therubyrhino
   uglifier (>= 1.0.3)
+  xmp

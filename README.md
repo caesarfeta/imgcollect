@@ -175,8 +175,11 @@ EXIF
 XMP
 
 ### Collections
-Collections should be nestable
+Collections should be nestable.
 
+
+### Upload Testing
+UploadUtils.upload( "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG", "http://localhost:3000/image/upload" )
 
 
 ## Configuration

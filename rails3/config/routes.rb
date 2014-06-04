@@ -5,8 +5,8 @@ Imgcollect::Application.routes.draw do
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
+  match 'image/form' => 'image#form'
   match 'image/upload' => 'image#upload'
-  match 'image/report' => 'image#report'
   match 'image/show/*dir' => 'image#show', :as => :custom_image
   
   match 'collection/create' => 'collection#create'

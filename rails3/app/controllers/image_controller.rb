@@ -10,12 +10,12 @@ class ImageController < ActionController::Base
   end
   
   # Display upload form
-  def upload
+  def form
     render :file => 'app/views/image/form.haml'
   end
   
   # The backside of upload()
-  def report
+  def upload
     if params['file'] == nil
       render :text => "No file uploaded"
       return
