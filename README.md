@@ -178,6 +178,9 @@ XMP
 Collections should be nestable.
 
 
+
+
+
 ### Upload Testing
 UploadUtils.upload( "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG", "http://localhost:3000/image/upload" )
 
@@ -185,6 +188,14 @@ UploadUtils.upload( "/usr/local/imgcollect/rails3/test/fixtures/collection_image
 ImgMeta.exif( "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG" )
 
 ImgMeta.xmp( "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG" )
+
+ImgMeta.triples( "<urn:imgcollect:img.3>", "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG" )
+
+### Sparql Queries
+s = SparqlQueries.new
+s.keywords
+s.collections
+
 
 
 ## Configuration
@@ -211,3 +222,61 @@ https://github.com/datagraph/spira
 http://en.wikibooks.org/wiki/Ruby_Programming/Syntax/Literals
 
 	Ruby syntax reference
+
+
+
+
+# Quickie Presentation
+
+## Imgcollect
+
+Rails3 >> Apache Jena Fuseki >> Filesystem
+
+1. Rails3 supplies the interface GUI and API.
+2. Jena-Fuseki stores the image metadata.
+3. Image files are stored on some filesystem.
+For flexibility the three components can be on different hosts.
+
+Doesn't have an interface.
+
+Upload
+	PNG, JPEG, GIF, TIFF, ZIP
+
+It will unzip a file and pull out all relevant formats.
+It saves uploaded files to the filesystem.
+Converts images like TIFFs to a more usable format.
+Builds thumbnails to make any search interface a bit more pleasant.
+Pulls EXIF data
+	* GPS
+	* Camera settings
+	* Group images into collections.
+		* and collections into collections into collections.
+
+Outstanding issues && Points of concern
+	* How do we make images usable by other systems and services while respecting copyright and access restrictions
+	* Integrating a shared login to use the system
+	* If it ever gets popular hosting costs could get expensive
+
+
+
+
+    
+# Alex - Library meeting
+
+MIRA >> Homegrown 
+extends Fedora
+
+Required fields
+	* Title
+	* Displays in Portal
+
+Image sizes
+	* thumb 120
+	* basic 600
+	* advanced 2816
+	* original
+
+Ontology
+	dc: http://dublincore.org/documents/dces/
+	mira: https://wikis.uit.tufts.edu/confluence/display/MIRADataDictionary/Element+Quick+Sheet
+	exif: http://www.kanzaki.com/ns/exif#

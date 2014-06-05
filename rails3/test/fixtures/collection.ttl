@@ -2,10 +2,8 @@
 @prefix cite: <http://www.homermultitext.org/cite/rdf/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
-
-# Custom prefixes
-@prefix exif: <http://rdoc.info/github/remvee/exifr/>
-@prefix imgcoll: <http://localhost:3000/image/show/>
+@prefix dc: <http://dublincore.org/documents/dces/>
+@prefix exif: <http://www.kanzaki.com/ns/exif#>
 
 #-------------------------------------------------------------
 # TODO: LICENSES

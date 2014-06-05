@@ -46,12 +46,13 @@ class ImgMeta
   def self.tripleDrill( _s, _hash )
     _hash.each do | key, val |
         check = val.class.to_s
+        pred = key.to_s.camelize(:lower)
         if check.include?( "EXIFR::TIFF::Orientation" )
-          puts "#{_s} rdf:#{key} \"#{val.to_i}\" ."
+          puts "#{_s} rdf:#{pred} \"#{val.to_i}\" ."
         elsif check.include?( "EXIFR::TIFF::IFD" )
           self.tripleDrill( _s, val.to_hash )
         else
-          puts "#{_s} rdf:#{key} \"#{val}\" ."
+          puts "#{_s} rdf:#{pred} \"#{val}\" ."
         end
     end
   end
