@@ -60,4 +60,8 @@ class SparqlQueries
     return @sparql.delete([ "<urn:cite:perseus:insects.2>", "rdf:keyword", :o ])
   end
   
+  def nextIndex()
+    return @sparql.nextIndex([ "<urn:cite:perseus:insects>", "cite:possesses" ])
+  end
+  
 end

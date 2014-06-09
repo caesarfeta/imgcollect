@@ -12,6 +12,7 @@ class SparqlQuick
     @update = handle( 'update' )
   end
   
+  # Insert a single triple
   # _triple { Array }
   def insert( _triple )
     triple = uris( _triple )
@@ -23,6 +24,7 @@ class SparqlQuick
     })
   end
   
+  # Update a single triple
   # _triple { Array }
   def update( _triple )
     toDelete = _triple.clone
@@ -35,15 +37,28 @@ class SparqlQuick
     insert( _triple )
   end
   
+  # Delete a triple or partial triple
   # _triple { Array }
   def delete( _triple )
+    #-------------------------------------------------------------
+    #  Safety check
+    #-------------------------------------------------------------
+    check_count = 0
+    _triple.each do | check |
+      if check.class == ::Symbol
+        check_count += 1
+      end
+    end
+    if check_count == 3
+      raise "Did you really want to delete entire database? Argument must contain one URI or literal value."
+    end
     #-------------------------------------------------------------
     #  Check to see what you're deleting
     #-------------------------------------------------------------
     results = select( _triple )
     #-------------------------------------------------------------
-    # SPARQL::Client.delete_data can only a complete s,p,o triple
-    # So we have to fill in the details.  See destroy()
+    # SPARQL::Client.delete_data can only delete a complete
+    # s,p,o triple.  So we have to fill in the details.
     #-------------------------------------------------------------
     results.each do | hash |
       toDelete = _triple.clone
@@ -83,9 +98,29 @@ class SparqlQuick
   def handle( _type )
     return SPARQL::Client.new( File.join( @endpoint, _type ) )
   end
+
+  # Get the next index
+  # _double { Array }
+  def nextIndex( _double )
+    triple = _double.clone
+    triple[2] = :o
+    results = select( triple )
+    ns = []
+    results.each do | val |
+      string = val[:o].to_s
+      n = string[-1,1]
+      #-------------------------------------------------------------
+      #  TODO: Check int-iness
+      #-------------------------------------------------------------
+      ns.push( n.to_i )
+    end
+    ns = ns.sort
+    return ns[ ns.length-1 ]+1
+  end
   
   # Build URIs
   # _triple { Array }
+  # @return { Array } 
   def uris( _triple )
     triple=[]
     _triple.each do | val |
@@ -95,7 +130,8 @@ class SparqlQuick
   end
   
   # Should this be turned into a URI?
-  # _val { String, Symbol, Other... }
+  # _val { String, Symbol, etc... }
+  # _return { RDF::URI, RDF::Literal, Symbol }
   def uri( _val )
     #-------------------------------------------------------------
     #  If it's a symbol get out of there.
@@ -141,6 +177,7 @@ class SparqlQuick
   end
   
   # Clip the arrows from the edges of an RDF URI string
+  # _val { String }
   def clip( _val )
     val = String.new( _val )
     val[0]=''
