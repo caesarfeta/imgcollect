@@ -1,5 +1,7 @@
 class SparqlQuick
   
+  # _endpoint { String }
+  # _prefixes { Hash }
   def initialize( _endpoint, _prefixes=nil )
     @endpoint = _endpoint
     @prefixes = _prefixes
@@ -21,14 +23,42 @@ class SparqlQuick
     })
   end
   
+  # _triple { Array }
+  def update( _triple )
+    toDelete = _triple.clone
+    toDelete[2] = :o
+    results = select( toDelete )
+    if results.length > 1
+      raise "Can only update one triple at a time.  Multiple triples returned during check"
+    end
+    delete( toDelete )
+    insert( _triple )
+  end
+  
+  # _triple { Array }
   def delete( _triple )
-    triple = uris( _triple )
     #-------------------------------------------------------------
-    #  Update the data
+    #  Check to see what you're deleting
     #-------------------------------------------------------------
-    @update.delete_data( RDF::Graph.new { | graph |
-      graph << triple
-    })
+    results = select( _triple )
+    #-------------------------------------------------------------
+    # SPARQL::Client.delete_data can only a complete s,p,o triple
+    # So we have to fill in the details.  See destroy()
+    #-------------------------------------------------------------
+    results.each do | hash |
+      toDelete = _triple.clone
+      hash.keys.each do | key |
+        case key
+          when :s
+            toDelete[0] = hash[key]
+          when :p
+            toDelete[1] = hash[key]
+          when :o
+            toDelete[2] = hash[key]
+        end
+        destroy( toDelete )
+      end
+    end
   end
   
   # _triple { Array }
@@ -38,7 +68,6 @@ class SparqlQuick
     #  Grab a SPARQL handle and run the query
     #-------------------------------------------------------------
     query = @query.select.where( triple )
-    puts query
     #-------------------------------------------------------------
     #  Build the results object
     #-------------------------------------------------------------
@@ -56,6 +85,7 @@ class SparqlQuick
   end
   
   # Build URIs
+  # _triple { Array }
   def uris( _triple )
     triple=[]
     _triple.each do | val |
@@ -65,6 +95,7 @@ class SparqlQuick
   end
   
   # Should this be turned into a URI?
+  # _val { String, Symbol, Other... }
   def uri( _val )
     #-------------------------------------------------------------
     #  If it's a symbol get out of there.
@@ -99,6 +130,15 @@ class SparqlQuick
   end
   
   private
+  
+  # Remove a triple for real...
+  # _triple { Array }
+  def destroy( _triple )
+    triple = uris( _triple )
+    @update.delete_data( RDF::Graph.new { | graph |
+      graph << triple
+    })
+  end
   
   # Clip the arrows from the edges of an RDF URI string
   def clip( _val )

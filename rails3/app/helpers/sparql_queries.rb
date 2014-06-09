@@ -44,4 +44,20 @@ class SparqlQueries
     return @sparql.delete([ "<urn:cite:perseus:insects.2>", "rdf:smelly", "gladbag" ])
   end
   
+  def update()
+    return @sparql.update([ "<urn:cite:perseus:insects.2>", "rdf:order", 3 ])
+  end
+  
+  def insert2()
+    return @sparql.insert([ "<urn:cite:perseus:insects.2>", "rdf:smelly", "huzzah" ])
+  end
+  
+  def delete2()
+    return @sparql.delete([ "<urn:cite:perseus:insects.2>", "rdf:smelly", :o ])
+  end
+  
+  def delete3()
+    return @sparql.delete([ "<urn:cite:perseus:insects.2>", "rdf:keyword", :o ])
+  end
+  
 end
