@@ -13,11 +13,35 @@ class SparqlQueries
   end
   
   def keywords
-    results = @sparql.select([ :s, "rdf:keyword", :o ])
+    return @sparql.select([ :s, "rdf:keyword", :o ])
   end
   
   def collections
-    results = @sparql.select([ :s, "rdf:type", "cite:ImageArchive" ])
+    return @sparql.select([ :s, "rdf:type", "cite:ImageArchive" ])
+  end
+  
+  def collection_images( _name )
+    images = []
+    results = @sparql.select([ "<urn:cite:perseus:#{_name}>", "cite:possesses", :o ])
+    results.each do | result |
+      images.push( image_meta( result[:o] ) )
+    end
+    return images
+  end
+  
+  def image_meta( _image )
+    return @sparql.select([ "<"+_image+">", :p, :o ])
+  end
+  
+  #-------------------------------------------------------------
+  #  Quick tests
+  #-------------------------------------------------------------
+  def insert()
+    return @sparql.insert([ "<urn:cite:perseus:insects.2>", "rdf:smelly", "gladbag" ])
+  end
+  
+  def delete()
+    return @sparql.delete([ "<urn:cite:perseus:insects.2>", "rdf:smelly", "gladbag" ])
   end
   
 end

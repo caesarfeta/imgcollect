@@ -16,7 +16,17 @@ class SparqlQuick
     #-------------------------------------------------------------
     #  Insert the data
     #-------------------------------------------------------------
-    @update.insert_data( RDF::Graph.new { |graph|
+    @update.insert_data( RDF::Graph.new { | graph |
+      graph << triple
+    })
+  end
+  
+  def delete( _triple )
+    triple = uris( _triple )
+    #-------------------------------------------------------------
+    #  Update the data
+    #-------------------------------------------------------------
+    @update.delete_data( RDF::Graph.new { | graph |
       graph << triple
     })
   end
@@ -37,9 +47,6 @@ class SparqlQuick
       results.push( val.bindings )
     end
     return results
-  end
-  
-  def deleteTriple( _s, _p, _o=nil )
   end
   
   # _type { String }
