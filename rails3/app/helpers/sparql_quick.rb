@@ -93,6 +93,33 @@ class SparqlQuick
     return results
   end
   
+  # _double { Array }
+  # @return { Array, String }
+  def value( _double )
+    results = getObjects( _double )
+    if results.length == 0
+      return nil
+    end
+    #-------------------------------------------------------------
+    #  Get the values
+    #-------------------------------------------------------------
+    out = []
+    results.each do | val |
+      out.push( val[:o].to_s )
+    end
+    #-------------------------------------------------------------
+    #  If only a single value is returned don't return
+    #  an array with one element in it.
+    #-------------------------------------------------------------
+    if out.length == 1
+      return out[0]
+    end
+    #-------------------------------------------------------------
+    #  Return an array
+    #-------------------------------------------------------------
+    return out
+  end
+  
   # _type { String }
   # @return { SPARQL::Client }
   def handle( _type )
@@ -102,9 +129,7 @@ class SparqlQuick
   # Get the next index
   # _double { Array }
   def nextIndex( _double )
-    triple = _double.clone
-    triple[2] = :o
-    results = select( triple )
+    results = getObjects( _double )
     ns = []
     results.each do | val |
       string = val[:o].to_s
@@ -166,6 +191,12 @@ class SparqlQuick
   end
   
   private
+  
+  def getObjects( _double )
+    triple = _double.clone
+    triple[2] = :o
+    return select( triple )
+  end
   
   # Remove a triple for real...
   # _triple { Array }
