@@ -73,6 +73,7 @@ class Image
   def create( _attr )
   end
   
+  # Add a
   def add( _key, _value )
     key = _key.to_sym
     attr?( key )
@@ -80,6 +81,17 @@ class Image
     type_class?( key, _value )
     multi?( key )
     @sparql.insert([ @urn, pred( key ), _value ])
+  end
+  
+  # Delete an attribute
+  def delete( _key, _value=nil )
+    key = _key.to_sym
+    attr?( key )
+    if _value == nil
+      @sparql.delete([ @urn, pred( key ), :o ])
+      return
+    end
+    @sparql.delete([ @urn, pred( key ), _value ])
   end
   
   # Check for attributes
@@ -129,17 +141,21 @@ class Image
   end
   
   def single?( _key )
-    check = @attributes[ _key ][2]
+    check = single_or_multi( _key )
     if check != SINGLE
       raise "#{ _key } is not a SINGLE attribute. Use add( :#{ _key }, 'value' ) instead."
     end
   end
   
   def multi?( _key )
-    check = @attributes[ _key ][2]
+    check = single_or_multi( _key )
     if check != MULTI
       raise "#{ _key } is not a MULTI attribute."
     end
+  end
+  
+  def single_or_multi( _key )
+    return @attributes[ _key ][2]
   end
   
   def type_class?( _key, _value )

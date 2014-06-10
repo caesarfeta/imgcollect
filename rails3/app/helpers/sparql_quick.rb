@@ -52,6 +52,9 @@ class SparqlQuick
     if check_count == 3
       raise "Did you really want to delete entire database? Argument must contain one URI or literal value."
     end
+    if check_count == 0
+      destroy( _triple )
+    end
     #-------------------------------------------------------------
     #  Check to see what you're deleting
     #-------------------------------------------------------------
@@ -60,6 +63,7 @@ class SparqlQuick
     # SPARQL::Client.delete_data can only delete a complete
     # s,p,o triple.  So we have to fill in the details.
     #-------------------------------------------------------------
+    puts results
     results.each do | hash |
       toDelete = _triple.clone
       hash.keys.each do | key |
