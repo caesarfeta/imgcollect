@@ -12,6 +12,9 @@ class SparqlQueries
     @sparql = SparqlQuick.new( 'http://localhost:8080/ds', prefixes )
   end
   
+  #-------------------------------------------------------------
+  #  Useful queries...
+  #-------------------------------------------------------------
   def keywords
     return @sparql.select([ :s, "rdf:keyword", :o ])
   end
