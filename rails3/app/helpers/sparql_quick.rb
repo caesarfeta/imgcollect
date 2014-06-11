@@ -81,6 +81,7 @@ class SparqlQuick
   end
   
   # _triple { Array }
+  # @return { Array }
   def select( _triple )
     triple = uris( _triple )
     #-------------------------------------------------------------
@@ -132,6 +133,8 @@ class SparqlQuick
 
   # Get the next index
   # _double { Array }
+  # _side { Symbol }
+  # @return { Fixnum }
   def next_index( _double, _side=:o )
     #-------------------------------------------------------------
     #  Where's the indexed URNs?
@@ -209,12 +212,14 @@ class SparqlQuick
     return RDF::Literal( _val )
   end
   
-  #-------------------------------------------------------------
-  #  Private methods
-  #-------------------------------------------------------------
+  
+  
+  
+  
   private
   
   # _double { Array }
+  # @return { Array }
   def get_objects( _double )
     triple = _double.clone
     triple[2] = :o
@@ -222,6 +227,7 @@ class SparqlQuick
   end
   
   # _double { Array }
+  # @return { Array }
   def get_subjects( _double )
     triple = _double.clone
     triple.unshift( :s )
@@ -239,6 +245,7 @@ class SparqlQuick
   
   # Clip the arrows from the edges of an RDF URI string
   # _val { String }
+  # @return { String }
   def clip( _val )
     val = String.new( _val )
     val[0]=''
