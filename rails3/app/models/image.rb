@@ -1,21 +1,25 @@
 class Image
+  
   SINGLE = true
   MULTI = false
-  PREFIXES = {
-    :hmt => "<http://www.homermultitext.org/hmt/rdf/>", 
-    :cite => "<http://www.homermultitext.org/cite/rdf/>",
-    :rdf => "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
-    :crm => "<http://www.cidoc-crm.org/cidoc-crm/>",
-    :dc => "<http://dublincore.org/documents/dces/>",
-    :exif => "<http://www.kanzaki.com/ns/exif#>"
-  }
+  
+  REQUIRED = true
   
   # Constructor...
   # _url { String } The URL to the image
   def initialize( _url=nil )
-    host = 'http://localhost:8080/ds'
+    
+    @prefixes = {
+      :hmt => "<http://www.homermultitext.org/hmt/rdf/>", 
+      :cite => "<http://www.homermultitext.org/cite/rdf/>",
+      :rdf => "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
+      :crm => "<http://www.cidoc-crm.org/cidoc-crm/>",
+      :dc => "<http://dublincore.org/documents/dces/>",
+      :exif => "<http://www.kanzaki.com/ns/exif#>"
+    }
+    
     @attributes = {
-      :path => [ "rdf:path", ::String, SINGLE ],
+      :path => [ "rdf:path", ::String, SINGLE, REQUIRED ],
       :keywords => [ "rdf:keywords", ::String, MULTI ],
       :image_descrption => [ "exif:imageDescription",  ::String, SINGLE ],
       :make => [ "exif:make",  ::String, SINGLE ],
@@ -55,26 +59,57 @@ class Image
       :sharpness => [ "exif:sharpness", ::String, SINGLE ],
       :image_unique_id => [ "exif:imageUniqueId", ::String, SINGLE ]
     }
-    @sparql = SparqlQuick.new( host, PREFIXES )
+    @template = "<urn:imgcollect:img.%>"
+    @sparql = SparqlQuick.new( Rails.configuration.sparql_endpoint, @prefixes )
+    
     #-------------------------------------------------------------
     #  If image URL is supplied get it
     #-------------------------------------------------------------
     if _url != nil
       get( _url )
     end
-    @urn = "<urn:imgcollect:img.1>"
+    
   end
   
   # _url { String } The URL to the image
   def get( _url )
+    results = @sparql.select([ :s, pred( :path ), _url ])
+    @urn = results[0][:s].to_s
+    if @urn == nil
+      raise "Record could not be found for #{ url }"
+    end
   end
   
-  # _attr { Hash }
-  def create( _attr )
+  # _values { Hash }
+  def create( _values )
+    new_urn()
+    big_change( _values )
   end
   
-  # Add a
+  # _values { Hash }
+  def big_change( _values )
+    _values.each do | key, value |
+      check = single_or_multi( key )
+      case check
+      when SINGLE
+        change( key, value )
+      when MULTI
+        if value.class == ::Array
+          value.each do | subval |
+            add( key, subval )
+          end
+        else
+          add( key, value )
+        end
+      end
+    end
+  end
+  
+  # Add a record
+  # _key { Symbol }
+  # _value { String, Other }
   def add( _key, _value )
+    urn?()
     key = _key.to_sym
     attr?( key )
     type?( key )
@@ -84,7 +119,10 @@ class Image
   end
   
   # Delete an attribute
+  # _key { Symbol }
+  # _value { String, Other }
   def delete( _key, _value=nil )
+    urn?()
     key = _key.to_sym
     attr?( key )
     if _value == nil
@@ -94,44 +132,55 @@ class Image
     @sparql.delete([ @urn, pred( key ), _value ])
   end
   
-  # Check for attributes
-  def method_missing( _attr, *_value, &_block )
+  # ActiveRecord style trickery
+  def method_missing( _key, *_value )
     #-------------------------------------------------------------
     #  Get attribute object key
     #-------------------------------------------------------------
-    key = /^[^\=]*/.match( _attr ).to_s.to_sym
-    attr?( key )
+    key = /^[^\=]*/.match( _key ).to_s.to_sym
     #-------------------------------------------------------------
     #  Return current value if no value assigned
     #-------------------------------------------------------------
     value = _value[0]
-    if value == nil
-      return @sparql.value([ @urn, pred( key ) ])
-    end
-    type?( key )
-    type_class?( key, value )
-    single?( key )
-    #-------------------------------------------------------------
-    #  Update the value
-    #-------------------------------------------------------------
-    @sparql.update([ @urn, pred( key ), value ])
+    change( key, value )
   end
   
   private
   
-  # _key { Symbol } Does attribute key exist?
+  # Change an attribute
+  # _key { Symbol }
+  # _value { Array, String }
+  def change( _key, _value )
+    urn?()
+    attr?( _key )
+    if _value == nil
+      return @sparql.value([ @urn, pred( _key ) ])
+    end
+    type?( _key )
+    type_class?( _key, _value )
+    single?( _key )
+    #-------------------------------------------------------------
+    #  Update the value
+    #-------------------------------------------------------------
+    @sparql.update([ @urn, pred( _key ), _value ])
+  end
+  
+  # Does attribute key exist?
+  # _key { Symbol } 
   def attr?( _key )
     if @attributes.has_key?( _key ) == false
       raise "Attribute #{ _key } not found."
     end
   end
   
+  # _key { Symbol }
   def type?( _key )
     if @attributes[ _key ][1] == nil
       raise "Type not specified."
     end
   end
   
+  # _key { Symbol }
   def pred( _key )
     p = @attributes[ _key ][0]
     if p == nil
@@ -140,6 +189,7 @@ class Image
     return p
   end
   
+  # _key { Symbol }
   def single?( _key )
     check = single_or_multi( _key )
     if check != SINGLE
@@ -147,6 +197,7 @@ class Image
     end
   end
   
+  # _key { Symbol }
   def multi?( _key )
     check = single_or_multi( _key )
     if check != MULTI
@@ -154,6 +205,13 @@ class Image
     end
   end
   
+  def urn?
+    if @urn == nil
+      raise "Error @URN is null"
+    end
+  end
+  
+  # _key { Symbol }
   def single_or_multi( _key )
     return @attributes[ _key ][2]
   end
@@ -164,6 +222,12 @@ class Image
     if check != type
       raise "Type mismatch: \"#{ check }\" passed but  \"#{ type }\" is needed."
     end
+  end
+  
+  # Get a new URN
+  def new_urn
+    index = @sparql.next_index([ pred( :path ), :o ], :s )
+    @urn =  @template.sub( /%/, index.to_s )
   end
     
 end

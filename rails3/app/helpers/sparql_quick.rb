@@ -100,7 +100,7 @@ class SparqlQuick
   # _double { Array }
   # @return { Array, String }
   def value( _double )
-    results = getObjects( _double )
+    results = get_objects( _double )
     if results.length == 0
       return nil
     end
@@ -132,17 +132,32 @@ class SparqlQuick
 
   # Get the next index
   # _double { Array }
-  def nextIndex( _double )
-    results = getObjects( _double )
+  def next_index( _double, _side=:o )
+    #-------------------------------------------------------------
+    #  Where's the indexed URNs?
+    #-------------------------------------------------------------
+    results = nil
+    case _side
+    when :o
+      results = get_objects( _double )
+    when :s
+      results = get_subjects( _double )
+    end
+    if results == nil
+      raise "Indexed URNs not found"
+    end
+    #-------------------------------------------------------------
+    #  Get the indices
+    #-------------------------------------------------------------
     ns = []
     results.each do | val |
-      string = val[:o].to_s
+      string = val[ _side ].to_s
       n = string[-1,1]
-      #-------------------------------------------------------------
-      #  TODO: Check int-iness
-      #-------------------------------------------------------------
       ns.push( n.to_i )
     end
+    #-------------------------------------------------------------
+    #  Sort them
+    #-------------------------------------------------------------
     ns = ns.sort
     return ns[ ns.length-1 ]+1
   end
@@ -194,11 +209,22 @@ class SparqlQuick
     return RDF::Literal( _val )
   end
   
+  #-------------------------------------------------------------
+  #  Private methods
+  #-------------------------------------------------------------
   private
   
-  def getObjects( _double )
+  # _double { Array }
+  def get_objects( _double )
     triple = _double.clone
     triple[2] = :o
+    return select( triple )
+  end
+  
+  # _double { Array }
+  def get_subjects( _double )
+    triple = _double.clone
+    triple.unshift( :s )
     return select( triple )
   end
   
