@@ -196,7 +196,7 @@ class SparqlQuick
       first = _val[0]
       last = _val[-1,1]
       if first == "<" && last == ">"
-        return RDF::URI( clip( _val ) )
+        return RDF::URI( _val.clip )
       end
       #-------------------------------------------------------------
       #  With prefix
@@ -205,7 +205,7 @@ class SparqlQuick
         pre, colon, last = _val.rpartition(':')
         pre = pre.to_sym
         if @prefixes.has_key?( pre )
-          return uri( "<"+clip( @prefixes[ pre ] )+last+">" )
+          return uri( "<"+@prefixes[ pre ].clip+last+">" )
         end
       end
     end
@@ -243,14 +243,16 @@ class SparqlQuick
     })
   end
   
-  # Clip the arrows from the edges of an RDF URI string
-  # _val { String }
+end
+
+class String
+  
+  # Clip the first and last characters from a string
   # @return { String }
-  def clip( _val )
-    val = String.new( _val )
+  def clip
+    val = String.new( self )
     val[0]=''
     val[-1]=''
     return val
   end
-  
 end

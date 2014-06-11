@@ -79,6 +79,22 @@ class SparqlBase
     @sparql.delete([ @urn, pred( key ), _value ])
   end
   
+  # Get all attributes
+  def all()
+    urn?()
+    values = @sparql.select([ @urn, :p, :o ])
+    results = {}
+    values.each do | value |
+      key = uri_to_attr( value[:p] )
+      #-------------------------------------------------------------
+      #  TODO: Check the value to return
+      #-------------------------------------------------------------
+      type = @attributes[ key ][1]
+      results[ key ] = value[:o].to_s
+    end
+    return results
+  end
+  
   # ActiveRecord style trickery
   def method_missing( _key, *_value )
     #-------------------------------------------------------------
@@ -98,17 +114,38 @@ class SparqlBase
   
   private
   
+  # _uri { RDF::URI, String }
+  def uri_to_attr( _uri )
+    check = _uri.to_s
+    @prefixes.each do | key, val |
+      url = val.clip
+      if check.include?( url )
+        last = check.sub!( url, '' )
+        lookup = key.to_s+":"+last
+        @attributes.each do | key, val |
+          if val[0] == lookup
+            return key
+          end
+        end
+      end
+    end
+    #-------------------------------------------------------------
+    #  Something went wrong if you made it this far
+    #-------------------------------------------------------------
+    raise "Prefix not found #{ check }"
+  end
+  
   # Check if required values are included
   # _values { Hash }
   def required_check( _values )
-    to_check = []
+    check = []
     @attributes.each do | key, val |
       if val[3] == REQUIRED
         to_check.push( key )
       end
     end
     missing = []
-    to_check.each do | val |
+    check.each do | val |
       if _values.has_key?( val ) == false
         missing.push( val )
       end
