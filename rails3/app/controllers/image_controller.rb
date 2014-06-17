@@ -55,14 +55,21 @@ class ImageController < ActionController::Base
     report.each do |item|
       if item['path'] != nil && item['error'] == nil
         #-------------------------------------------------------------
-        #  Build the thumbnails
+        #  Build the images
         #-------------------------------------------------------------
-        item['thumb'] = ImgThumb.create( item['path'] )
+        item['thumb'] = ImgSize.thumb( item['path'] )
+        item['basic'] = ImgSize.basic( item['path'] )
+        item['advanced'] = ImgSize.advanced( item['path'] )
         #-------------------------------------------------------------
         #  Update the database with this new image
         #-------------------------------------------------------------
         image = Image.new
-        image.update_attributes({ 'path' => item['path'], 'original' => item['original'], 'thumb' => item['thumb'] })
+        image.create({ 
+          'path' => item['path'], 
+          'thumb' => item['thumb'], 
+          'basic' => item['basic'], 
+          'advanced' => item['advanced'] 
+        })
       end
     end
     render :text => "File has been uploaded to #{ file.uploadPath } successfully"

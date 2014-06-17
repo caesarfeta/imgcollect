@@ -47,7 +47,7 @@ Thumbs.db
 
 # Jena-fuseki #
 ###############
-/jena-fuseki-1.0.1
+/jena-fuseki*
 /fuseki
 
 # Uploads & Images #

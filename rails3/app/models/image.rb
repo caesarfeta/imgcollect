@@ -1,28 +1,25 @@
-class Image < SparqlBase
+require 'sparql_model'
+class Image < SparqlModel
   
   # Constructor...
   # _url { String } The URL to the image
   def initialize( _url=nil )
     
     @prefixes = {
-      :hmt => "<http://www.homermultitext.org/hmt/rdf/>", 
-      :cite => "<http://www.homermultitext.org/cite/rdf/>",
-      :rdf => "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
-      :crm => "<http://www.cidoc-crm.org/cidoc-crm/>",
-      :dc => "<http://dublincore.org/documents/dces/>",
-      :exif => "<http://www.kanzaki.com/ns/exif#>"
+      :exif => "<http://www.kanzaki.com/ns/exif#>",
+      :this => "<http://localhost/imgcollect/img#>"
     }
     
     #  attribute => [ predicate, variable-type, value-per-predicate, create-required? ]
     @attributes = {
-      :path => [ "rdf:path", ::String, SINGLE, REQUIRED ],
-      :keywords => [ "rdf:keywords", ::String, MULTI ],
+      :path => [ "this:path", ::String, SINGLE, REQUIRED, UNIQUE ],
+      :keywords => [ "this:keywords", ::String, MULTI ],
       :image_descrption => [ "exif:imageDescription",  ::String, SINGLE ],
       :make => [ "exif:make",  ::String, SINGLE ],
       :model => [ "exif:model", ::String, SINGLE ],
       :orientation => [ "exif:orientation", ::String, SINGLE ],
-      :x_resolution => [ "exif:xResolution", ::String, SINGLE ],
-      :y_resolution => [ "exif:yResolution", ::String, SINGLE ],
+      :x_resolution => [ "exif:xResolution", ::Integer, SINGLE ],
+      :y_resolution => [ "exif:yResolution", ::Integer, SINGLE ],
       :resolution_unit => [ "exif:resolutionUnit", ::String, SINGLE ],
       :software => [ "exif:software", ::String, SINGLE ],
       :date_time => [ "exif:dateTime", ::String, SINGLE ],

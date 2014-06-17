@@ -75,8 +75,17 @@ module Imgcollect
     config.upload_dir = '/usr/local/imgcollect/uploads'
     config.img_dir = '/usr/local/imgcollect/images'
     config.original_dir = 'original'
+    
     config.thumb_dir = 'thumb'
-    config.thumb_max_width = 400
-    config.thumb_max_height = 400
+    config.thumb_max_width = 120
+    config.thumb_max_height = 120
+    
+    config.basic_dir = 'basic'
+    config.basic_max_width = 600
+    config.basic_max_height = 600
+    
+    config.advanced_dir = 'advanced'
+    config.advanced_max_width = 2816
+    config.advanced_max_height = 2816
   end
 end
