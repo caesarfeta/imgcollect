@@ -61,6 +61,13 @@
 	gem install rest_client
 	gem install mimemagic
 
+# Install sparql_model gem
+	cd /usr/local
+	git clone https://github.com/caesarfeta/sparql_model.git
+	cd sparql_model
+	gem build sparql_model.gemspec
+	gem install sparql_model-0.0.0.gem
+
 # Install imgcollect
 	sudo chown ubuntu /usr/local
 	git clone https://github.com/caesarfeta/imgcollect.git /usr/local/imgcollect
@@ -70,9 +77,9 @@
 
 # Install jena-fuseki
 	cd /usr/local/imgcollect
-	curl -O http://www.interior-dsgn.com/apache//jena/binaries/jena-fuseki-1.0.1-distribution.tar.gz
-	tar xvzf jena-fuseki-1.0.1-distribution.tar.gz
-	ln -s jena-fuseki-1.0.1 fuseki
+	curl -O http://apache.mesi.com.ar//jena/binaries/jena-fuseki-1.0.2-distribution.tar.gz
+	tar xvzf jena-fuseki-1.0.2-distribution.tar.gz
+	ln -s jena-fuseki-1.0.2 fuseki
 	chmod +x fuseki/fuseki-server fuseki/s-**
 
 # Configuration
