@@ -1,40 +1,20 @@
-require 'sparql_model'
+require_relative "../../../../sparql_model/lib/sparql_model.rb"
 class Collection < SparqlModel
-  
-  # Constructor...
-  # _url { String } The URL to the image
-  def initialize( _url=nil )
-    
+
+  def initialize( _key=nil )
+    @endpoint =  Rails.configuration.sparql_endpoint
+    @model = "<urn:img_collect:collection>"
     @prefixes = {
-      :this => "<http://localhost/imgcollect/collection#>"
+      :this => "<http://localhost/img_collect/collection#>"
     }
-    
-    #  attribute => [ predicate, variable-type, value-per-predicate, create-required? ]
     @attributes = {
-      :name => [ "this:name", ::String, SINGLE, REQUIRED, UNIQUE ],
+      :name => [ "this:name", ::String, SINGLE, REQUIRED, UNIQUE, KEY ],
+      :nickname => [ "this:nickanme", ::String, SINGLE, REQUIRED ],
       :keywords => [ "this:keywords", ::String, MULTI ],
-      :images => [ "this.images", ::String, MULTI ]
+      :images => [ "this:images", ::String, MULTI ],
+      :subcollections => [ "this:subcollections", ::String, MULTI ]
     }
-    
-    @template = "<urn:imgcollect:collection.%>"
-    @sparql = SparqlQuick.new( Rails.configuration.sparql_endpoint, @prefixes )
-    
-    #-------------------------------------------------------------
-    #  If image URL is supplied get it
-    #-------------------------------------------------------------
-    if _url != nil
-      get( _url )
-    end
-    
+    super( _key )
   end
   
-  # _name { String } The URL to the image
-  def get( _name )
-    results = @sparql.select([ :s, pred( :name ), _name ])
-    if results.length == 0
-      raise "Record could not be found for #{ _name }"
-    end
-    @urn = "<"+results[0][:s].to_s+">"
-  end
-    
 end

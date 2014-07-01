@@ -7,11 +7,11 @@ Imgcollect::Application.routes.draw do
   # Keep in mind you can assign values other than :controller and :action
   match 'image/form' => 'image#form'
   match 'image/upload' => 'image#upload'
+  match 'image/data/*id' => 'image#data'
   match 'image/show/*dir' => 'image#show', :as => :custom_image
   
   match 'collection/create' => 'collection#create'
-  match 'collection/report' => 'collection#report'
-  match 'collection/showall' => 'collection#showall'
+  match 'collection/show/*name' => 'collection#show'
 
   # map.connect 'collection/show/:name',
   #   :controller => 'collection',

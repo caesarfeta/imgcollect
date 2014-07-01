@@ -1,19 +1,29 @@
-require 'sparql_model'
+require_relative "../../../../sparql_model/lib/sparql_model.rb"
 class Image < SparqlModel
-  
-  # Constructor...
-  # _url { String } The URL to the image
-  def initialize( _url=nil )
-    
+
+  def initialize( _key=nil )
+    @endpoint = Rails.configuration.sparql_endpoint
+    @model = "<urn:sparql_model:image>"
     @prefixes = {
       :exif => "<http://www.kanzaki.com/ns/exif#>",
-      :this => "<http://localhost/imgcollect/img#>"
+      :this => "<http://localhost/img_collect/image#>"
     }
-    
-    #  attribute => [ predicate, variable-type, value-per-predicate, create-required? ]
     @attributes = {
-      :path => [ "this:path", ::String, SINGLE, REQUIRED, UNIQUE ],
+      #-------------------------------------------------------------
+      #  Image paths
+      #-------------------------------------------------------------
+      :path => [ "this:path", ::String, SINGLE, REQUIRED, UNIQUE, KEY ],
+      :original => [ "this:original", ::String, SINGLE, REQUIRED ],
+      :thumb => [ "this:thumb", ::String, SINGLE, REQUIRED, UNIQUE ],
+      :basic => [ "this:basic", ::String, SINGLE, REQUIRED, UNIQUE ],
+      :advanced => [ "this:advanced", ::String, SINGLE, REQUIRED, UNIQUE ],
+      #-------------------------------------------------------------
+      #  Keywords
+      #-------------------------------------------------------------
       :keywords => [ "this:keywords", ::String, MULTI ],
+      #-------------------------------------------------------------
+      #  Exif Metadata
+      #-------------------------------------------------------------
       :image_descrption => [ "exif:imageDescription",  ::String, SINGLE ],
       :make => [ "exif:make",  ::String, SINGLE ],
       :model => [ "exif:model", ::String, SINGLE ],
@@ -52,26 +62,7 @@ class Image < SparqlModel
       :sharpness => [ "exif:sharpness", ::String, SINGLE ],
       :image_unique_id => [ "exif:imageUniqueId", ::String, SINGLE ]
     }
-    
-    @template = "<urn:imgcollect:img.%>"
-    @sparql = SparqlQuick.new( Rails.configuration.sparql_endpoint, @prefixes )
-    
-    #-------------------------------------------------------------
-    #  If image URL is supplied get it
-    #-------------------------------------------------------------
-    if _url != nil
-      get( _url )
-    end
-    
+    super( _key )
   end
   
-  # _url { String } The URL to the image
-  def get( _url )
-    results = @sparql.select([ :s, pred( :path ), _url ])
-    if results.length == 0
-      raise "Record could not be found for #{ url }"
-    end
-    @urn = "<"+results[0][:s].to_s+">"
-  end
-    
 end

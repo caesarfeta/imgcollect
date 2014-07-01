@@ -15,15 +15,18 @@ class ImageController < ActionController::Base
     send_file file, :disposition => 'inline'
   end
   
-  # Display upload form
-  def form
-    render :file => 'app/views/image/form.haml'
+  def data
+    img = Image.new
+    img.byId( params[:id] )
+    render :text => img.inspect
   end
   
-  # The backside of upload()
   def upload
-    if params['file'] == nil
-      render :text => "No file uploaded"
+    #-------------------------------------------------------------
+    #  If no form has been submitted
+    #-------------------------------------------------------------
+    if request.post? == false
+      render :file => 'app/views/image/form.haml'
       return
     end
     #-------------------------------------------------------------
@@ -65,10 +68,11 @@ class ImageController < ActionController::Base
         #-------------------------------------------------------------
         image = Image.new
         image.create({ 
-          'path' => item['path'], 
-          'thumb' => item['thumb'], 
-          'basic' => item['basic'], 
-          'advanced' => item['advanced'] 
+          :original => item['original'],
+          :path => item['path'], 
+          :thumb => item['thumb'], 
+          :basic => item['basic'], 
+          :advanced => item['advanced'] 
         })
       end
     end

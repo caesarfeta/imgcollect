@@ -1,15 +1,12 @@
 %h1 Create Collection
-%form{ :action=>"/collection/report", :method=>"post", :enctype=>"multipart/form-data" }
+%form{ :action=>"/collection/create", :method=>"post", :enctype=>"multipart/form-data" }
   %fieldset
     %ol
       %li
         %label{ :for =>"name" } Name:
         %input{ :type=>"text", :name=>"name" }
       %li
-        %label{ :for =>"name" } Fullname:
-        %input{ :type=>"text", :name=>"fullname" }
-      %li
-        %label{ :for =>"label" } Label:
-        %input{ :type=>"text", :name=>"label" }
+        %label{ :for =>"name" } Nickname:
+        %input{ :type=>"text", :name=>"nickname" }
 
   %input{ :type=>"submit", :value=>"Create" }
