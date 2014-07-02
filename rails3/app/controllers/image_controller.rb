@@ -26,7 +26,7 @@ class ImageController < ActionController::Base
     #  If no form has been submitted
     #-------------------------------------------------------------
     if request.post? == false
-      render :file => 'app/views/image/form.haml'
+      render :file => 'app/views/image/upload.haml'
       return
     end
     #-------------------------------------------------------------

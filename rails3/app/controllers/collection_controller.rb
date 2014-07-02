@@ -16,6 +16,9 @@ class CollectionController < ActionController::Base
       :name => params[ :name ],
       :nickname => params[ :nickname ]
     });
+    #-------------------------------------------------------------
+    #  Output
+    #-------------------------------------------------------------
     render :text => "#{ collection.name } : #{ collection.nickname } has been created successfully"
   end
   

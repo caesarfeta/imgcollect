@@ -1,10 +1,10 @@
 require 'rest_client'
-class HttpPoster
+class RestTest
   
   # Basic Use
-  #   load 'http_poster.rb'
-  #   post = HttpPoster.new( 'http://localhost:3000' )
-  #   report = post.send( 'collection/add/keyword', { :collection_id => 1, :keyword => 'blue' } )
+  #   load 'rest_test.rb'
+  #   rest = RestTest.new( 'http://localhost:3000' )
+  #   report = rest.post( 'collection/add/keyword', { :collection_id => 1, :keyword => 'blue' } )
   
   #-------------------------------------------------------------
   #  Getters & Setters
@@ -18,16 +18,29 @@ class HttpPoster
   
   # _url { String } URL
   # _params { Hash } Parameter
-  def send( _url, _params )
+  def post( _url, _params )
     url = File.join( @base, _url )
     response = RestClient.post( url, _params )
-    if response.code > 399
-      raise "Error: #{ response.code }: #{ status( response.code ) }"
+    report( response )
+  end
+  
+  # _url { String } URL
+  # _params { Hash } Parameter
+  def get( _url )
+    url = File.join( @base, _url )
+    response = RestClient.get( url )
+    report( response )
+  end
+  
+  # _response { RestClient } RestClient response object
+  def report( _response )
+    if _response.code > 399
+      raise "Error: #{ _response.code }: #{ status( _response.code ) }"
     end
     return {
-      :code => response.code,
-      :status => status( response.code ),
-      :content => response.to_str
+      :code => _response.code,
+      :status => status( _response.code ),
+      :content => _response.to_str
     }
   end
   
@@ -95,7 +108,7 @@ class HttpPoster
       509 => 'Bandwidth Limit Exceeded', #Apache
       510 => 'Not Extended'
     }
-    return status[ _code ]
+    status[ _code ]
   end
   
 end
