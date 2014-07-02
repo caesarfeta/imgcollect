@@ -11,8 +11,10 @@ Imgcollect::Application.routes.draw do
   match 'image/show/*dir' => 'image#show', :as => :custom_image
   
   match 'collection/create' => 'collection#create'
+  match 'collection/add/image' => 'collection#add_image'
+  match 'collection/add/collection' => 'collection#add_collection'
+  match 'collection/add/keyword' => 'collection#add_keyword'
   match 'collection/show/*name' => 'collection#show'
-
   # map.connect 'collection/show/:name',
   #   :controller => 'collection',
   #   :action => 'show',

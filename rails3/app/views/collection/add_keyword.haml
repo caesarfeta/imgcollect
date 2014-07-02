@@ -1,0 +1,12 @@
+%h1 Add Keyword To Collection
+%form{ :action=>"/collection/add/keyword", :method=>"post", :enctype=>"multipart/form-data" }
+  %fieldset
+    %ol
+      %li
+        %label{ :for =>"name" } Collection Id:
+        %input{ :type=>"text", :name=>"collection_id" }
+      %li
+        %label{ :for =>"name" } Keyword:
+        %input{ :type=>"text", :name=>"keyword" }
+
+  %input{ :type=>"submit", :value=>"Create" }
