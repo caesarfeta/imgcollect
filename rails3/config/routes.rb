@@ -5,6 +5,7 @@ Imgcollect::Application.routes.draw do
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
+  
   match 'image/form' => 'image#form'
   match 'image/upload' => 'image#upload'
   match 'image/data/*id' => 'image#data'
@@ -14,7 +15,10 @@ Imgcollect::Application.routes.draw do
   match 'collection/add/image' => 'collection#add_image'
   match 'collection/add/collection' => 'collection#add_collection'
   match 'collection/add/keyword' => 'collection#add_keyword'
+  match 'collection/*id/image/sequence' => 'collection#image_sequence'
+  match 'collection/*id/images' => 'collection#images'
   match 'collection/show/*name' => 'collection#show'
+  
   # map.connect 'collection/show/:name',
   #   :controller => 'collection',
   #   :action => 'show',

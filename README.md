@@ -280,3 +280,15 @@ Ontology
 	dc: http://dublincore.org/documents/dces/
 	mira: https://wikis.uit.tufts.edu/confluence/display/MIRADataDictionary/Element+Quick+Sheet
 	exif: http://www.kanzaki.com/ns/exif#
+
+
+
+
+
+# Unit testing
+
+Run a single test.
+
+	cd /usr/local/imgcollect/rails3
+	ruby -I "lib:test" test/unit/api_test.rb -n test_collection_image_sequence
+

@@ -27,13 +27,19 @@ class ApiTest < ActiveSupport::TestCase
     assert_equal( response[:code], 200 )
   end
   
+  # load 'rest_test.rb'
   def test_collection_image_sequence
     rest = RestTest.new( 'http://localhost:3000' )
+    collection_id = 1
     params = {
-      :collection_id => 1,
-      :sequence => 'image.1,image.2'
+      :sequence => [ 
+        'urn:img_collect:image.1',
+        'urn:img_collect:image.2',
+        'urn:img_collect:image.3',
+        'urn:img_collect:collection.2'
+      ]
     }
-    response = rest.post( 'collection/image/sequence', params )
+    response = rest.post( "collection/#{ collection_id }/image/sequence", params )
     assert_equal( response[:code], 200 )
   end
   
@@ -61,5 +67,13 @@ class ApiTest < ActiveSupport::TestCase
   #-------------------------------------------------------------
   #  API Test GETS
   #-------------------------------------------------------------
-  
+  #-------------------------------------------------------------
+  #  Collection
+  #-------------------------------------------------------------
+  def test_collection_images
+    rest = RestTest.new( 'http://localhost:3000' )
+    collection_id = 1
+    response = rest.post( "collection/#{ collection_id }/images" )
+    assert_equal( response[:code], 200 )
+  end
 end

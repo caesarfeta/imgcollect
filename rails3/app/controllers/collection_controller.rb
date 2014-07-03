@@ -1,5 +1,8 @@
 class CollectionController < ActionController::Base
 
+  #-------------------------------------------------------------
+  # POSTS
+  #-------------------------------------------------------------
   def create
     #-------------------------------------------------------------
     #  If no form has been submitted
@@ -38,6 +41,20 @@ class CollectionController < ActionController::Base
     render :text => "Collection #{ collection.urn }, Image #{ image.urn }"
   end
   
+  def image_sequence
+    if request.post? == false
+      render :file => 'app/views/collection/image_sequence.haml'
+      return
+    end
+    #-------------------------------------------------------------
+    #  Reorder images
+    #-------------------------------------------------------------
+    collection = Collection.new
+    collection.byId( params[ :id ] )
+    collection.sequence = params[ :sequence ].join(',')
+    render :text => params.inspect
+  end
+  
   def add_collection
     if request.post? == false
       render :file => 'app/views/collection/add_collection.haml'
@@ -69,9 +86,56 @@ class CollectionController < ActionController::Base
     render :text => "Collection #{ collection.urn }, Keyword #{ keyword }"
   end
   
+  #-------------------------------------------------------------
+  # GETS
+  #-------------------------------------------------------------
   def show
     collection = Collection.new( params[ :name ] )
     render :text => collection.name
   end
+  
+  def images
+    collection = Collection.new()
+    collection.byId( params[ :id ] )
+    images = image_dig( collection, [], [ collection.urn ] )
+    render :text => images.join(',')
+  end
+  
+  
+  def image_dig( _collection, _images, _check )
+    sequence = _collection.sequence
+    #-------------------------------------------------------------
+    #  No sequence just exit...
+    #-------------------------------------------------------------
+    if sequence == nil
+      return _images
+    end
+    #-------------------------------------------------------------
+    #  Get the associated images
+    #-------------------------------------------------------------
+    sequence.split(',').each do | val |
+      if val.include? _collection.model.clip
+        collection = Collection.new()
+        collection.byId( val.tagify )
+        #-------------------------------------------------------------
+        #  Avoid infinite loop
+        #-------------------------------------------------------------
+        if _check.include?( collection.urn ) == false
+          _check.push( collection.urn )
+          _images = image_dig( collection, _images, _check )
+        end
+      else
+        _images.push( val.tagify )
+      end
+    end
+    _images
+  end
 
+end
+
+class String
+  # Check to see if we're looking at an integer in string's clothing
+  def is_i?
+     !!( self =~ /\A[-+]?[0-9]+\z/ )
+  end
 end
