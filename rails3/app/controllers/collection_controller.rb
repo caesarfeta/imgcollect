@@ -1,7 +1,10 @@
 class CollectionController < ActionController::Base
 
   #-------------------------------------------------------------
-  # POSTS
+  #                          POSTS
+  #-------------------------------------------------------------
+  #-------------------------------------------------------------
+  #  Create a new collection
   #-------------------------------------------------------------
   def create
     #-------------------------------------------------------------
@@ -25,6 +28,11 @@ class CollectionController < ActionController::Base
     render :text => "#{ collection.name } : #{ collection.nickname } has been created successfully"
   end
   
+  
+  
+  #-------------------------------------------------------------
+  #  Add an image to a collection
+  #-------------------------------------------------------------
   def add_image
     if request.post? == false
       render :file => 'app/views/collection/add_image.haml'
@@ -41,20 +49,11 @@ class CollectionController < ActionController::Base
     render :text => "Collection #{ collection.urn }, Image #{ image.urn }"
   end
   
-  def image_sequence
-    if request.post? == false
-      render :file => 'app/views/collection/image_sequence.haml'
-      return
-    end
-    #-------------------------------------------------------------
-    #  Reorder images
-    #-------------------------------------------------------------
-    collection = Collection.new
-    collection.byId( params[ :id ] )
-    collection.sequence = params[ :sequence ].join(',')
-    render :text => params.inspect
-  end
   
+  
+  #-------------------------------------------------------------
+  #  Add a subcollection
+  #-------------------------------------------------------------
   def add_collection
     if request.post? == false
       render :file => 'app/views/collection/add_collection.haml'
@@ -71,6 +70,11 @@ class CollectionController < ActionController::Base
     render :text => "Collection #{ collection.urn }, Subcollection #{ subcollection.urn }"
   end
   
+  
+  
+  #-------------------------------------------------------------
+  #  Add a keyword to a collection
+  #-------------------------------------------------------------
   def add_keyword
     if request.post? == false
       render :file => 'app/views/collection/add_keyword.haml'
@@ -87,13 +91,21 @@ class CollectionController < ActionController::Base
   end
   
   #-------------------------------------------------------------
-  # GETS
+  #                         GETS
+  #-------------------------------------------------------------
+  #-------------------------------------------------------------
+  #  Show info about a collection
   #-------------------------------------------------------------
   def show
     collection = Collection.new( params[ :name ] )
     render :text => collection.name
   end
   
+  
+  
+  #-------------------------------------------------------------
+  #  Get all images belonging to a collection
+  #-------------------------------------------------------------
   def images
     collection = Collection.new()
     collection.byId( params[ :id ] )
@@ -102,37 +114,53 @@ class CollectionController < ActionController::Base
   end
   
   
+  
+  #-------------------------------------------------------------
+  #  Recursively retrieve subcollection images
+  #-------------------------------------------------------------
   def image_dig( _collection, _images, _check )
-    sequence = _collection.sequence
+    puts _collection
+    puts _check.inspect
     #-------------------------------------------------------------
     #  No sequence just exit...
     #-------------------------------------------------------------
-    if sequence == nil
-      return _images
+    images = _collection.images
+    if images
+      images.each do | image |
+        _images.push( image )
+      end
     end
     #-------------------------------------------------------------
-    #  Get the associated images
+    #  Recurse subcollection to get associated images.
+    #  If they exist of course.
     #-------------------------------------------------------------
-    sequence.split(',').each do | val |
-      if val.include? _collection.model.clip
+    subs = _collection.subcollections
+    if subs
+      subs.each do | sub |
         collection = Collection.new()
-        collection.byId( val.tagify )
+        collection.byId( sub.tagify )
         #-------------------------------------------------------------
-        #  Avoid infinite loop
+        #  Avoid circular subcollection referencing.
         #-------------------------------------------------------------
         if _check.include?( collection.urn ) == false
           _check.push( collection.urn )
           _images = image_dig( collection, _images, _check )
         end
-      else
-        _images.push( val.tagify )
       end
     end
+    #-------------------------------------------------------------
+    #  Return those images.
+    #-------------------------------------------------------------
     _images
   end
 
 end
 
+
+#-------------------------------------------------------------
+#  TODO: Find a home for this that isn't here.
+#  This is an ignorance hack.
+#-------------------------------------------------------------
 class String
   # Check to see if we're looking at an integer in string's clothing
   def is_i?

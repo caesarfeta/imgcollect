@@ -9,6 +9,7 @@ Imgcollect::Application.routes.draw do
   match 'image/form' => 'image#form'
   match 'image/upload' => 'image#upload'
   match 'image/data/*id' => 'image#data'
+  match 'image/add/keyword' => 'image#add_keyword'
   match 'image/show/*dir' => 'image#show', :as => :custom_image
   
   match 'collection/create' => 'collection#create'

@@ -1,5 +1,10 @@
 class ImageController < ActionController::Base
   
+  
+  
+  #-------------------------------------------------------------
+  #  Display an image
+  #-------------------------------------------------------------
   # TODO: Secure this sunnamabitch.
   def show
     #-------------------------------------------------------------
@@ -15,12 +20,40 @@ class ImageController < ActionController::Base
     send_file file, :disposition => 'inline'
   end
   
+  
+  
+  #-------------------------------------------------------------
+  #  Data dump an image
+  #-------------------------------------------------------------
   def data
     img = Image.new
     img.byId( params[:id] )
     render :text => img.inspect
   end
   
+  
+  
+  #-------------------------------------------------------------
+  #  Add a keyword to an image
+  #-------------------------------------------------------------
+  def add_keyword
+    #-------------------------------------------------------------
+    #  If no form has been submitted
+    #-------------------------------------------------------------
+    if request.post? == false
+      render :file => 'app/views/image/add_keyword.haml'
+      return
+    end
+    img = Image.new
+    img.byId( params[:image_id] )
+    img.add( :keywords, params[:keyword] )
+  end
+  
+  
+  
+  #-------------------------------------------------------------
+  #  Upload an image
+  #-------------------------------------------------------------
   def upload
     #-------------------------------------------------------------
     #  If no form has been submitted

@@ -27,7 +27,14 @@ class ApiTest < ActiveSupport::TestCase
     assert_equal( response[:code], 200 )
   end
   
-  # load 'rest_test.rb'
+  def test_collection_add_image
+    rest = RestTest.new( 'http://localhost:3000' )
+    params = {
+    }
+    response = rest.post( 'collection/add/image', params )
+    assert_equal( response[:code], 200 )
+  end
+  
   def test_collection_image_sequence
     rest = RestTest.new( 'http://localhost:3000' )
     collection_id = 1
