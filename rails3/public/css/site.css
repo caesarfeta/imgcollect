@@ -1,0 +1,26 @@
+div.clearfix {
+	clear:both;
+}
+.collection-box {
+	background-color: #EFEFEF;
+	padding: 10px;
+}
+.collection-box .samples,
+.collection-box .metadata {
+	float: left;
+}
+.collection-box .samples {
+	margin-right: 10px;
+}
+.collection-box .metadata {
+	background-color: #DFDFDF;
+	padding: 10px;
+}
+.collection-box .date-person {
+	float: left;
+}
+.collection-box .person,
+.collection-box .date {
+	margin: 0 5px;
+	float: left;
+}
