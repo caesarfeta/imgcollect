@@ -3,10 +3,6 @@ class Collection < SparqlModel
 
   def initialize( _key=nil )
     @endpoint =  Rails.configuration.sparql_endpoint
-    @model = "<urn:img_collect:collection>"
-    @prefixes = {
-      :this => "<http://localhost/img_collect/collection#>"
-    }
     @attributes = {
       :name => [ "this:name", ::String, SINGLE, REQUIRED, UNIQUE, KEY ],
       :nickname => [ "this:nickname", ::String, SINGLE, REQUIRED ],

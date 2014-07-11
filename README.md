@@ -301,3 +301,14 @@ Run a single test.
 
 	ruby -I "lib:test" test/unit/api_test.rb -n test_collection_image_sequence
 
+
+
+# Load Test Data
+
+	cd /usr/local/imgcollect/rails3
+	rails console
+	ApplicationHelper.loadtest
+
+
+
+# How do I make data in fuseki persistent across restarts?

@@ -96,9 +96,11 @@ class CollectionController < ActionController::Base
   #-------------------------------------------------------------
   #  Show info about a collection
   #-------------------------------------------------------------
-  def show
-    collection = Collection.new( params[ :name ] )
-    render :text => collection.name
+  def instance
+    collection = Collection.new()
+    collection.byId( params[ :id ] )
+    @collection = collection.all
+    render 'collection/instance', :collection => @collection
   end
   
   

@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 function startRails() {
 	cd $DIR
 	cd rails3
-	bundle exec rails server &
+	bundle exec rails server -e development &
 }
 
 function startFuseki() {

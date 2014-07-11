@@ -3,10 +3,8 @@ class Image < SparqlModel
 
   def initialize( _key=nil )
     @endpoint = Rails.configuration.sparql_endpoint
-    @model = "<urn:img_collect:image>"
     @prefixes = {
       :exif => "<http://www.kanzaki.com/ns/exif#>",
-      :this => "<http://localhost/img_collect/image#>"
     }
     @attributes = {
       #-------------------------------------------------------------

@@ -18,7 +18,7 @@ Imgcollect::Application.routes.draw do
   match 'collection/add/keyword' => 'collection#add_keyword'
   match 'collection/*id/image/sequence' => 'collection#image_sequence'
   match 'collection/*id/images' => 'collection#images'
-  match 'collection/show/*name' => 'collection#show'
+  match 'collection/instance/*id' => 'collection#instance'
   
   # map.connect 'collection/show/:name',
   #   :controller => 'collection',
