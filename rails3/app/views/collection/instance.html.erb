@@ -1,33 +1,42 @@
 <div class="row collection-box">
 	<div class="columns small-12 medium-6 samples">
+		<% if @collection.has_key?(:images)%>
+			<% @collection[:images].each do |image|%>
+			<div><%= image %></div>
+			<% end %>
+		<% end %>
+		<!--
 		<img src="http://placehold.it/100x100" />
 		<img src="http://placehold.it/100x100" />
 		<img src="http://placehold.it/100x100" />
+		-->
 		<div class="clearfix"></div>
 	</div>
 	
 	<div class="columns small-12 medium-6 metadata">
-		<h2 class="name"><%= collection.name %></h2><img class="check" src="img/check.png" />
+		<h2 class="name"><%= @collection[:name] %></h2><img class="check" src="/img/check.png" />
 		<div class="clearfix"></div>
 		
-		<h3 class="value-count"><span class="n"><%= collection.images.count %></span> images</h3>
-		<h3 class="value-count"><span class="n"><%= collection.subcollections.count %></span> subcollections</h3>
+		<h3 class="value-count"><span class="n"><%= count(@collection[:images]) %></span> images</h3>
+		<h3 class="value-count"><span class="n"><%= count(@collection[:subcollections]) %></span> subcollections</h3>
 		<div class="clearfix"></div>
 		
 		<div class="keywords">
-		<% collection.keywords.each do |keyword|%>
+		<% if @collection.has_key?(:keywords)%>
+			<% @collection[:keywords].each do |keyword|%>
 			<a href="" class="keyword"><%= keyword %></a>
+			<% end %>
 		<% end %>
 		</div>
 		<div class="date-person">
 			<h3 class="header">Last Updated</h3>
-			<h3 class="person">Frida Rodriguez-Burger</h3>
-			<h3 class="date">July 14, 2014</h3>
+			<!--<h3 class="person">Frida Rodriguez-Burger</h3>-->
+			<h3 class="date"><%= readTime(@collection[:edited]) %></h3>
 		</div>
 		<div class="date-person">
 			<h3 class="header">Created</h3>
-			<h3 class="person">Glenn Lewis</h3>
-			<h3 class="date">July 4, 2014</h3>
+			<!--<h3 class="person">Glenn Lewis</h3>-->
+			<h3 class="date"><%= readTime(@collection[:created]) %></h3>
 		</div>
 	</div>
 </div>

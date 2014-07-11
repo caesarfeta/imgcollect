@@ -100,7 +100,7 @@ class CollectionController < ActionController::Base
     collection = Collection.new()
     collection.byId( params[ :id ] )
     @collection = collection.all
-    render 'collection/instance', :collection => @collection
+    render 'collection/instance'
   end
   
   
