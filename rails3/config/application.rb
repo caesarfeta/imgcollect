@@ -72,6 +72,7 @@ module Imgcollect
     #-------------------------------------------------------------
     #  Filesystem
     #-------------------------------------------------------------
+    config.public_dir = '/usr/local/imgcollect/rails3/public'
     config.upload_dir = '/usr/local/imgcollect/uploads'
     config.img_dir = '/usr/local/imgcollect/images'
     config.original_dir = 'original'

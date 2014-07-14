@@ -6,12 +6,21 @@ Imgcollect::Application.routes.draw do
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
   
-  match 'image/form' => 'image#form'
+  #-------------------------------------------------------------
+  #  Image
+  #-------------------------------------------------------------
   match 'image/upload' => 'image#upload'
-  match 'image/data/*id' => 'image#data'
-  match 'image/add/keyword' => 'image#add_keyword'
   match 'image/show/*dir' => 'image#show', :as => :custom_image
-  
+  match 'image/preview/*id' => 'image#preview'
+  match 'image/add' => 'image#add'
+  match 'image/update' => 'image#update'
+  #-------------------------------------------------------------
+  #  Images
+  #-------------------------------------------------------------
+  match 'images/all' => 'images#all'
+  #-------------------------------------------------------------
+  #  Collection
+  #-------------------------------------------------------------
   match 'collection/create' => 'collection#create'
   match 'collection/add/image' => 'collection#add_image'
   match 'collection/add/collection' => 'collection#add_collection'
@@ -19,6 +28,9 @@ Imgcollect::Application.routes.draw do
   match 'collection/*id/image/sequence' => 'collection#image_sequence'
   match 'collection/*id/images' => 'collection#images'
   match 'collection/instance/*id' => 'collection#instance'
+  #-------------------------------------------------------------
+  #  Collections!
+  #-------------------------------------------------------------
   
   # map.connect 'collection/show/:name',
   #   :controller => 'collection',

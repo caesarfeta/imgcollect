@@ -1,59 +1,72 @@
 class ImageController < ActionController::Base
   
-  
-  
-  #-------------------------------------------------------------
   #  Display an image
-  #-------------------------------------------------------------
   # TODO: Secure this sunnamabitch.
   def show
     #-------------------------------------------------------------
     #  TODO: Check the access restrictions on the file
     #-------------------------------------------------------------
     file = File.join( Rails.configuration.img_dir, params[:dir]+'.'+params[:format] )
+    #-------------------------------------------------------------
+    #  If file isn't found return the 'IMAGE NOT FOUND' image
+    #-------------------------------------------------------------
     if File.exist?( file ) == false
-      #-------------------------------------------------------------
-      #  TODO: Return an error image and not an error message
-      #-------------------------------------------------------------
-      raise "File: #{file} could not be found"
+      error = File.join( Rails.configuration.public_dir, 'img', 'img_not_found.png' )
+      send_file error, :disposition => 'inline'
     end
     send_file file, :disposition => 'inline'
   end
   
-  
-  
-  #-------------------------------------------------------------
-  #  Data dump an image
-  #-------------------------------------------------------------
-  def data
+  #  Get an image preview
+  def preview
     img = Image.new
     img.byId( params[:id] )
-    render :text => img.inspect
+    @img = img.all
+    render 'image/preview'
   end
   
-  
-  
-  #-------------------------------------------------------------
-  #  Add a keyword to an image
-  #-------------------------------------------------------------
-  def add_keyword
-    #-------------------------------------------------------------
-    #  If no form has been submitted
-    #-------------------------------------------------------------
-    if request.post? == false
-      render :file => 'app/views/image/add_keyword.haml'
-      return
-    end
+  # Get a full image report
+  def full
     img = Image.new
-    img.byId( params[:image_id] )
-    img.add( :keywords, params[:keyword] )
+    img.byId( params[:id] )
+    @img = img.all
+    render 'image/full'
   end
   
+  # Add image metadata
+  def add
+    img = Image.new
+    img.byId( params[:id] )
+    cleanParams( params ).each do |key,val|
+      img.add( key, val )
+    end
+    #-------------------------------------------------------------
+    #  What will the output look like?
+    #-------------------------------------------------------------
+    render :text => 'Success'
+  end
   
+  #  TODO: Move this out of controller
+  def cleanParams( _params )
+    ignore = [ 'id', 'controller', 'action' ]
+    clean = {}
+    _params.each do |key,val|
+      if ignore.include?( key ) == false
+        clean[ key.to_sym ] = val
+      end
+    end
+    clean
+  end
+
+  # Update image metadata
+  def update
+    img = Image.new
+    img.byId( params[:id] )
+    img.change( cleanParams( params ) )
+    render :text => 'Success'
+  end
   
-  #-------------------------------------------------------------
-  #  Upload an image
-  #-------------------------------------------------------------
+  # Upload an image
   def upload
     #-------------------------------------------------------------
     #  If no form has been submitted

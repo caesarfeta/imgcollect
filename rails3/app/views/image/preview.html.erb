@@ -1,0 +1,22 @@
+<div class="img-metadata">
+	<img src="<%= imgSrc(@img[:basic]) %>" />
+	<div class="metadata">
+		<h2><%= @img[:name] %></h2>
+		<h4><%= @img[:urn] %></h4>
+		<a href="<%= imgSrc(@img[:path]) %>"><%= imgSrc(@img[:path]) %></a>
+		<div class="keywords">
+		<% if @img.has_key?(:keywords) %>
+			<% @img[:keywords].each do |keyword|%>
+			<a href=""><%= keyword %></a>
+			<% end %>
+		<% end %>
+		</div>
+		<div class="collections">
+			<a href="">collection-1</a>
+			<a href="">collection-2</a>
+			<a href="">collection-3</a>
+		</div>
+		<a href="" class="button secondary tiny">Full Record</a>
+	</div>
+	<div class="clearfix"></div>
+</div>

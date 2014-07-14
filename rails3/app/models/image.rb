@@ -16,6 +16,10 @@ class Image < SparqlModel
       :basic => [ "this:basic", ::String, SINGLE, REQUIRED, UNIQUE ],
       :advanced => [ "this:advanced", ::String, SINGLE, REQUIRED, UNIQUE ],
       #-------------------------------------------------------------
+      #  Name
+      #-------------------------------------------------------------
+      :name => [ "this:name", ::String, SINGLE ],
+      #-------------------------------------------------------------
       #  Keywords
       #-------------------------------------------------------------
       :keywords => [ "this:keywords", ::String, MULTI ],

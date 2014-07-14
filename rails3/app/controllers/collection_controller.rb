@@ -25,7 +25,7 @@ class CollectionController < ActionController::Base
     #-------------------------------------------------------------
     #  Output
     #-------------------------------------------------------------
-    render :text => "#{ collection.name } : #{ collection.nickname } has been created successfully"
+    #render :text => "#{ collection.name } : #{ collection.nickname } has been created successfully"
   end
   
   
@@ -100,7 +100,7 @@ class CollectionController < ActionController::Base
     collection = Collection.new()
     collection.byId( params[ :id ] )
     @collection = collection.all
-    render 'collection/instance'
+    render 'collection/collection'
   end
   
   
