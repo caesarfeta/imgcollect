@@ -1,3 +1,4 @@
+/*
 $(document).ready( function() {
 	img_metadata_resize();
 });
@@ -13,3 +14,4 @@ function img_metadata_resize() {
 		});
 	});
 }
+*/

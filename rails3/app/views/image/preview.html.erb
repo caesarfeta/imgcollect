@@ -1,22 +1,36 @@
-<div class="img-metadata">
+<div class="image-preview">
+	
 	<img src="<%= imgSrc(@img[:basic]) %>" />
+	
 	<div class="metadata">
-		<h2><%= @img[:name] %></h2>
-		<h4><%= @img[:urn] %></h4>
-		<a href="<%= imgSrc(@img[:path]) %>"><%= imgSrc(@img[:path]) %></a>
-		<div class="keywords">
-		<% if @img.has_key?(:keywords) %>
-			<% @img[:keywords].each do |keyword|%>
-			<a href=""><%= keyword %></a>
-			<% end %>
+		<div class="group">
+			<h2><%= @img[:name] %></h2>
+			<h4><%= @img[:urn] %></h4>
+			<a href="<%= imgSrc(@img[:path]) %>"><%= imgSrc(@img[:path]) %></a>
+		</div>
+		
+		<% if @img.has_key?(:keywords) && @img[:keywords].class == Array %>
+		<div class="group">
+			<h4>Keywords</h4>
+			<div class="keywords">
+				<% @img[:keywords].each do |keyword|%>
+				<a href="">#<%= keyword %></a>
+				<% end %>
+			</div>
+		</div>
 		<% end %>
+		
+		<div class="group">
+			<h4>Collections</h4>
+			<div class="collections">
+				<a href="">collection-1</a>
+				<a href="">collection-2</a>
+				<a href="">collection-3</a>
+			</div>
 		</div>
-		<div class="collections">
-			<a href="">collection-1</a>
-			<a href="">collection-2</a>
-			<a href="">collection-3</a>
-		</div>
-		<a href="" class="button secondary tiny">Full Record</a>
+		
+		<a href="" class="button tiny">Full Record</a>
+		
 	</div>
 	<div class="clearfix"></div>
 </div>

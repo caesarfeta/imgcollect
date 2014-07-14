@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="third-party/foundation/css/foundation.css" />
+	<script src="third-party/foundation/js/vendor/modernizr.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/site.css" />
+	<head>
+		<title>UI API Together</title>
+	</head>
+	<body>
+		<h1>UI API Together</h1>
+		
+		<!-- Collection Box -->
+		<section id="collection-box">
+		</section>
+		
+		<!-- Image Metadata Box -->
+		<section id="img-metadata">
+		</section>
+	</body>
+	<script src="third-party/foundation/js/vendor/jquery.js"></script>
+	<script src="third-party/foundation/js/foundation.min.js"></script>	
+	<script src="js/site.js"></script>
+	<script src="js/ImgCollectApi.js"></script>
+	<script type="text/javascript">
+		var api = null;
+		$( document ).ready( function(){
+			api = new ImgCollectApi();
+		});
+		$( document ).on( 'ImgCollectApi-SUCCESS', function() {
+			$('#img-metadata').append( api.data );
+		});
+		$( document ).on( 'ImgCollectApi-ERROR', function() {
+			console.log( api.error );
+		});
+/*
+	api.send( 'image', 'add', { 'id': 1, 'keywords': 'wow' } );
+	api.send( 'image', 'update', { 'id': 1, 'name': 'Whooo Hah' } );
+	api.send( 'image', 'preview', { 'id': 1 } );
+*/
+	</script>
+</html>

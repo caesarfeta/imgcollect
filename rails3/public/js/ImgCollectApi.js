@@ -1,19 +1,41 @@
 ImgCollectApi = function() {}
 
+/**
+ * Different HTTP request methods
+ */
+ImgCollectApi.prototype.POST = 'POST';
+ImgCollectApi.prototype.GET = 'GET';
+
+/**
+ * Events
+ */
 ImgCollectApi.prototype.events = {
 	success: 'ImgCollectApi-SUCCESS',
 	error: 'ImgCollectApi-ERROR'
 }
 
-ImgCollectApi.prototype.map = {
+/**
+ * API Config
+ * Here's what a configuration object looks like.
+ *
+ *	'url': {
+ *		method: ImgCollectApi.prototype.GET,
+ *		pathVars: [ 'data', 'to', 'append', 'to', 'url' ]
+ *	}
+ */
+ImgCollectApi.prototype.config = {
 	'image/add': {
-		method: 'POST'
+		method: ImgCollectApi.prototype.POST
 	},
 	'image/update': {
-		method: 'POST'
+		method: ImgCollectApi.prototype.POST
 	},
 	'image/preview': {
-		method: 'GET',
+		method: ImgCollectApi.prototype.GET,
+		pathVars: [ 'id' ]
+	},
+	'image/full': {
+		method: ImgCollectApi.prototype.GET,
 		pathVars: [ 'id' ]
 	}
 };
@@ -69,8 +91,8 @@ ImgCollectApi.prototype.send = function( _model, _action, _data ) {
  * @param { String } The url
  */
 ImgCollectApi.prototype.pathVars = function( _url ) {
-	if ( 'pathVars' in this.map[ _url ] ) {
-		return this.map[ _url ]['pathVars'];
+	if ( 'pathVars' in this.config[ _url ] ) {
+		return this.config[ _url ]['pathVars'];
 	}
 	return [];
 }
@@ -81,7 +103,7 @@ ImgCollectApi.prototype.pathVars = function( _url ) {
  * @param { String } The url
  */
 ImgCollectApi.prototype.httpMethod = function( _url ) {
-	var method = this.map[ _url ]['method']
+	var method = this.config[ _url ]['method']
 	method = method.toUpperCase();
 	if ( method == 'POST' || method == 'GET' ) {
 		return method;

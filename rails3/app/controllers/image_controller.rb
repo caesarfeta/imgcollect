@@ -3,18 +3,23 @@ class ImageController < ActionController::Base
   #  Display an image
   # TODO: Secure this sunnamabitch.
   def show
-    #-------------------------------------------------------------
-    #  TODO: Check the access restrictions on the file
-    #-------------------------------------------------------------
+    if params[:dir] == nil || params[:format] == nil
+      send_file errorImg, :disposition => 'inline'
+      return
+    end
     file = File.join( Rails.configuration.img_dir, params[:dir]+'.'+params[:format] )
     #-------------------------------------------------------------
     #  If file isn't found return the 'IMAGE NOT FOUND' image
     #-------------------------------------------------------------
     if File.exist?( file ) == false
-      error = File.join( Rails.configuration.public_dir, 'img', 'img_not_found.png' )
-      send_file error, :disposition => 'inline'
+      send_file errorImg, :disposition => 'inline'
+      return
     end
     send_file file, :disposition => 'inline'
+  end
+  
+  def errorImg
+    File.join( Rails.configuration.public_dir, 'img', 'img_not_found.png' )
   end
   
   #  Get an image preview
