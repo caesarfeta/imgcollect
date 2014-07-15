@@ -10,15 +10,6 @@ module ViewHelper
     return 0
   end
   
-  # Create readable time output
-  #
-  # _time { Integer } 
-  def readTime( _time )
-    # return Time.at( _time )
-    time = Time.at( _time )
-    return time.strftime( "%A %B %d, %Y %I:%M%p %Z" )
-  end
-  
   # If image is stored locally build the url to the image/show method
   # 
   # _url { String } Image url

@@ -1,10 +1,10 @@
 <%# config %>
 <% img_keys = [ :path, :thumb, :basic, :advanced ] %>
-<% times = [ :edited, :created ] %>
+<% times = [ :created ] %>
 <% editable = [ :name, :image_description, :keywords ] %>
 
 <%# fields that require special attention %>
-<% ignore = [ :urn ] + img_keys + times %>
+<% ignore = [ :urn, :edited ] + img_keys + times %>
 
 <%# now begins the markup %>
 <div class="image-full">
@@ -22,10 +22,11 @@
 			<%# creation and edit times %>
 			<div class="times">
 				<% times.each do |key| %>
-				<div id="<%= key %>"><%= readTime(@img[key]) %></div>
+				<%= render "shared/timestamp", :locals => { :time => @img[key], :label => key.to_s.capitalize } %>
 				<% end %>
 			</div>
 			
+			<%# values table %>
 			<div class="values">
 				<table>
 					<% @img.each do |key,val| %>
@@ -40,26 +41,6 @@
 				</table>
 			</div>
 			
-			<%# editable form fields %>
-			<!--
-			<div class="editable">
-				<form>
-					<% editable.each do |key| %>
-					<div>
-						<label for="<%= key %>"><%= key %></label>
-						<% if @img[key].class != Array %>
-							<input type="text" id="<%= key %>" value="<%= @img[key] %>" />
-						<% else %>
-							<% @img[key].each_with_index do |val,i| %>
-							<input type="text" id="<%= "#{key}[#{i}]" %>" value="<%= @img[key][i] %>" />
-							<% end %>
-						<% end %>
-					</div>
-					<% end %>
-				</form>
-			</div>
-			-->
-				
 		</div>
 	</div>
 	<div class="clearfix"></div>

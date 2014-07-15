@@ -10,6 +10,22 @@ label,td {
 	color:#666;
 }
 
+/* Timestamp */
+.timestamp {
+	padding:10px;
+}
+.timestamp > div {
+	color:#666;
+	text-align:center;
+}
+/*
+<div class="timestamp">
+	<div><%= locals[:label] %></div>
+	<div class="day_of_week"><%= day_of_week %></div>
+	<div class="date"><%= date %></div>
+	<div class="time_of_day"><%= time_of_day %></div>
+</div>
+
 /* Dark Buttons */
 .button.dark {}
 
