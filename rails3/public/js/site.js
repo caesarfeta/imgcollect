@@ -1,12 +1,11 @@
-/*
 $(document).ready( function() {
-	img_metadata_resize();
+	image_full_resize();
 });
 $(window).resize( function(){
-	img_metadata_resize()
+	image_full_resize()
 });
-function img_metadata_resize() {
-	$( '.img-metadata' ).each( function(){
+function image_full_resize() {
+	$( '.image-full' ).each( function(){
 		var h = $( 'img', this ).height();
 		$( this ).height( h );
 		$( '.metadata', this ).css({
@@ -14,4 +13,3 @@ function img_metadata_resize() {
 		});
 	});
 }
-*/

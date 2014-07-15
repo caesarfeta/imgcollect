@@ -13,6 +13,7 @@ Imgcollect::Application.routes.draw do
   match 'image/show/*dir' => 'image#show', :as => :custom_image
   match 'image/preview/*id' => 'image#preview'
   match 'image/add' => 'image#add'
+  match 'image/full/*id' => 'image#full'
   match 'image/update' => 'image#update'
   #-------------------------------------------------------------
   #  Images

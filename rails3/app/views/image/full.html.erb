@@ -1,6 +1,66 @@
+<%# config %>
+<% img_keys = [ :path, :thumb, :basic, :advanced ] %>
+<% times = [ :edited, :created ] %>
+<% editable = [ :name, :image_description, :keywords ] %>
+
+<%# fields that require special attention %>
+<% ignore = [ :urn ] + img_keys + times %>
+
+<%# now begins the markup %>
 <div class="image-full">
-	<img src="<%= imgSrc(@img[:basic]) %>" />
-	<div class="metadata">
-		
+	<div class="display">
+		<img src="<%= imgSrc(@img[:basic]) %>" />
+		<div class="metadata">
+			
+			<%# different image sizes %>
+			<div class="size">
+				<% img_keys.each do |key| %>
+				<a class="button tiny secondary" href="<%= imgSrc(@img[key]) %>"><%= "#{key.capitalize} #{dimensions(key)}" %></a>
+				<% end %>
+			</div>
+			
+			<%# creation and edit times %>
+			<div class="times">
+				<% times.each do |key| %>
+				<div id="<%= key %>"><%= readTime(@img[key]) %></div>
+				<% end %>
+			</div>
+			
+			<div class="values">
+				<table>
+					<% @img.each do |key,val| %>
+					<% if ignore.include?(key) == false %>
+					<tr>
+						<td class="key"><%= labelify(key) %>:</td>
+						<td class="value"><%= val %></td>
+						<td><% if editable.include?(key) == true %><a class="edit"><img src="http://placehold.it/10x10" /></a><% end %></td>
+					</tr>
+					<% end %>
+					<% end %>
+				</table>
+			</div>
+			
+			<%# editable form fields %>
+			<!--
+			<div class="editable">
+				<form>
+					<% editable.each do |key| %>
+					<div>
+						<label for="<%= key %>"><%= key %></label>
+						<% if @img[key].class != Array %>
+							<input type="text" id="<%= key %>" value="<%= @img[key] %>" />
+						<% else %>
+							<% @img[key].each_with_index do |val,i| %>
+							<input type="text" id="<%= "#{key}[#{i}]" %>" value="<%= @img[key][i] %>" />
+							<% end %>
+						<% end %>
+					</div>
+					<% end %>
+				</form>
+			</div>
+			-->
+				
+		</div>
 	</div>
+	<div class="clearfix"></div>
 </div>

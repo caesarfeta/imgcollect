@@ -26,7 +26,7 @@ class Image < SparqlModel
       #-------------------------------------------------------------
       #  Exif Metadata
       #-------------------------------------------------------------
-      :image_descrption => [ "exif:imageDescription",  ::String, SINGLE ],
+      :image_description => [ "exif:imageDescription",  ::String, SINGLE ],
       :make => [ "exif:make",  ::String, SINGLE ],
       :model => [ "exif:model", ::String, SINGLE ],
       :orientation => [ "exif:orientation", ::String, SINGLE ],

@@ -13,7 +13,7 @@
 		<div class="group">
 			<h4>Keywords</h4>
 			<div class="keywords">
-				<% @img[:keywords].each do |keyword|%>
+				<% @img[:keywords].each do |keyword| %>
 				<a href="">#<%= keyword %></a>
 				<% end %>
 			</div>
@@ -27,6 +27,11 @@
 				<a href="">collection-2</a>
 				<a href="">collection-3</a>
 			</div>
+		</div>
+		
+		<div class="group">
+			<h4>Created: <%= readTime(@img[:created]) %></h4>
+			<h4>Last Edited: <%= readTime(@img[:edited]) %></h4>
 		</div>
 		
 		<a href="" class="button tiny">Full Record</a>
