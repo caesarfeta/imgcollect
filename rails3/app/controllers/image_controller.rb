@@ -106,6 +106,9 @@ class ImageController < ActionController::Base
       render :text => "Filetype is not supported"
       return
     end
+    #-------------------------------------------------------------
+    #  Resize the image & save it in the triplestore
+    #-------------------------------------------------------------
     report.each do |item|
       if item['path'] != nil && item['error'] == nil
         #-------------------------------------------------------------
@@ -115,7 +118,7 @@ class ImageController < ActionController::Base
         item['basic'] = ImgSize.basic( item['path'] )
         item['advanced'] = ImgSize.advanced( item['path'] )
         #-------------------------------------------------------------
-        #  Update the database with this new image
+        #  Create an image record in the triplestore
         #-------------------------------------------------------------
         image = Image.new
         image.create({ 
@@ -125,6 +128,14 @@ class ImageController < ActionController::Base
           :basic => item['basic'], 
           :advanced => item['advanced'] 
         })
+        #-------------------------------------------------------------
+        #  Update the image record exif metadata
+        #-------------------------------------------------------------
+        begin
+          exif = ImgMeta.exif( item['path'] )
+          image.change( exif );
+        rescue
+        end
       end
     end
     render :text => "File has been uploaded to #{ file.uploadPath } successfully"

@@ -50,6 +50,19 @@ class ApiTest < ActiveSupport::TestCase
     assert_equal( response[:code], 200 )
   end
   
+  def test_image_exif
+    path = '/usr/local/imgcollect/rails3/test/fixtures/images/forest1.JPG'
+    image = Image.new
+    image.create({ 
+      :path => path,
+      :original => path,
+      :thumb => path,
+      :advanced => path,
+      :basic => path
+    })
+    image.change(ImgMeta.exif(path))
+  end
+  
   #-------------------------------------------------------------
   #  Images
   #-------------------------------------------------------------

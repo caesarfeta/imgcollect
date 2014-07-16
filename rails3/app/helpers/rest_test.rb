@@ -35,7 +35,7 @@ class RestTest
   # _response { RestClient } RestClient response object
   def report( _response )
     if _response.code > 399
-      raise "Error: #{ _response.code }: #{ status( _response.code ) }"
+      raise "Error: #{ _response.code }: #{ status( _response.code ) } #{ _response.to_str }"
     end
     return {
       :code => _response.code,

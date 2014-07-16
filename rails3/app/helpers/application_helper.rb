@@ -43,14 +43,14 @@ module ApplicationHelper
       rest.post( 'collection/add/image', params )
     end
     
-    add_keywords = [
-      { :image_id => 1, :keyword => 'log' },
-      { :image_id => 1, :keyword => 'moss' },
-      { :image_id => 1, :keyword => 'leaves' }
-    ]
-    add_keywords.each do | params |
-      rest.post( 'image/add/keyword', params )
-    end
+    # add_keywords = [
+    #   { :image_id => 1, :keyword => 'log' },
+    #   { :image_id => 1, :keyword => 'moss' },
+    #   { :image_id => 1, :keyword => 'leaves' }
+    # ]
+    # add_keywords.each do | params |
+    #   rest.post( 'image/add/keyword', params )
+    # end
     
     #-------------------------------------------------------------
     #  Deserts

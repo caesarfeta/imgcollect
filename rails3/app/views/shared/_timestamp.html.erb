@@ -1,9 +1,9 @@
 <% time = Time.at( locals[:time] ) %>
 <% day_of_week = time.strftime("%A") %>
 <% date = time.strftime("%B %d, %Y") %>
-<% time_of_day = time.strftime("%I:%M%p %Z") %>
+<% time_of_day = time.strftime("%I:%M %p %Z") %>
 <div class="timestamp">
-	<div><%= locals[:label] %></div>
+	<div class="reason"><%= locals[:label] %>:</div>
 	<div class="day_of_week"><%= day_of_week %></div>
 	<div class="date"><%= date %></div>
 	<div class="time_of_day"><%= time_of_day %></div>

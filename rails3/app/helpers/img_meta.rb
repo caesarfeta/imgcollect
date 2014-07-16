@@ -26,35 +26,22 @@ class ImgMeta
     #-------------------------------------------------------------
     #  Return a ruby hash
     #-------------------------------------------------------------
-    return jpeg.exif
+    hash = jpeg.exif[0].to_hash
+    #-------------------------------------------------------------
+    #  Some values need to have their types converted
+    #-------------------------------------------------------------
+    hash[:orientation] = hash[:orientation].to_s
+    hash[:date_time] = hash[:date_time].to_i
+    hash[:date_time_original] = hash[:date_time_original].to_i
+    hash[:date_time_digitized] = hash[:date_time_digitized].to_i
+    #-------------------------------------------------------------
+    #  And you're out!
+    #-------------------------------------------------------------
+    return hash
   end
   
   # _file { String } The file path
   def self.exif_jpeg( _file )
     return EXIFR::JPEG.new( _file )
-  end
-  
-  # _s { String }
-  # _file { String }
-  def self.triples( _s, _file )
-    jpeg = self.exif( _file )
-    self.tripleDrill( _s, jpeg.fields )
-  end
-  
-  # _s { String }
-  # _h { Hash }
-  def self.tripleDrill( _s, _hash )
-    _hash.each do | key, val |
-        check = val.class.to_s
-        pred = key.to_s.camelize(:lower)
-        if check.include?( "EXIFR::TIFF::Orientation" )
-          puts "#{_s} rdf:#{pred} \"#{val.to_i}\" ."
-        elsif check.include?( "EXIFR::TIFF::IFD" )
-          self.tripleDrill( _s, val.to_hash )
-        else
-          puts "#{_s} rdf:#{pred} \"#{val}\" ."
-        end
-    end
-  end
-  
+  end  
 end

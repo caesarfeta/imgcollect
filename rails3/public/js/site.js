@@ -1,14 +1,18 @@
-$(document).ready( function() {
+jQuery(document).ready( function() {
 	image_full_resize();
 });
-$(window).resize( function(){
+jQuery(document).on( 'ImgCollectApi-SUCCESS', function() {
+	image_full_resize();
+})
+jQuery(window).resize( function(){
 	image_full_resize()
 });
 function image_full_resize() {
-	$( '.image-full' ).each( function(){
-		var h = $( 'img', this ).height();
-		$( this ).height( h );
-		$( '.metadata', this ).css({
+	jQuery( '.image-full' ).each( function(){
+		var h = jQuery( 'img', this ).height();
+		h = ( h < 450 ) ? 450 : h;
+		jQuery( this ).height( h );
+		jQuery( '.metadata', this ).css({
 			'max-height': h
 		});
 	});
