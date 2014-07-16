@@ -32,8 +32,6 @@ class Image < SparqlModel
       :contrast => [ "exif:contrast", ::String, SINGLE ],
       :custom_rendered => [ "exif:customRendered", ::String, SINGLE ],
       :date_time => [ "exif:dateTime", ::Fixnum, SINGLE ],
-      :date_time_digitized => [ "exif:dateTimeDigitized", ::Fixnum, SINGLE ],
-      :date_time_original => [ "exif:dateTimeOriginal", ::Fixnum, SINGLE ],
       :exposure_bias_value => [ "exif:exposureBiasValue", ::String, SINGLE ],
       :exposure_mode => [ "exif:exposureMode", ::String, SINGLE ],
       :exposure_program => [ "exif:exposureProgram", ::Fixnum, SINGLE ],
@@ -42,6 +40,7 @@ class Image < SparqlModel
       :focal_length => [ "exif:focalLength", ::String, SINGLE ],
       :focal_length_in_35mm_film => [ "exif:focalLengthIn35mmFilm", ::String, SINGLE ],
       :f_number => [ "exif:fNumber", ::Rational, SINGLE ],
+      :height => [ "this:height", ::Fixnum, SINGLE ],
       :image_description => [ "exif:imageDescription",  ::String, SINGLE ],
       :image_unique_id => [ "exif:imageUniqueId", ::String, SINGLE ],
       :iso_speed_ratings => [ "exif:isoSpeedRatings", ::Fixnum, SINGLE ],
@@ -60,12 +59,11 @@ class Image < SparqlModel
       :software => [ "exif:software", ::String, SINGLE ],
       :user_comment => [ "exif:userComment", ::String, SINGLE ],
       :white_balance => [ "exif:whiteBalance", ::String, SINGLE ],
+      :width => [ "this:width", ::Fixnum, SINGLE ],
       :x_resolution => [ "exif:xResolution", ::Rational, SINGLE ],
       :ycb_cr_positioning => [ "exif:ycbCrPositioning", ::String, SINGLE ],
       :y_resolution => [ "exif:yResolution", ::Rational, SINGLE ],
-
     }
     super( _key )
   end
-  
 end

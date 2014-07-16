@@ -30,7 +30,8 @@ class ImgMeta
     #-------------------------------------------------------------
     #  Some values need to have their types converted
     #-------------------------------------------------------------
-    hash[:orientation] = hash[:orientation].to_s
+    #hash[:orientation] = hash[:orientation].to_s # Don't know how to handle this
+    hash[:orientation] = nil
     hash[:date_time] = hash[:date_time].to_i
     hash[:date_time_original] = hash[:date_time_original].to_i
     hash[:date_time_digitized] = hash[:date_time_digitized].to_i

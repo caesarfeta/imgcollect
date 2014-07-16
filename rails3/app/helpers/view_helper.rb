@@ -35,17 +35,32 @@ module ViewHelper
     text
   end
   
+  # Create readable time output
+  #
+  # _time { Integer } 
+  def readTime( _time )
+    time = Time.at( _time )
+    return time.strftime( "%B %d, %Y -- %I:%M%p %Z" )
+  end
+  
   # Look up dimension size.
   #
   # _size { String }
-  def dimensions( _size )
+  def dimensions( _size, _width, _height )
+    _width = _width.to_f
+    _height = _height.to_f
     sizes = { 
       :thumb => Rails.configuration.thumb_max_width,
       :basic => Rails.configuration.basic_max_width,
-      :advanced => Rails.configuration.advanced_max_width
+      :advanced => Rails.configuration.advanced_max_width,
+      :path => _width
     };
     if sizes.has_key?( _size )
-      return "- #{sizes[_size]}"
+      coeff = _height.to_f/_width.to_f
+      orig = sizes[_size].to_f
+      width = (orig/_width)*_width
+      height = width*coeff
+      return "- #{width.round} x #{height.round}"
     end
     ''
   end

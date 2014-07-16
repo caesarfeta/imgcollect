@@ -1,0 +1,15 @@
+<% key = locals[:key] %>
+<% val = locals[:val] %>
+<% editable = locals[:editable] %>
+<% row_times = locals[:row_times] %>
+<tr>
+	<td class="key"><%= labelify(key) %>:</td>
+	<td class="value">
+		<% if row_times.include?(key) %>
+		<%= readTime(val) %>
+		<% else %>
+		<%= val %>
+		<% end %>
+	</td>
+	<td><% if editable.include?(key) == true %><a class="edit"><img src="http://placehold.it/10x10" /></a><% end %></td>
+</tr>

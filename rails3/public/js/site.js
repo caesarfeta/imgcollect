@@ -10,7 +10,7 @@ jQuery(window).resize( function(){
 function image_full_resize() {
 	jQuery( '.image-full' ).each( function(){
 		var h = jQuery( 'img', this ).height();
-		h = ( h < 450 ) ? 450 : h;
+		h = ( h < 300 ) ? 300 : h;
 		jQuery( this ).height( h );
 		jQuery( '.metadata', this ).css({
 			'max-height': h

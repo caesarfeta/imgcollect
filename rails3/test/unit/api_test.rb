@@ -63,6 +63,11 @@ class ApiTest < ActiveSupport::TestCase
     image.change(ImgMeta.exif(path))
   end
   
+  def test_image_size
+    path = '/usr/local/imgcollect/rails3/test/fixtures/images/forest1.JPG'
+    size = FastImage.size( path )
+  end
+  
   #-------------------------------------------------------------
   #  Images
   #-------------------------------------------------------------

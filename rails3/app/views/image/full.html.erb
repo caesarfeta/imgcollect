@@ -1,10 +1,10 @@
 <%# config %>
 <% img_keys = [ :path, :thumb, :basic, :advanced ] %>
-<% times = [ :created ] %>
+<% top_times = [ :created ] %>
 <% editable = [ :name, :image_description, :keywords ] %>
-
-<%# fields that require special attention %>
-<% ignore = [ :edited ] + img_keys + times %>
+<% first = [ :urn, :name, :image_description, :keywords ] %>
+<% row_times = [ :date_time ] %>
+<% ignore = [ :edited, :width, :height ] + img_keys + top_times + first %>
 
 <%# now begins the markup %>
 <div class="image-full">
@@ -15,13 +15,15 @@
 			<%# different image sizes %>
 			<div class="size">
 				<% img_keys.each do |key| %>
-				<a class="button tiny secondary" href="<%= imgSrc(@img[key]) %>"><%= "#{key.capitalize} #{dimensions(key)}" %></a>
+				<a class="button tiny dark" href="<%= imgSrc(@img[key]) %>">
+					<%= "#{key.capitalize} #{dimensions(key,@img[:width],@img[:height])}" %>
+				</a>
 				<% end %>
 			</div>
 			
 			<%# creation and edit times %>
 			<div class="times">
-				<% times.each do |key| %>
+				<% top_times.each do |key| %>
 				<%= render "shared/timestamp", :locals => { :time => @img[key], :label => key.to_s.capitalize } %>
 				<% end %>
 			</div>
@@ -29,15 +31,19 @@
 			<%# values table %>
 			<div class="values">
 				<table>
-					<% @img.each do |key,val| %>
+					
+					<%# first values %>
+					<% first.each do |key| %>
+						<%= render "image/row", :locals => { :key => key, :val => @img[key], :editable => editable, :row_times => row_times } %>
+					<% end %>
+					
+					<%# all the other values %>
+					<% @img.sort.map do |key,val| %>
 					<% if ignore.include?(key) == false %>
-					<tr>
-						<td class="key"><%= labelify(key) %>:</td>
-						<td class="value"><%= val %></td>
-						<td><% if editable.include?(key) == true %><a class="edit"><img src="http://placehold.it/10x10" /></a><% end %></td>
-					</tr>
+						<%= render "image/row", :locals => { :key => key, :val => val, :editable => editable, :row_times => row_times } %>
 					<% end %>
 					<% end %>
+					
 				</table>
 			</div>
 			

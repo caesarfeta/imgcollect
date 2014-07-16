@@ -129,12 +129,21 @@ class ImageController < ActionController::Base
           :advanced => item['advanced'] 
         })
         #-------------------------------------------------------------
+        #  Get the original dimensions
+        #-------------------------------------------------------------
+        size = FastImage.size( item['path'] )
+        image.change({
+          :width => size[0],
+          :height => size[1]
+        })
+        #-------------------------------------------------------------
         #  Update the image record exif metadata
         #-------------------------------------------------------------
         begin
           exif = ImgMeta.exif( item['path'] )
           image.change( exif );
         rescue
+          # Oh I dunno
         end
       end
     end

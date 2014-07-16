@@ -28,7 +28,14 @@ label,td {
 }
 
 /* Dark Buttons */
-.button.dark {}
+.button.dark {
+	background-color:#2D2D2D;
+	color: #FF8888;
+}
+.button.dark:hover {
+	background-color:#3D3D3D;
+	color: #FF9999;
+}
 
 /* Collection-Box */
 .collection-box {
@@ -143,7 +150,7 @@ label,td {
 	background-color:#222;
 }
 .image-full .metadata a {
-	margin: 0 1px 4px 1px;
+	margin:0 1px 4px 1px;
 }
 .image-full .display img {
 	float:left;
