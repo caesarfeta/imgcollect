@@ -39,6 +39,9 @@ module ViewHelper
   #
   # _time { Integer } 
   def readTime( _time )
+    if _time.class.superclass != Integer
+      return _time
+    end
     time = Time.at( _time )
     return time.strftime( "%B %d, %Y -- %I:%M%p %Z" )
   end

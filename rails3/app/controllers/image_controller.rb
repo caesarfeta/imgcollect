@@ -143,7 +143,9 @@ class ImageController < ActionController::Base
           exif = ImgMeta.exif( item['path'] )
           image.change( exif );
         rescue
-          # Oh I dunno
+          #-------------------------------------------------------------
+          #  No exif data is no big deal... Just move on.
+          #-------------------------------------------------------------
         end
       end
     end

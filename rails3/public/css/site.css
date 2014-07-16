@@ -147,7 +147,6 @@ label,td {
 .image-full .display {
 	display:block;
 	float:left;
-	background-color:#222;
 }
 .image-full .metadata a {
 	margin:0 1px 4px 1px;
@@ -181,4 +180,42 @@ label,td {
 }
 .image-full table td.key {
 	text-align:right;
+}
+
+/* imgcollect_search */
+#imgcollect_search {
+	padding:10px 0;
+	border-top:1px solid #111;
+	background-color: #222;
+	width:100%;
+}
+#imgcollect_search .wrapper > * {
+	float:left;
+}
+#imgcollect_search .wrapper {
+	width:458px;
+	margin-left:auto;
+	margin-right:auto;
+}
+#imgcollect_search {
+	position:fixed;
+	z-index:2;
+	bottom:0;
+}
+#imgcollect_search .button {
+	margin: 0;
+}
+#imgcollect_search input {
+	display:inline-block;
+	box-sizing:border-box;
+	width:400px;
+	padding:8px;
+	margin:0;
+	opacity:0.25;
+	transition: opacity 1s;
+	-webkit-transition: opacity 1s;
+}
+#imgcollect_search input:hover,
+#imgcollect_search input:focus {
+	opacity:1;
 }

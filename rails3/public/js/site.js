@@ -1,13 +1,14 @@
 jQuery(document).ready( function() {
-	image_full_resize();
+	imageFullResize();
+	startSearch();
 });
 jQuery(document).on( 'ImgCollectApi-SUCCESS', function() {
-	image_full_resize();
+	imageFullResize();
 })
 jQuery(window).resize( function(){
-	image_full_resize()
+	imageFullResize()
 });
-function image_full_resize() {
+function imageFullResize() {
 	jQuery( '.image-full' ).each( function(){
 		var h = jQuery( 'img', this ).height();
 		h = ( h < 300 ) ? 300 : h;
@@ -16,4 +17,8 @@ function image_full_resize() {
 			'max-height': h
 		});
 	});
+}
+function startSearch() {
+	search = new ImgCollectSearch();
+	search.build();
 }
