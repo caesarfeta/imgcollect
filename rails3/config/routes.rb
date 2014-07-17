@@ -7,6 +7,10 @@ Imgcollect::Application.routes.draw do
   # Keep in mind you can assign values other than :controller and :action
   
   #-------------------------------------------------------------
+  #  Search
+  #-------------------------------------------------------------
+  match 'search/config' => 'search#config'
+  #-------------------------------------------------------------
   #  Image
   #-------------------------------------------------------------
   match 'image/upload' => 'image#upload'
@@ -30,7 +34,7 @@ Imgcollect::Application.routes.draw do
   match 'collection/*id/images' => 'collection#images'
   match 'collection/instance/*id' => 'collection#instance'
   #-------------------------------------------------------------
-  #  Collections!
+  #  Collections
   #-------------------------------------------------------------
   
   # map.connect 'collection/show/:name',

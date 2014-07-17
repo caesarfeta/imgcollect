@@ -5,9 +5,9 @@ var search = null;
  * Get ready...
  **************************/
 jQuery( document ).ready( function(){
+	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
 	imageFullResize();
-	startSearch();
 });
 jQuery( window ).resize( function(){
 	imageFullResize()
@@ -32,7 +32,7 @@ jQuery( document ).on( 'ImgCollectApi-ERROR', function() {
  */
 jQuery( document ).on( 'ImgCollectSearch-SEARCH', function( _e, _data ) {
 	var search = _data['search'];
-	jQuery( '#results' ).append( '<h2><span class="smaller">search:</span> '+search+'</h2>' );
+	jQuery( '#results' ).append( '<h2 class="search_string"><span class="smaller">search:</span> '+search+'</h2>' );
 });
 
 /**
@@ -72,9 +72,4 @@ function imageFullResize() {
 			});
 		}
 	});
-}
-
-function startSearch() {
-	search = new ImgCollectSearch();
-	search.build();
 }

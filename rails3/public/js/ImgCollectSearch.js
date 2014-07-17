@@ -1,6 +1,8 @@
 /* require jslib/src/js/StringExt.js */
 
-ImgCollectSearch = function() {}
+ImgCollectSearch = function() {
+	this.getConfig();
+}
 ImgCollectSearch.prototype.endpoint = 'http://127.0.0.1:8080/ds/query';
 ImgCollectSearch.prototype.events = {
 	success: 'ImgCollectSearch-SUCCESS',
@@ -8,7 +10,24 @@ ImgCollectSearch.prototype.events = {
 	search: 'ImgCollectSearch-SEARCH',
 }
 ImgCollectSearch.prototype.results = [];
+ImgCollectSearch.prototype.config = {}
 
+ImgCollectSearch.prototype.getConfig = function() {
+	var self = this;
+	jQuery.ajax({
+		dataType: "json",
+		url: '/search/config',
+		timeout: 10*1000, // 10 second timeout
+		success: function( _data ) {
+			self.config = _data;
+			self.build();
+		},
+		error: function( _e ) {
+			console.log( 'error' );
+			jQuery( document ).trigger( self.events['error'] );
+		}
+	});
+}
 /**
  * Build the search box
  */

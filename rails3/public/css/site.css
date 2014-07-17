@@ -201,7 +201,7 @@ label,td {
 	margin-right:auto;
 }
 #imgcollect_search .button {
-	margin: 0;
+	margin:0;
 }
 #imgcollect_search input {
 	display:inline-block;
@@ -210,8 +210,8 @@ label,td {
 	padding:8px;
 	margin:0;
 	opacity:0.25;
-	transition: opacity 1s;
-	-webkit-transition: opacity 1s;
+	transition:opacity 1s;
+	-webkit-transition:opacity 1s;
 }
 #imgcollect_search input:hover,
 #imgcollect_search input:focus {
@@ -220,10 +220,14 @@ label,td {
 
 /* results area */
 #results {
-	padding-bottom: 300px;
+	padding-bottom:300px;
 }
 
 /* smaller */
 .smaller {
-	font-size: .5em;
+	font-size:.5em;
+}
+
+.search_string {
+	padding-top:30px;
 }
