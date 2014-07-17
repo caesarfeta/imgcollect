@@ -6,19 +6,10 @@
 	<script src="third-party/foundation/js/vendor/modernizr.js"></script>
 	<link type="text/css" rel="stylesheet" href="css/site.css" />
 	<head>
-		<title>UI &amp; API</title>
+		<title>Search</title>
 	</head>
 	<body>
-		<h1>UI &amp; API</h1>
-		
-		<!-- Collection Box -->
-		<section id="collection-box">
-		</section>
-		
-		<!-- Image Metadata Box -->
-		<section id="img-box">
-		</section>
-		<div class="clearfix"></div>
+		<section id="results"></section>
 	</body>
 	<script src="third-party/foundation/js/vendor/jquery.js"></script>
 	<script src="third-party/foundation/js/foundation.min.js"></script>	
@@ -26,21 +17,4 @@
 	<script src="third-party/jslib/src/js/StringExt.js"></script>
 	<script src="js/ImgCollectApi.js"></script>
 	<script src="js/ImgCollectSearch.js"></script>
-	<script type="text/javascript">
-		var api = null;
-		$( document ).ready( function(){
-			api = new ImgCollectApi();
-		});
-		$( document ).on( 'ImgCollectApi-SUCCESS', function() {
-			$('#img-box').append( api.data );
-		});
-		$( document ).on( 'ImgCollectApi-ERROR', function() {
-			console.log( api.error );
-		});
-/*
-	api.send( 'image', 'add', { 'id': 1, 'keywords': 'wow' } );
-	api.send( 'image', 'update', { 'id': 1, 'name': 'Whooo Hah' } );
-	api.send( 'image', 'full', { 'id': 1 } );
-*/
-	</script>
 </html>

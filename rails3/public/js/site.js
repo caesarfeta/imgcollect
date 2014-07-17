@@ -1,13 +1,54 @@
-jQuery(document).ready( function() {
+var api = null;
+var search = null;
+
+/**************************
+ * Get ready...
+ **************************/
+jQuery( document ).ready( function(){
+	api = new ImgCollectApi();
 	imageFullResize();
 	startSearch();
 });
-jQuery(document).on( 'ImgCollectApi-SUCCESS', function() {
-	imageFullResize();
-})
-jQuery(window).resize( function(){
+jQuery( window ).resize( function(){
 	imageFullResize()
 });
+
+/**************************
+ * API event listeners
+ **************************/
+jQuery( document ).on( 'ImgCollectApi-SUCCESS', function() {
+	jQuery('#results').append( api.data );
+	imageFullResize();
+});
+jQuery( document ).on( 'ImgCollectApi-ERROR', function() {
+	console.log( api.error );
+});
+
+/**************************
+ * Search event listeners
+ **************************/
+/**
+ * Mark the search results
+ */
+jQuery( document ).on( 'ImgCollectSearch-SEARCH', function( _e, _data ) {
+	var search = _data['search'];
+	jQuery( '#results' ).append( '<h2><span class="smaller">search:</span> '+search+'</h2>' );
+});
+
+/**
+ * If search results are returned retrieve them!
+ */
+jQuery( document ).on( 'ImgCollectSearch-SUCCESS', function() {
+	//------------------------------------------------------------
+	//  Retrieve the search results
+	//------------------------------------------------------------
+	var results = search.results[ search.results.length-1 ];
+	for ( var i=0; i<results.length; i++ ) {
+		var arr = results[i].split('.');
+		api.send( arr[0], 'full', { 'id': arr[1] });
+	}
+});
+
 function imageFullResize() {
 	jQuery( '.image-full' ).each( function(){
 		//------------------------------------------------------------
@@ -32,6 +73,7 @@ function imageFullResize() {
 		}
 	});
 }
+
 function startSearch() {
 	search = new ImgCollectSearch();
 	search.build();

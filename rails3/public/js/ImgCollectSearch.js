@@ -4,7 +4,8 @@ ImgCollectSearch = function() {}
 ImgCollectSearch.prototype.endpoint = 'http://127.0.0.1:8080/ds/query';
 ImgCollectSearch.prototype.events = {
 	success: 'ImgCollectSearch-SUCCESS',
-	error: 'ImgCollectSearch-ERROR'
+	error: 'ImgCollectSearch-ERROR',
+	search: 'ImgCollectSearch-SEARCH',
 }
 ImgCollectSearch.prototype.results = [];
 
@@ -42,9 +43,12 @@ ImgCollectSearch.prototype.start = function() {
 
 /**
  * Query the SPARQL endpoint
+ * 
+ * @param { string } The search command as entered in the input field
  */
 ImgCollectSearch.prototype.search = function( _search ) {
 	var self = this;
+	jQuery( document ).trigger( self.events['search'], { search: _search } );
 	//------------------------------------------------------------
 	//  Do a bit of validation.  
 	//  There should be three distinct groups.
@@ -72,36 +76,34 @@ ImgCollectSearch.prototype.search = function( _search ) {
  * Clean up the results
  *
  * @param { json } _results Values returned by jQuery ajax call.
- * @return { json } Cleaned up results
+ * @return { json } Simplified results
  */
 ImgCollectSearch.prototype.cleanResults = function( _results ) {
-	return _results;
+	var vals = _results['results']['bindings'];
+	var clean = [];
+	for ( var i=0; i<vals.length; i++ ) {
+		clean.push(vals[i]['s']['value'].replace("urn:sparql_model:",""));
+	}
+	return clean;
 }
 
+/**
+ * Clean up the results
+ *
+ * @param { string } _model The name of model ( 'image', 'collection', etc )
+ * @param { string } _pred The model's predicate/key name
+ * @param { string } _search The model object search value
+ * @return { string } The SPARQL endpoint query
+ */
 ImgCollectSearch.prototype.buildQuery = function( _model, _pred, _search ) {
+	//------------------------------------------------------------
+	//  TODO: better Prepare predicate value
+	//------------------------------------------------------------
 	//------------------------------------------------------------
 	//  Determine the prefix
 	//  TODO: Retrieve prefix lookup table from Rails...
 	//------------------------------------------------------------
-	var prefix = 'PREFIX this: ';
-	switch ( _model ) {
-		case 'image':
-		case 'img':
-			prefix += '<http://localhost/sparql_model/image#>';
-			break;
-		case 'collection':
-		case 'coll':
-		case 'col':
-			prefix += '<http://localhost/sparql_model/collection#>';
-			break;
-		default:
-			jQuery( document ).trigger( self.events['error'] );
-			return;
-	}
-	//------------------------------------------------------------
-	//  TODO: better Prepare predicate value
-	//------------------------------------------------------------
-	
+	var prefix = this.whichPrefix( _model, _pred );
 	//------------------------------------------------------------
 	//  Build the query
 	//------------------------------------------------------------
@@ -115,12 +117,38 @@ ImgCollectSearch.prototype.buildQuery = function( _model, _pred, _search ) {
 	return this.escapeURI( this.endpoint+"?query="+query+"&format=json" );
 }
 
+/**
+ * Escape the query uri including any # characters
+ *
+ * @param { string } _uri The uri
+ */
 ImgCollectSearch.prototype.escapeURI = function( _uri ) {
 	//------------------------------------------------------------
 	//  %23 is the url encoding for a hash.
 	//  encodeURI ignores it.
 	//------------------------------------------------------------
 	return encodeURI( _uri ).replace( '#', '%23' );
+}
+
+/**
+ * Which prefixes to we prepend to the SPARQL query?
+ */
+ImgCollectSearch.prototype.whichPrefix = function( _model ) {
+	var prefix = 'PREFIX this: ';
+	switch ( _model ) {
+		case 'image':
+		case 'img':
+			prefix += '<http://localhost/sparql_model/image#>';
+			return prefix;
+		case 'collection':
+		case 'coll':
+		case 'col':
+			prefix += '<http://localhost/sparql_model/collection#>';
+			return prefix;
+		default:
+			jQuery( document ).trigger( this.events['error'] );
+			return;
+	}
 }
 /*
 

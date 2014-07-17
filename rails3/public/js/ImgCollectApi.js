@@ -30,10 +30,13 @@ ImgCollectApi.prototype.config = {
 	'image/update': {
 		method: ImgCollectApi.prototype.POST
 	},
+	/*
+	Might have to phase this out.
 	'image/preview': {
 		method: ImgCollectApi.prototype.GET,
 		pathVars: [ 'id' ]
 	},
+	*/
 	'image/full': {
 		method: ImgCollectApi.prototype.GET,
 		pathVars: [ 'id' ]
@@ -71,7 +74,6 @@ ImgCollectApi.prototype.send = function( _model, _action, _data ) {
 	//------------------------------------------------------------
 	jQuery.ajax({
 		url: url,
-		context: document.body,
 		type: method,
 		data: _data,
 		success: function( _data, _status ) {

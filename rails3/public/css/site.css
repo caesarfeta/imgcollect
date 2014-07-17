@@ -217,3 +217,13 @@ label,td {
 #imgcollect_search input:focus {
 	opacity:1;
 }
+
+/* results area */
+#results {
+	padding-bottom: 300px;
+}
+
+/* smaller */
+.smaller {
+	font-size: .5em;
+}
