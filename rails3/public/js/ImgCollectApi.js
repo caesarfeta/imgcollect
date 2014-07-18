@@ -1,12 +1,6 @@
 ImgCollectApi = function() {}
 
 /**
- * Different HTTP request methods
- */
-ImgCollectApi.prototype.POST = 'POST';
-ImgCollectApi.prototype.GET = 'GET';
-
-/**
  * Events
  */
 ImgCollectApi.prototype.events = {
@@ -25,20 +19,17 @@ ImgCollectApi.prototype.events = {
  */
 ImgCollectApi.prototype.config = {
 	'image/add': {
-		method: ImgCollectApi.prototype.POST
+		method: 'POST'
 	},
 	'image/update': {
-		method: ImgCollectApi.prototype.POST
+		method: 'POST'
 	},
-	/*
-	Might have to phase this out.
-	'image/preview': {
-		method: ImgCollectApi.prototype.GET,
+	'image/full': {
+		method: 'GET',
 		pathVars: [ 'id' ]
 	},
-	*/
-	'image/full': {
-		method: ImgCollectApi.prototype.GET,
+	'collection/full': {
+		method: 'GET',
 		pathVars: [ 'id' ]
 	}
 };

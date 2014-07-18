@@ -33,6 +33,7 @@ Imgcollect::Application.routes.draw do
   match 'collection/*id/image/sequence' => 'collection#image_sequence'
   match 'collection/*id/images' => 'collection#images'
   match 'collection/instance/*id' => 'collection#instance'
+  match 'collection/full/*id' => 'collection#full'
   #-------------------------------------------------------------
   #  Collections
   #-------------------------------------------------------------

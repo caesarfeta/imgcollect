@@ -22,14 +22,6 @@ class ImageController < ActionController::Base
     File.join( Rails.configuration.public_dir, 'img', 'img_not_found.png' )
   end
   
-  #  Get an image preview
-  def preview
-    img = Image.new
-    img.byId( params[:id] )
-    @img = img.all
-    render 'image/preview'
-  end
-  
   # Get a full image report
   def full
     img = Image.new
@@ -42,7 +34,7 @@ class ImageController < ActionController::Base
   def add
     img = Image.new
     img.byId( params[:id] )
-    cleanParams( params ).each do |key,val|
+    ControllerHelper.cleanParams( params ).each do |key,val|
       img.add( key, val )
     end
     #-------------------------------------------------------------
@@ -51,23 +43,12 @@ class ImageController < ActionController::Base
     render :text => 'Success'
   end
   
-  #  TODO: Move this out of controller
-  def cleanParams( _params )
-    ignore = [ 'id', 'controller', 'action' ]
-    clean = {}
-    _params.each do |key,val|
-      if ignore.include?( key ) == false
-        clean[ key.to_sym ] = val
-      end
-    end
-    clean
-  end
 
   # Update image metadata
   def update
     img = Image.new
     img.byId( params[:id] )
-    img.change( cleanParams( params ) )
+    img.change( ControllerHelper.cleanParams( params ) )
     render :text => 'Success'
   end
   

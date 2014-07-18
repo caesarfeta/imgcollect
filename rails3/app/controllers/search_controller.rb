@@ -1,15 +1,16 @@
 class SearchController < ActionController::Base
   
-  # Get the search configuration
+  # Return the search configuration
   def config
     col = Collection.new
     img = Image.new
     config = {
-      'Image' => {
+      'endpoint' => Rails.configuration.sparql_endpoint+"/query",
+      'image' => {
         'prefixes' => img.prefixes,
         'attributes' => img.attributes
       },
-      'Collection' => {
+      'collection' => {
         'prefixes' => col.prefixes,
         'attributes' => col.attributes
       }

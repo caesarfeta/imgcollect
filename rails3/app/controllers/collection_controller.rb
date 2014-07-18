@@ -3,9 +3,7 @@ class CollectionController < ActionController::Base
   #-------------------------------------------------------------
   #                          POSTS
   #-------------------------------------------------------------
-  #-------------------------------------------------------------
   #  Create a new collection
-  #-------------------------------------------------------------
   def create
     #-------------------------------------------------------------
     #  If no form has been submitted
@@ -28,11 +26,7 @@ class CollectionController < ActionController::Base
     #render :text => "#{ collection.name } : #{ collection.nickname } has been created successfully"
   end
   
-  
-  
-  #-------------------------------------------------------------
   #  Add an image to a collection
-  #-------------------------------------------------------------
   def add_image
     if request.post? == false
       render :file => 'app/views/collection/add_image.haml'
@@ -49,11 +43,7 @@ class CollectionController < ActionController::Base
     render :text => "Collection #{ collection.urn }, Image #{ image.urn }"
   end
   
-  
-  
-  #-------------------------------------------------------------
   #  Add a subcollection
-  #-------------------------------------------------------------
   def add_collection
     if request.post? == false
       render :file => 'app/views/collection/add_collection.haml'
@@ -70,11 +60,7 @@ class CollectionController < ActionController::Base
     render :text => "Collection #{ collection.urn }, Subcollection #{ subcollection.urn }"
   end
   
-  
-  
-  #-------------------------------------------------------------
   #  Add a keyword to a collection
-  #-------------------------------------------------------------
   def add_keyword
     if request.post? == false
       render :file => 'app/views/collection/add_keyword.haml'
@@ -93,21 +79,16 @@ class CollectionController < ActionController::Base
   #-------------------------------------------------------------
   #                         GETS
   #-------------------------------------------------------------
-  #-------------------------------------------------------------
-  #  Show info about a collection
-  #-------------------------------------------------------------
-  def instance
-    collection = Collection.new()
-    collection.byId( params[ :id ] )
-    @collection = collection.all
-    render 'collection/collection'
+  
+  # Get a full collection report
+  def full
+    col = Collection.new
+    col.byId( params[:id] )
+    @col = col.all
+    render 'collection/full'
   end
   
-  
-  
-  #-------------------------------------------------------------
   #  Get all images belonging to a collection
-  #-------------------------------------------------------------
   def images
     collection = Collection.new()
     collection.byId( params[ :id ] )
@@ -115,11 +96,7 @@ class CollectionController < ActionController::Base
     render :text => images.join(',')
   end
   
-  
-  
-  #-------------------------------------------------------------
   #  Recursively retrieve subcollection images
-  #-------------------------------------------------------------
   def image_dig( _collection, _images, _check )
     puts _collection
     puts _check.inspect
@@ -158,11 +135,8 @@ class CollectionController < ActionController::Base
 
 end
 
-
-#-------------------------------------------------------------
-#  TODO: Find a home for this that isn't here.
 #  This is an ignorance hack.
-#-------------------------------------------------------------
+#  TODO: Find a home for this that isn't here.
 class String
   # Check to see if we're looking at an integer in string's clothing
   def is_i?

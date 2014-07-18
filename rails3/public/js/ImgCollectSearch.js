@@ -4,10 +4,6 @@ ImgCollectSearch = function() {
 	this.getConfig();
 }
 ImgCollectSearch.prototype.configUrl = '/search/config';
-//------------------------------------------------------------
-//  TODO: get endpoint from the config.
-//------------------------------------------------------------
-ImgCollectSearch.prototype.endpoint = 'http://127.0.0.1:8080/ds/query';
 ImgCollectSearch.prototype.events = {
 	success: 'ImgCollectSearch-SUCCESS',
 	error: 'ImgCollectSearch-ERROR',
@@ -16,6 +12,9 @@ ImgCollectSearch.prototype.events = {
 ImgCollectSearch.prototype.results = [];
 ImgCollectSearch.prototype.config = {}
 
+/**
+ * Get the search configuration
+ */
 ImgCollectSearch.prototype.getConfig = function() {
 	var self = this;
 	jQuery.ajax({
@@ -31,6 +30,7 @@ ImgCollectSearch.prototype.getConfig = function() {
 		}
 	});
 }
+
 /**
  * Build the search box
  */
@@ -136,8 +136,7 @@ ImgCollectSearch.prototype.buildQuery = function( _model, _pred, _search ) {
 			FILTER regex( ?o, "'+_search+'", "i" )\
 		}\
 	';
-	console.log( query );
-	return this.escapeURI( this.endpoint+"?query="+query+"&format=json" );
+	return this.escapeURI( this.config['endpoint']+"?query="+query+"&format=json" );
 }
 
 /**
@@ -189,11 +188,13 @@ ImgCollectSearch.prototype.modelSlack = function( _model ) {
 	switch ( _model ) {
 		case 'image':
 		case 'img':
-			return 'Image';
+		case 'i':
+			return 'image';
 		case 'collection':
 		case 'coll':
 		case 'col':
-			return 'Collection';
+		case 'c':
+			return 'collection';
 		default:
 			jQuery( document ).trigger( this.events['error'] );
 			return;
