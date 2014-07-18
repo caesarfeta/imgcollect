@@ -10,10 +10,9 @@ var loaded = 0;
 jQuery( document ).ready( function(){
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
-	imageFullResize();
 });
 jQuery( window ).resize( function(){
-	imageFullResize()
+	imageFullResize();
 });
 
 /**************************
@@ -21,10 +20,29 @@ jQuery( window ).resize( function(){
  **************************/
 jQuery( document ).on( 'ImgCollectApi-SUCCESS', function() {
 	jQuery('#results').append( api.data );
-	imageFullResize();
 	loaded++;
+	//------------------------------------------------------------
+	//  When all the results and images are loaded...
+	//------------------------------------------------------------
 	if ( loaded == wait ) {
-		jQuery.scrollToBottom(.5);
+		var imageloads = [];
+		jQuery('#results').find("img").each(function () {
+			var dfd = jQuery.Deferred();
+				jQuery(this).on('load', function () {
+				    dfd.resolve();
+				});
+				//------------------------------------------------------------
+				// Is image  cached?
+				//------------------------------------------------------------
+				if ( this.complete ) {
+				    jQuery( this ).trigger('load');
+				}
+				imageloads.push(dfd);
+		});
+	    jQuery.when.apply(undefined, imageloads).done( function () {
+			imageFullResize();
+			jQuery.scrollToBottom(.5);
+		});
 	}
 });
 jQuery( document ).on( 'ImgCollectApi-ERROR', function() {
@@ -80,22 +98,11 @@ function imageFullResize() {
 		//------------------------------------------------------------
 		//  Set the height
 		//------------------------------------------------------------
-		var height = jQuery( 'img', this ).height();
+		var height = jQuery( '.display', this ).height();
 		height = ( height < 300 ) ? 300 : height;
 		jQuery( this ).height( height );
 		jQuery( '.metadata', this ).css({
 			'height': height
 		});
-		//------------------------------------------------------------
-		//  Set the width
-		//------------------------------------------------------------
-		var width = jQuery( 'img', this ).width() + jQuery( '.metadata', this ).width();
-		var win_width = jQuery( window ).width();
-		if ( width > win_width ) {
-			var img_width = jQuery( 'img', this ).width();
-			jQuery( '.metadata', this ).css({
-				'width': img_width
-			});
-		}
 	});
 }

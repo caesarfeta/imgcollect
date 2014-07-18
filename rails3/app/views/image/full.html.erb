@@ -7,47 +7,55 @@
 <% ignore = [ :edited, :width, :height ] + img_keys + top_times + first %>
 
 <%# now begins the markup %>
-<div class="image-full">
-	<div class="display">
-		<img src="<%= imgSrc(@img[:basic]) %>" />
-		<div class="metadata">
-			
-			<%# different image sizes %>
-			<div class="size">
-				<% img_keys.each do |key| %>
-				<a class="button tiny dark" href="<%= imgSrc(@img[key]) %>">
-					<%= "#{key.capitalize} #{dimensions(key,@img[:width],@img[:height])}" %>
-				</a>
-				<% end %>
+<div class="row">
+	<div class="columns small-12 image-full">
+		<div class="row collapse">
+			<div class="columns small-12 medium-6">
+				<div class="display">
+					<img src="<%= imgSrc(@img[:basic]) %>" />
+					
+					<%# different image sizes %>
+					<div class="size">
+						<% img_keys.each do |key| %>
+						<a class="button tiny dark" href="<%= imgSrc(@img[key]) %>">
+							<%= "#{key.capitalize} #{dimensions(key,@img[:width],@img[:height])}" %>
+						</a>
+						<% end %>
+					</div>
+					<div class="clearfix"></div>
+				</div>
 			</div>
 			
-			<%# creation and edit times %>
-			<div class="times">
-				<% top_times.each do |key| %>
-				<%= render "shared/timestamp", :locals => { :time => @img[key], :label => key.to_s.capitalize } %>
-				<% end %>
+			<div class="columns small-12 medium-6">
+				<div class="metadata">
+					<%# creation and edit times %>
+					<div class="times">
+						<% top_times.each do |key| %>
+						<%= render "shared/timestamp", :locals => { :time => @img[key], :label => key.to_s.capitalize } %>
+						<% end %>
+					</div>
+					
+					<%# values table %>
+					<div class="values">
+						<table>
+							
+							<%# first values %>
+							<% first.each do |key| %>
+								<%= render "image/row", :locals => { :key => key, :val => @img[key], :editable => editable, :row_times => row_times } %>
+							<% end %>
+							
+							<%# all the other values %>
+							<% @img.sort.map do |key,val| %>
+							<% if ignore.include?(key) == false %>
+								<%= render "image/row", :locals => { :key => key, :val => val, :editable => editable, :row_times => row_times } %>
+							<% end %>
+							<% end %>
+							
+						</table>
+					</div>
+				</div>
+				<div class="clearfix"></div>
 			</div>
-			
-			<%# values table %>
-			<div class="values">
-				<table>
-					
-					<%# first values %>
-					<% first.each do |key| %>
-						<%= render "image/row", :locals => { :key => key, :val => @img[key], :editable => editable, :row_times => row_times } %>
-					<% end %>
-					
-					<%# all the other values %>
-					<% @img.sort.map do |key,val| %>
-					<% if ignore.include?(key) == false %>
-						<%= render "image/row", :locals => { :key => key, :val => val, :editable => editable, :row_times => row_times } %>
-					<% end %>
-					<% end %>
-					
-				</table>
-			</div>
-			<div class="clearfix"></div>
 		</div>
 	</div>
-	<div class="clearfix"></div>
 </div>

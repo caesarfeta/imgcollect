@@ -5,7 +5,8 @@ ImgCollectApi = function() {}
  */
 ImgCollectApi.prototype.events = {
 	success: 'ImgCollectApi-SUCCESS',
-	error: 'ImgCollectApi-ERROR'
+	error: 'ImgCollectApi-ERROR',
+	img_loaded: 'ImgCollectApi-Img'
 }
 
 /**

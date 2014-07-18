@@ -81,7 +81,7 @@ ImgCollectSearch.prototype.search = function( _search ) {
 	}
 	var query = self.buildQuery( args[0], args[1], args[2] );
 	jQuery.ajax({
-		dataType: "jsonp",
+		dataType: "json",
 		url: query,
 		timeout: 10*1000, // 10 second timeout
 		success: function( _data ) {
