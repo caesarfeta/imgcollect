@@ -6,7 +6,8 @@ body {
 }
 h1,h2,h3,
 h4,h5,p,
-label,td {
+label,td, 
+div {
 	color:#666;
 }
 
@@ -40,7 +41,7 @@ label,td {
 /* Collection-Box */
 .collection-box {
 	padding:10px;
-	background-color:#EFEFEF;
+	background-color:#222;
 }
 .collection-box .samples {
 	padding:0;
@@ -48,7 +49,7 @@ label,td {
 }
 .collection-box .metadata {
 	padding:5px 10px;
-	background-color:#DFDFDF;
+	background-color:#333;
 }
 .collection-box .person,
 .collection-box .date {
@@ -97,7 +98,7 @@ label,td {
 
 /* image-full */
 .image-full {
-	margin-top: 3em;
+	margin-bottom: 1em;
 	background-color:#222;
 	font-size:.8em;
 }
@@ -172,7 +173,7 @@ label,td {
 
 /* results area */
 #results {
-	padding-bottom:300px;
+	padding-bottom:100px;
 }
 
 #results .row {
