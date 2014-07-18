@@ -38,8 +38,7 @@ jQuery( document ).on( 'ImgCollectApi-ERROR', function() {
  * Mark the search results
  */
 jQuery( document ).on( 'ImgCollectSearch-SEARCH', function( _e, _data ) {
-	var search = _data['search'];
-	jQuery( '#results' ).append( '<h2 class="search_string"><span class="smaller">search:</span> '+search+'</h2>' );
+	markSearch( _data['search'] );
 });
 
 /**
@@ -58,6 +57,24 @@ jQuery( document ).on( 'ImgCollectSearch-SUCCESS', function() {
 	}
 });
 
+/**
+ * Mark the search.
+ */
+function markSearch( _search ) {
+	jQuery( '#results' ).append( '\
+		<div class="row">\
+			<div class="columns small-12">\
+				<h2 class="search_string">\
+					<span class="smaller">search:</span> '+_search+'\
+				</h2>\
+			</div>\
+		</div>' 
+	);
+}
+
+/**
+ * Resize
+ */
 function imageFullResize() {
 	jQuery( '.image-full' ).each( function(){
 		//------------------------------------------------------------

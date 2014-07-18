@@ -2,8 +2,8 @@
 	
 	<%# IMAGES %>
 	<div class="columns small-12 medium-6 samples">
-		<% if @col.has_key?(:images)%>
-			<% @col[:images].each do |image|%>
+		<% if @col.has_key?(:images) %>
+			<% @col[:images].each do |image| %>
 			<div><%= image %></div>
 			<% end %>
 		<% end %>
@@ -23,9 +23,9 @@
 		<div class="clearfix"></div>
 		
 		<%# KEYWORDS %>
-		<% if @col.has_key?(:keywords)%>
+		<% if @col.has_key?(:keywords) && @col[:keywords].length > 0 %>
 		<div class="keywords">
-			<% @col[:keywords].each do |keyword|%>
+			<% @col[:keywords].each do |keyword| %>
 			<a href="" class="keyword"><%= keyword %></a>
 			<% end %>
 		</div>
