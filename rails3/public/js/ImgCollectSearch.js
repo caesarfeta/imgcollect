@@ -3,6 +3,10 @@
 ImgCollectSearch = function() {
 	this.getConfig();
 }
+ImgCollectSearch.prototype.configUrl = '/search/config';
+//------------------------------------------------------------
+//  TODO: get endpoint from the config.
+//------------------------------------------------------------
 ImgCollectSearch.prototype.endpoint = 'http://127.0.0.1:8080/ds/query';
 ImgCollectSearch.prototype.events = {
 	success: 'ImgCollectSearch-SUCCESS',
@@ -16,14 +20,13 @@ ImgCollectSearch.prototype.getConfig = function() {
 	var self = this;
 	jQuery.ajax({
 		dataType: "json",
-		url: '/search/config',
+		url: self.configUrl,
 		timeout: 10*1000, // 10 second timeout
 		success: function( _data ) {
 			self.config = _data;
 			self.build();
 		},
 		error: function( _e ) {
-			console.log( 'error' );
 			jQuery( document ).trigger( self.events['error'] );
 		}
 	});
@@ -74,7 +77,7 @@ ImgCollectSearch.prototype.search = function( _search ) {
 	//------------------------------------------------------------
 	var args = _search.shellArgs()
 	if ( args.length < 3 ) {
-		console.log( 'TODO: trigger an error')
+		jQuery( document ).trigger( self.events['error'] );
 	}
 	var query = self.buildQuery( args[0], args[1], args[2] );
 	jQuery.ajax({
@@ -116,23 +119,24 @@ ImgCollectSearch.prototype.cleanResults = function( _results ) {
  */
 ImgCollectSearch.prototype.buildQuery = function( _model, _pred, _search ) {
 	//------------------------------------------------------------
-	//  TODO: better Prepare predicate value
-	//------------------------------------------------------------
-	//------------------------------------------------------------
 	//  Determine the prefix
-	//  TODO: Retrieve prefix lookup table from Rails...
 	//------------------------------------------------------------
-	var prefix = this.whichPrefix( _model, _pred );
+	var prefixes = this.searchPrefixes( _model );
+	//------------------------------------------------------------
+	//  Get the predicate value
+	//------------------------------------------------------------
+	var pred = this.fullPred( _model, _pred );
 	//------------------------------------------------------------
 	//  Build the query
 	//------------------------------------------------------------
-	var query = prefix+'\
+	var query = prefixes+'\
 		SELECT ?s\
 		WHERE {\
-			?s this:'+_pred+' ?o;\
+			?s '+pred+' ?o;\
 			FILTER regex( ?o, "'+_search+'", "i" )\
 		}\
 	';
+	console.log( query );
 	return this.escapeURI( this.endpoint+"?query="+query+"&format=json" );
 }
 
@@ -143,43 +147,55 @@ ImgCollectSearch.prototype.buildQuery = function( _model, _pred, _search ) {
  */
 ImgCollectSearch.prototype.escapeURI = function( _uri ) {
 	//------------------------------------------------------------
-	//  %23 is the url encoding for a hash.
+	//  %23 is the url encoding for a hashmark.
 	//  encodeURI ignores it.
 	//------------------------------------------------------------
-	return encodeURI( _uri ).replace( '#', '%23' );
+	return encodeURI( _uri ).replace( /#/g, '%23' );
+}
+
+/**
+ * Get the appropriate predicate value
+ *
+ * @param { string } _model
+ * @param { string } _pred
+ */
+ImgCollectSearch.prototype.fullPred = function( _model, _pred ) {
+	var model = this.modelSlack( _model );
+	var attr = this.config[ model ]['attributes'];
+	return attr[_pred.keyMe()][0];
 }
 
 /**
  * Which prefixes to we prepend to the SPARQL query?
+ *
+ * @param { string } _model
  */
-ImgCollectSearch.prototype.whichPrefix = function( _model ) {
-	var prefix = 'PREFIX this: ';
+ImgCollectSearch.prototype.searchPrefixes = function( _model ) {
+	var model = this.modelSlack( _model );
+	var output = [];
+	var prefixes = this.config[ model ]['prefixes'];
+	for ( var key in prefixes ) {
+		output.push( "PREFIX "+key+": "+prefixes[key] );
+	}
+	return output.join("\n");
+}
+
+/**
+ *  Cut the user some slack when deciding the model
+ *
+ * @param { string } _model
+ */
+ImgCollectSearch.prototype.modelSlack = function( _model ) {
 	switch ( _model ) {
 		case 'image':
 		case 'img':
-			prefix += '<http://localhost/sparql_model/image#>';
-			return prefix;
+			return 'Image';
 		case 'collection':
 		case 'coll':
 		case 'col':
-			prefix += '<http://localhost/sparql_model/collection#>';
-			return prefix;
+			return 'Collection';
 		default:
 			jQuery( document ).trigger( this.events['error'] );
 			return;
 	}
 }
-/*
-
-//------------------------------------------------------------
-//  Sparql Queries and search bar equivalents
-//------------------------------------------------------------
-[ collection name "des" ]
-
-	@prefix this: <http://localhost/sparql_model/collection>
-	SELECT ?s 
-	WHERE { 
-		?s this:name ?o
-		FILTER regex( ?o, "des", "i" )
-	}
-*/
