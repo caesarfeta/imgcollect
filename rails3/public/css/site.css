@@ -141,15 +141,20 @@ a.edit img {
 }
 .image-full table td.value {
 	max-width: 265px;
+	word-break: break-word;
 }
 .image-full textarea {
+	font-size: 1em;
+	font-family: "Helvetica Neue","Helvetica",Helvetica,Arial,sans-serif;
 	outline: none;
 	resize: none;
 	border:none;
 	width:100%;
 	line-height:1;
-	font-size:12px;
-	margin:0; 
+	margin:0;
+	padding:2px;
+	background-color:rgba(255,255,255,0.8);
+	min-height:0;
 }
 
 /* imgcollect_search */

@@ -1,3 +1,5 @@
+/* require ../third-party/autosize/jquery.autosize.min.js */
+
 ImgCollectInput = function() {
 	this.api = new ImgCollectApi();
 }
@@ -88,6 +90,7 @@ ImgCollectInput.prototype.textarea = function( _node, _value ) {
 		<textarea rows="1">'+_value.smoosh()+'</textarea>\
 	');
 	this.change( _node );
+	jQuery( 'textarea', _node ).autosize();
 }
 
 /**

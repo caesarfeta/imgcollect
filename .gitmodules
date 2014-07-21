@@ -1,3 +1,6 @@
 [submodule "rails3/public/third-party/jslib"]
 	path = rails3/public/third-party/jslib
 	url = http://github.com/caesarfeta/jslib
+[submodule "rails3/public/third-party/autosize"]
+	path = rails3/public/third-party/autosize
+	url = https://github.com/jackmoore/autosize
