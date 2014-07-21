@@ -5,11 +5,13 @@
 <tr>
 	<td class="key"><%= labelify(key) %>:</td>
 	<td class="value">
+		<span class="current">
 		<% if row_times.include?(key) %>
 		<%= readTime(val) %>
 		<% else %>
 		<%= val %>
 		<% end %>
+		</span>
 	</td>
 	<td><% if editable.include?(key) == true %><a class="edit"><img src="/img/edit_pencil.svg" /></a><% end %></td>
 </tr>

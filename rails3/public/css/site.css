@@ -139,6 +139,15 @@ a.edit img {
 .image-full table td.key {
 	text-align:right;
 }
+.image-full textarea {
+	outline: none;
+	resize: none;
+	border:none;
+	width:100%;
+	line-height:1;
+	font-size:12px;
+	margin:0; 
+}
 
 /* imgcollect_search */
 #imgcollect_search {

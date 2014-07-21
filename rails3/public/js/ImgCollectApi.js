@@ -41,8 +41,9 @@ ImgCollectApi.prototype.config = {
  * @param { String } _model The model name
  * @param { String } _action The action name
  * @param { Obj } _data The data object to send
+ * @param { String } _context A string for marking the context of the send method call
  */
-ImgCollectApi.prototype.send = function( _model, _action, _data ) {
+ImgCollectApi.prototype.send = function( _model, _action, _data, _context ) {
 	var self = this;
 	var url = [ _model, _action ];
 	lookup = url.join('/');
@@ -70,11 +71,11 @@ ImgCollectApi.prototype.send = function( _model, _action, _data ) {
 		data: _data,
 		success: function( _data, _status ) {
 			self.data = _data;
-			jQuery( document ).trigger( self.events['success'] );
+			jQuery( document ).trigger( self.events['success'], { context: _context } );
 		},
 		error: function( _error ) {
 			self.error = _error;
-			jQuery( document ).trigger( self.events['error'] );
+			jQuery( document ).trigger( self.events['error'], { context: _context } );
 		}
 	});
 }

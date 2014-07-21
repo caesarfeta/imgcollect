@@ -23,7 +23,16 @@ jQuery( window ).resize( function(){
 /**************************
  * API event listeners
  **************************/
-jQuery( document ).on( 'ImgCollectApi-SUCCESS', function() {
+jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
+	//------------------------------------------------------------
+	//  Check the context of the API call
+	//------------------------------------------------------------
+	if ( _data['context'] != 'ImgCollectSearch' ) {
+		return;
+	}
+	//------------------------------------------------------------
+	//  Append the search results data
+	//------------------------------------------------------------
 	jQuery('#results').append( api.data );
 	loaded++;
 	//------------------------------------------------------------
@@ -76,7 +85,7 @@ jQuery( document ).on( 'ImgCollectSearch-SUCCESS', function() {
 	loaded = 0;
 	for ( var i=0; i<results.length; i++ ) {
 		var arr = results[i].split('.');
-		api.send( arr[0], 'full', { 'id': arr[1] });
+		api.send( arr[0], 'full', { 'id': arr[1] }, 'ImgCollectSearch' );
 	}
 });
 
