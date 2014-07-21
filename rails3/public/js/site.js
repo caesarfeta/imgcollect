@@ -106,3 +106,10 @@ function imageFullResize() {
 		});
 	});
 }
+
+/* Playing with update
+
+api.send( 'image', 'update', { id: 5, name: 'North American Desert' });
+api.send( 'image', 'add', { id: 5, keywords: 'desert' });
+
+*/
