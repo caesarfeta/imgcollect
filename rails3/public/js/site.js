@@ -1,5 +1,6 @@
 var api = null;
 var search = null;
+var input = null;
 
 var wait = 0;
 var loaded = 0;
@@ -10,6 +11,7 @@ var loaded = 0;
 jQuery( document ).on( 'ImgCollectConfig-READY', function() {
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
+	input = new ImgCollectInput();
 });
 jQuery( document ).ready( function(){
 	var config = new ImgCollectConfig();
