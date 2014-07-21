@@ -139,6 +139,9 @@ a.edit img {
 .image-full table td.key {
 	text-align:right;
 }
+.image-full table td.value {
+	max-width: 265px;
+}
 .image-full textarea {
 	outline: none;
 	resize: none;
