@@ -1,9 +1,8 @@
 /* require jslib/src/js/StringExt.js */
 
 ImgCollectSearch = function() {
-	this.getConfig();
+	this.build();
 }
-ImgCollectSearch.prototype.configUrl = '/search/config';
 ImgCollectSearch.prototype.events = {
 	success: 'ImgCollectSearch-SUCCESS',
 	error: 'ImgCollectSearch-ERROR',
@@ -11,25 +10,6 @@ ImgCollectSearch.prototype.events = {
 }
 ImgCollectSearch.prototype.results = [];
 ImgCollectSearch.prototype.config = {}
-
-/**
- * Get the search configuration
- */
-ImgCollectSearch.prototype.getConfig = function() {
-	var self = this;
-	jQuery.ajax({
-		dataType: "json",
-		url: self.configUrl,
-		timeout: 10*1000, // 10 second timeout
-		success: function( _data ) {
-			self.config = _data;
-			self.build();
-		},
-		error: function( _e ) {
-			jQuery( document ).trigger( self.events['error'] );
-		}
-	});
-}
 
 /**
  * Build the search box
@@ -136,7 +116,7 @@ ImgCollectSearch.prototype.buildQuery = function( _model, _pred, _search ) {
 			FILTER regex( ?o, "'+_search+'", "i" )\
 		}\
 	';
-	return this.escapeURI( this.config['endpoint']+"?query="+query+"&format=json" );
+	return this.escapeURI( ImgCollectConfig.config['endpoint']+"?query="+query+"&format=json" );
 }
 
 /**
@@ -160,7 +140,7 @@ ImgCollectSearch.prototype.escapeURI = function( _uri ) {
  */
 ImgCollectSearch.prototype.fullPred = function( _model, _pred ) {
 	var model = this.modelSlack( _model );
-	var attr = this.config[ model ]['attributes'];
+	var attr = ImgCollectConfig.config[ model ]['attributes'];
 	return attr[_pred.keyMe()][0];
 }
 
@@ -172,7 +152,7 @@ ImgCollectSearch.prototype.fullPred = function( _model, _pred ) {
 ImgCollectSearch.prototype.searchPrefixes = function( _model ) {
 	var model = this.modelSlack( _model );
 	var output = [];
-	var prefixes = this.config[ model ]['prefixes'];
+	var prefixes = ImgCollectConfig.config[ model ]['prefixes'];
 	for ( var key in prefixes ) {
 		output.push( "PREFIX "+key+": "+prefixes[key] );
 	}

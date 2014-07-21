@@ -7,9 +7,12 @@ var loaded = 0;
 /**************************
  * Get ready...
  **************************/
-jQuery( document ).ready( function(){
+jQuery( document ).on( 'ImgCollectConfig-READY', function() {
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
+});
+jQuery( document ).ready( function(){
+	var config = new ImgCollectConfig();
 });
 jQuery( window ).resize( function(){
 	imageFullResize();
