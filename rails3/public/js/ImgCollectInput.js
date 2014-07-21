@@ -2,6 +2,10 @@ ImgCollectInput = function() {
 	this.api = new ImgCollectApi();
 }
 ImgCollectInput.prototype.events = {}
+
+/**
+ * Start up the edit button click listener.
+ */
 ImgCollectInput.prototype.start = function() {
 	var self = this;
 	jQuery( '.edit' ).on( 'touchstart click', function() {
@@ -14,38 +18,70 @@ ImgCollectInput.prototype.start = function() {
 		self.textarea( node, value );
 	});
 }
+
+/**
+ * Listen for changes to the textarea
+ *
+ * @param { DOM } _node The node containing the textarea
+ */
 ImgCollectInput.prototype.change = function( _node ) {
 	var self = this;
 	jQuery( 'textarea', _node ).on( 'keydown', function( _e ) {
-		//------------------------------------------------------------
-		//  If "Enter" is pressed then update value using the API
-		//------------------------------------------------------------
-		if ( _e.which == 13 ) {
+		switch( _e.which ) {
+			
 			//------------------------------------------------------------
-			//  Don't write newline character to the textarea value
+			//  If "Enter" is pressed then update value using the API
 			//------------------------------------------------------------
-			_e.preventDefault();
+			case 13:
+				//------------------------------------------------------------
+				//  Don't write newline character to the textarea value
+				//------------------------------------------------------------
+				_e.preventDefault();
+				//------------------------------------------------------------
+				//  Update the value after gathering the API args
+				//------------------------------------------------------------
+				var id = self.toId( _node );
+				var key = self.toKey( _node );
+				var val = jQuery( this ).val();
+				var obj = { id: id };
+				obj[key] = val;
+				self.api.send( 'image', 'update', obj, 'ImgCollectInput' );
+				//------------------------------------------------------------
+				//  TODO:  I should listen for the API success event.
+				//------------------------------------------------------------
+				self.hide( _node, val );
+				break;
+				
 			//------------------------------------------------------------
-			//  Update the value after gathering the API args
+			//  If "Escape" is pressed then return things the way they were
 			//------------------------------------------------------------
-			var id = self.toId( _node );
-			var key = self.toKey( _node );
-			var val = jQuery( this ).val();
-			var obj = { id: id };
-			obj[key] = val;
-			self.api.send( 'image', 'update', obj, 'ImgCollectInput' );
-			//------------------------------------------------------------
-			//  TODO:  I should listen for the API success event.
-			//------------------------------------------------------------
-			self.default( _node, val );
+			case 27:
+				self.hide( _node );
+				break;
 		}
 	});
 }
-ImgCollectInput.prototype.default = function( _node, _val ) {
-	jQuery( '.current', _node ).text( _val );
+
+/**
+ * Hide the textarea
+ *
+ * @param { DOM } _node The node containing the textarea
+ * @param { String } _val The new current value
+ */
+ImgCollectInput.prototype.hide = function( _node, _val ) {
+	if ( _val != undefined ) {
+		jQuery( '.current', _node ).text( _val );
+	}
 	jQuery( '.current', _node ).show();
 	jQuery( 'textarea', _node ).remove();
 }
+
+/**
+ * Create the edit input textarea
+ *
+ * @param { DOM } _node The node containing the textarea
+ * @param { String } _val The new current value
+ */
 ImgCollectInput.prototype.textarea = function( _node, _value ) {
 	jQuery( '.current', _node ).hide();
 	_node.append('\
@@ -53,16 +89,30 @@ ImgCollectInput.prototype.textarea = function( _node, _value ) {
 	');
 	this.change( _node );
 }
+
+/**
+ * Get the urn of the instance currently being edited
+ *
+ * @param { DOM } _node The node containing the textarea
+ */
 ImgCollectInput.prototype.toId = function( _node ) {
 	var urn = jQuery( _node ).parents( '.image-full' ).attr( 'data-urn' );
 	return urn.lastInt();
 }
+
+/**
+ * Get the key of the textarea currently being edited
+ *
+ * @param { DOM } _node The node containing the textarea
+ */
 ImgCollectInput.prototype.toKey = function( _node ) {
 	var tr = jQuery( _node ).parents( 'tr' );
 	return jQuery( '.key', tr ).text().replace(':','').keyMe();
 }
 
+
 /*
+>> CONSOLE TESTING <<
 search.search( 'img original 3' );
 input = new ImgCollectInput();
 input.start();
