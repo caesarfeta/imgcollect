@@ -4,3 +4,6 @@
 [submodule "rails3/public/third-party/autosize"]
 	path = rails3/public/third-party/autosize
 	url = https://github.com/jackmoore/autosize
+[submodule "rails3/public/third-party/dropzone"]
+	path = rails3/public/third-party/dropzone
+	url = http://github.com/caesarfeta/dropzone

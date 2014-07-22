@@ -192,6 +192,11 @@ a.edit img {
 #imgcollect_search input:focus {
 	opacity:1;
 }
+#imgcollect_search #upload img {
+	float: left;
+	margin: 0 0 0 50px;
+	width: 25px;
+}
 
 /* results area */
 #results {
