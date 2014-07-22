@@ -12,6 +12,7 @@ jQuery( document ).on( 'ImgCollectConfig-READY', function() {
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
 	input = new ImgCollectInput();
+	uploadPop();
 });
 
 jQuery( document ).ready( function(){
@@ -131,7 +132,12 @@ function imageFullResize() {
 /**
  * Upload pop-up
  */
-function modal() {}
+function uploadPop() {
+	jQuery( '#uploader' ).on( 'touchstart click', function( _e ) {
+		$('#myModal').foundation('reveal', 'open');
+	});
+	//$('#myModal').foundation('reveal', 'close');
+}
 
 /* Playing with update
 api.send( 'image', 'update', { id: 5, name: 'North American Desert' });
