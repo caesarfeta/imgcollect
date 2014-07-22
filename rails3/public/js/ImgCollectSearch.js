@@ -21,7 +21,6 @@ ImgCollectSearch.prototype.build = function() {
 			<input id="input" type="text" placeholder="search">\
 			<a class="button dark tiny" href="" id="click">Go!</a>\
 		</div>\
-		<a href="" id="upload"><img src="img/upload_file.svg" /></a>\
 	</div>';
 	jQuery( 'body' ).append( searchbox );
 	this.start();

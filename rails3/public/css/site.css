@@ -192,9 +192,16 @@ a.edit img {
 #imgcollect_search input:focus {
 	opacity:1;
 }
-#imgcollect_search #upload img {
-	float: left;
-	margin: 0 0 0 50px;
+
+/* upload file */
+#uploader {
+	padding:5px;
+	position:fixed;
+	top:0;
+	right:0;
+	background-color:#333;
+}
+#uploader img {
 	width: 25px;
 }
 

@@ -13,9 +13,11 @@ jQuery( document ).on( 'ImgCollectConfig-READY', function() {
 	api = new ImgCollectApi();
 	input = new ImgCollectInput();
 });
+
 jQuery( document ).ready( function(){
-	var config = new ImgCollectConfig();
+	new ImgCollectConfig();
 });
+
 jQuery( window ).resize( function(){
 	imageFullResize();
 });
@@ -126,9 +128,12 @@ function imageFullResize() {
 	});
 }
 
-/* Playing with update
+/**
+ * Upload pop-up
+ */
+function modal() {}
 
+/* Playing with update
 api.send( 'image', 'update', { id: 5, name: 'North American Desert' });
 api.send( 'image', 'add', { id: 5, keywords: 'desert' });
-
 */

@@ -11,12 +11,23 @@
 	<body>
 		<section id="results"></section>
 		<div class="clearfix"></div>
+		
+		<!-- Image upload modal window -->
+		<a href="#" data-reveal-id="myModal" id="uploader">
+			<img src="img/upload_file.svg" />
+		</a>
+		<div id="myModal" class="reveal-modal" data-reveal>
+			<form id="image_upload" action="/image/upload" class="dropzone"></form>
+		</div>
+		
 	</body>
 	<!-- Foundation -->
 	<script src="third-party/foundation/js/vendor/jquery.js"></script>
-	<script src="third-party/foundation/js/foundation.min.js"></script>	
+	<script src="third-party/foundation/js/foundation.min.js"></script>
 	<!-- autosize -->
 	<script src="third-party/autosize/jquery.autosize.min.js"></script>
+	<!-- dropzone -->
+	<script src="third-party/dropzone/downloads/dropzone.min.js"></script>
 	<!-- Library -->
 	<script src="third-party/jslib/src/js/StringExt.js"></script>
 	<script src="third-party/jslib/src/js/jQueryPlus.js"></script>
@@ -25,5 +36,6 @@
 	<script src="js/ImgCollectInput.js"></script>
 	<script src="js/ImgCollectApi.js"></script>
 	<script src="js/ImgCollectSearch.js"></script>
+	<script src="js/ImgCollectUpload.js"></script>
 	<script src="js/site.js"></script>
 </html>
