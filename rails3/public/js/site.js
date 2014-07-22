@@ -33,7 +33,12 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	//------------------------------------------------------------
 	//  Append the search results data
 	//------------------------------------------------------------
-	jQuery('#results').append( api.data );
+	var data = jQuery( api.data );
+	jQuery('#results').append( data );
+	//------------------------------------------------------------
+	//  Create an input listener
+	//------------------------------------------------------------
+	input.start( data );
 	loaded++;
 	//------------------------------------------------------------
 	//  When all the results and images are loaded...

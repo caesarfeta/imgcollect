@@ -8,9 +8,9 @@ ImgCollectInput.prototype.events = {}
 /**
  * Start up the edit button click listener.
  */
-ImgCollectInput.prototype.start = function() {
+ImgCollectInput.prototype.start = function( _node ) {
 	var self = this;
-	jQuery( '.edit' ).on( 'touchstart click', function() {
+	jQuery( '.edit', _node ).on( 'touchstart click', function() {
 		var tr = jQuery( this ).parents( 'tr' );
 		var node = jQuery( '.value', tr );
 		var value = node.text();
@@ -35,6 +35,12 @@ ImgCollectInput.prototype.change = function( _node ) {
 			//  If "Enter" is pressed then update value using the API
 			//------------------------------------------------------------
 			case 13:
+				//------------------------------------------------------------
+				//  If the shift key is pressed then ignore...
+				//------------------------------------------------------------
+				if ( window.event.shiftKey == true ) {
+					return;
+				}
 				//------------------------------------------------------------
 				//  Don't write newline character to the textarea value
 				//------------------------------------------------------------
@@ -72,7 +78,7 @@ ImgCollectInput.prototype.change = function( _node ) {
  */
 ImgCollectInput.prototype.hide = function( _node, _val ) {
 	if ( _val != undefined ) {
-		jQuery( '.current', _node ).text( _val );
+		jQuery( '.current', _node ).html( _val );
 	}
 	jQuery( '.current', _node ).show();
 	jQuery( 'textarea', _node ).remove();
@@ -85,6 +91,16 @@ ImgCollectInput.prototype.hide = function( _node, _val ) {
  * @param { String } _val The new current value
  */
 ImgCollectInput.prototype.textarea = function( _node, _value ) {
+	//------------------------------------------------------------
+	//  Don't build two textareas.
+	//------------------------------------------------------------
+	if ( jQuery( 'textarea', _node ).length > 0 ) {
+		this.hide( _node );
+		return;
+	}
+	//------------------------------------------------------------
+	//  Build a single textarea
+	//------------------------------------------------------------
 	jQuery( '.current', _node ).hide();
 	_node.append('\
 		<textarea rows="1">'+_value.smoosh()+'</textarea>\
@@ -112,7 +128,6 @@ ImgCollectInput.prototype.toKey = function( _node ) {
 	var tr = jQuery( _node ).parents( 'tr' );
 	return jQuery( '.key', tr ).text().replace(':','').keyMe();
 }
-
 
 /*
 >> CONSOLE TESTING <<
