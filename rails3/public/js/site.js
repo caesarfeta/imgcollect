@@ -34,6 +34,10 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 		return;
 	}
 	//------------------------------------------------------------
+	//  Hide the upload window if its open
+	//------------------------------------------------------------
+	uploadHide();
+	//------------------------------------------------------------
 	//  Append the search results data
 	//------------------------------------------------------------
 	var data = jQuery( _data['data'] );
@@ -114,8 +118,15 @@ function imageFullResize() {
  */
 function uploadPop() {
 	jQuery( '#uploader' ).on( 'touchstart click', function( _e ) {
-		$('#myModal').foundation('reveal', 'open');
+		jQuery('#myModal').foundation('reveal', 'open');
 	});
+}
+
+/**
+ * Upload hide
+ */
+function uploadHide() {
+	jQuery('#myModal').foundation('reveal', 'close');
 }
 
 /* 
