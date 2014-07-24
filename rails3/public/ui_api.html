@@ -17,11 +17,21 @@
 			<img src="img/upload_file.svg" />
 		</a>
 		<div id="myModal" class="reveal-modal" data-reveal>
-			<form id="image_upload" action="/image/upload" class="dropzone"></form>
-			<!--
-			<div>or</div>
-			<input type="text" placeholder="Copy URL to image here" />
-			-->
+			<div class="row">
+				
+				<!-- Drag and drop upload -->
+				<div id="uploader_dragdrop" class="columns small-6">
+					<form action="/image/upload" class="dropzone"></form>
+				</div>
+				
+				<!-- URL upload -->
+				<div id="uploader_url" class="columns small-6">
+					<form action="/image/upload">
+						<input id="url" type="text" placeholder="Copy URL to image here" />
+					</form>
+				</div>
+				
+			</div>
 		</div>
 		
 	</body>

@@ -1,12 +1,14 @@
 require 'open-uri'
 class ImgUpload
   
+  #-------------------------------------------------------------
+  #  TODO: secure this better!  
+  #-------------------------------------------------------------
   def save( _upload )
     #-------------------------------------------------------------
     #  Build
     #-------------------------------------------------------------
     @uploadDir = UploadUtils.monthDir( Rails.configuration.upload_dir )
-
     case _upload['file'].class.to_s
       #-------------------------------------------------------------
       #  File is an upload from the users local filesystem...

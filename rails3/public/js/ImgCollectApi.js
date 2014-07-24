@@ -22,6 +22,9 @@ ImgCollectApi.prototype.config = {
 	'image/add': {
 		method: 'POST'
 	},
+	'image/upload': {
+		method: 'POST'
+	},
 	'image/update': {
 		method: 'POST'
 	},

@@ -193,7 +193,7 @@ a.edit img {
 	opacity:1;
 }
 
-/* upload file */
+/* upload file icon */
 #uploader {
 	padding:5px;
 	position:fixed;
@@ -203,6 +203,23 @@ a.edit img {
 }
 #uploader img {
 	width: 25px;
+}
+
+
+/* dropzone drag and drop uploader */
+#uploader_dragdrop {
+	background-color:#DDD;
+	padding:20px;
+}
+#uploader_dragdrop .dz-default {
+	padding: 20px;
+	min-height:200px;
+}
+
+
+#uploader_url input#url {
+	padding: 10px;
+	width:100%;
 }
 
 /* results area */
