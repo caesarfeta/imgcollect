@@ -50,7 +50,10 @@ ImgCollectSearch.prototype.start = function() {
  */
 ImgCollectSearch.prototype.search = function( _search ) {
 	var self = this;
-	jQuery( document ).trigger( self.events['search'], { search: _search } );
+	//------------------------------------------------------------
+	//  Mark the search
+	//------------------------------------------------------------
+	self.mark( _search );
 	//------------------------------------------------------------
 	//  Do a bit of validation.  
 	//  There should be three distinct groups.
@@ -179,4 +182,19 @@ ImgCollectSearch.prototype.modelSlack = function( _model ) {
 			jQuery( document ).trigger( this.events['error'] );
 			return;
 	}
+}
+
+/**
+ * Mark the search.
+ */
+ImgCollectSearch.prototype.mark = function( _search ) {
+	jQuery( '#results' ).append( '\
+		<div class="row">\
+			<div class="columns small-12">\
+				<h2 class="search_string">\
+					<span class="smaller">search:</span> '+_search+'\
+				</h2>\
+			</div>\
+		</div>' 
+	);
 }

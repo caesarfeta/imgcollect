@@ -1,9 +1,7 @@
 require 'open-uri'
 class ImgUpload
   
-  #-------------------------------------------------------------
-  #  TODO: secure this better!  
-  #-------------------------------------------------------------
+  # Save a file to the upload directory
   def save( _upload )
     #-------------------------------------------------------------
     #  Build
@@ -26,17 +24,18 @@ class ImgUpload
       #-------------------------------------------------------------
       when 'String'
         @url = _upload['file']
-        uri = URI.parse( url )
+        uri = URI.parse( @url )
         check( File.basename( uri.path ) )
         #-------------------------------------------------------------
         #  Write the file
         #-------------------------------------------------------------
         open( @uploadPath, 'wb' ) do |f|
-          f << open( url ).read
+          f << open( @url ).read
         end
     end
   end
   
+  # Check to make sure the filename is unique
   def check( _upload )
     @original = _upload
     path = File.join( @uploadDir, @original )
@@ -46,6 +45,7 @@ class ImgUpload
     @filename = res['filename']
   end
   
+  # Copy the uploaded file to the image directory
   def toImgDir
     @imgDir = UploadUtils.monthDir( Rails.configuration.img_dir, Rails.configuration.original_dir )
     path = File.join( @imgDir, @original )
@@ -55,8 +55,16 @@ class ImgUpload
     return report
   end
   
+  # Build a report of what happened
   def report
-    return Hash[ 'original' => @original, 'path' => @imgPath, 'error' => nil ]
+    if @url != nil
+      @original = @url
+    end
+    return Hash[ 
+      'original' => @original, 
+      'path' => @imgPath, 
+      'error' => nil 
+    ]
   end
   
   def uploadPath

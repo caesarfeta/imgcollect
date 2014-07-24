@@ -205,7 +205,6 @@ a.edit img {
 	width: 25px;
 }
 
-
 /* dropzone drag and drop uploader */
 #uploader_dragdrop {
 	background-color:#DDD;
@@ -216,11 +215,12 @@ a.edit img {
 	min-height:200px;
 }
 
-
-#uploader_url input#url {
+/* url uploader */
+#uploader_url input {
 	padding: 10px;
 	width:100%;
 }
+#uploader_url .button {}
 
 /* results area */
 #results {

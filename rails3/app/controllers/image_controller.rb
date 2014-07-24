@@ -88,6 +88,10 @@ class ImageController < ActionController::Base
       return
     end
     #-------------------------------------------------------------
+    #  What will become the JSON return
+    #-------------------------------------------------------------
+    json = []
+    #-------------------------------------------------------------
     #  Resize the image & save it in the triplestore
     #-------------------------------------------------------------
     report.each do |item|
@@ -128,9 +132,10 @@ class ImageController < ActionController::Base
           #  No exif data is no big deal... Just move on.
           #-------------------------------------------------------------
         end
+        json.push({ :message => "Success", :urn => image.urn })
       end
     end
-    render :text => "File has been uploaded to #{ file.uploadPath } successfully"
+    render :json => json
   end
   
 end

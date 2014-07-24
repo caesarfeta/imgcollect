@@ -30,7 +30,6 @@ ImgCollectInput.prototype.change = function( _node ) {
 	var self = this;
 	jQuery( 'textarea', _node ).on( 'keydown', function( _e ) {
 		switch( _e.which ) {
-			
 			//------------------------------------------------------------
 			//  If "Enter" is pressed then update value using the API
 			//------------------------------------------------------------
@@ -59,7 +58,6 @@ ImgCollectInput.prototype.change = function( _node ) {
 				//------------------------------------------------------------
 				self.hide( _node, val );
 				break;
-				
 			//------------------------------------------------------------
 			//  If "Escape" is pressed then return things the way they were
 			//------------------------------------------------------------

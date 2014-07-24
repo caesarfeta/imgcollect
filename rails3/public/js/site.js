@@ -1,7 +1,6 @@
 var api = null;
 var search = null;
 var input = null;
-
 var wait = 0;
 var loaded = 0;
 
@@ -12,6 +11,7 @@ jQuery( document ).on( 'ImgCollectConfig-READY', function() {
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
 	input = new ImgCollectInput();
+	new ImgCollectUpload();
 	uploadPop();
 });
 
@@ -30,13 +30,13 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	//------------------------------------------------------------
 	//  Check the context of the API call
 	//------------------------------------------------------------
-	if ( _data['context'] != 'ImgCollectSearch' ) {
+	if ( _data['context'] != 'LoadFull' ) {
 		return;
 	}
 	//------------------------------------------------------------
 	//  Append the search results data
 	//------------------------------------------------------------
-	var data = jQuery( api.data );
+	var data = jQuery( _data['data'] );
 	jQuery('#results').append( data );
 	//------------------------------------------------------------
 	//  Create an input listener
@@ -67,19 +67,14 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 		});
 	}
 });
-jQuery( document ).on( 'ImgCollectApi-ERROR', function() {
-	console.log( api.error );
+
+jQuery( document ).on( 'ImgCollectApi-ERROR', function( _e, _data ) {
+	console.log( _data['error'] );
 });
 
 /**************************
  * Search event listeners
  **************************/
-/**
- * Mark the search results
- */
-jQuery( document ).on( 'ImgCollectSearch-SEARCH', function( _e, _data ) {
-	markSearch( _data['search'] );
-});
 
 /**
  * If search results are returned retrieve them!
@@ -93,24 +88,9 @@ jQuery( document ).on( 'ImgCollectSearch-SUCCESS', function() {
 	loaded = 0;
 	for ( var i=0; i<results.length; i++ ) {
 		var arr = results[i].split('.');
-		api.send( arr[0], 'full', { 'id': arr[1] }, 'ImgCollectSearch' );
+		api.get( arr[0], arr[1] );
 	}
 });
-
-/**
- * Mark the search.
- */
-function markSearch( _search ) {
-	jQuery( '#results' ).append( '\
-		<div class="row">\
-			<div class="columns small-12">\
-				<h2 class="search_string">\
-					<span class="smaller">search:</span> '+_search+'\
-				</h2>\
-			</div>\
-		</div>' 
-	);
-}
 
 /**
  * Resize
@@ -136,10 +116,10 @@ function uploadPop() {
 	jQuery( '#uploader' ).on( 'touchstart click', function( _e ) {
 		$('#myModal').foundation('reveal', 'open');
 	});
-	//$('#myModal').foundation('reveal', 'close');
 }
 
-/* Playing with update
+/* 
+>> Playing with update <<
 api.send( 'image', 'update', { id: 5, name: 'North American Desert' });
 api.send( 'image', 'add', { id: 5, keywords: 'desert' });
 */
