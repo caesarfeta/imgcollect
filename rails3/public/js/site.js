@@ -7,6 +7,14 @@ var loaded = 0;
 /**************************
  * Get ready...
  **************************/
+//------------------------------------------------------------
+//  Set Dropzone options
+//------------------------------------------------------------
+Dropzone.autoDiscover = false;
+Dropzone.options.dropzone = {
+	createImageThumbnails: false
+}
+
 jQuery( document ).on( 'ImgCollectConfig-READY', function() {
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();

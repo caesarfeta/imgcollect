@@ -9,6 +9,11 @@ ImgCollectUpload = function() {
  */
 ImgCollectUpload.prototype.start = function() {
 	var self = this;
+    var dropzone = new Dropzone(".dropzone");
+	dropzone.on("success", function( _e, _data ){
+		self.success( _data );
+	});
+	
 	//------------------------------------------------------------
 	//  A successful upload!
 	//------------------------------------------------------------
@@ -19,14 +24,7 @@ ImgCollectUpload.prototype.start = function() {
 		if ( _data['context'] != 'ImgCollectUpload' ) {
 			return;
 		}
-		//------------------------------------------------------------
-		//  Close the Reveal modal window
-		//------------------------------------------------------------
-		jQuery('.reveal-modal').trigger('reveal:close');
-		//------------------------------------------------------------
-		//  Load the uploaded images
-		//------------------------------------------------------------
-		self.latest( _data );
+		self.success( _data['data'] );
 	});
 	//------------------------------------------------------------
 	//  Listen for the enter key press
@@ -65,9 +63,9 @@ ImgCollectUpload.prototype.latest = function( _data ) {
 	//  Retrieve the new records
 	//------------------------------------------------------------
 	var urns = [];
-	for ( var i=0; i<_data['data'].length; i++ ) {
-		if ( _data['data'][i]['message'] == 'Success' ) {
-			urns.push( _data['data'][i]['urn'] );
+	for ( var i=0; i<_data.length; i++ ) {
+		if ( _data[i]['message'] == 'Success' ) {
+			urns.push( _data[i]['urn'] );
 		}
 	}
 	//------------------------------------------------------------
@@ -76,4 +74,19 @@ ImgCollectUpload.prototype.latest = function( _data ) {
 	for ( var i=0; i<urns.length; i++ ) {
 		self.api.get( 'image', urns[i].lastInt() );
 	}
+}
+
+/**
+ * File was uploaded
+ */
+ImgCollectUpload.prototype.success = function ( _data ) {
+	var self = this;
+	//------------------------------------------------------------
+	//  Close the Reveal modal window
+	//------------------------------------------------------------
+	jQuery('.reveal-modal').trigger('reveal:close');
+	//------------------------------------------------------------
+	//  Load the uploaded images
+	//------------------------------------------------------------
+	self.latest( _data );
 }
