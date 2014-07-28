@@ -9,6 +9,7 @@
 		<title>Search</title>
 	</head>
 	<body>
+		<!-- Results -->
 		<section id="results"></section>
 		<div class="clearfix"></div>
 		
@@ -16,14 +17,14 @@
 		<a href="#" data-reveal-id="myModal" id="uploader">
 			<img src="img/upload_file.svg" />
 		</a>
+		
+		<!-- Update modal-->
 		<div id="myModal" class="reveal-modal" data-reveal>
 			<div class="row">
-				
 				<!-- Drag and drop upload -->
 				<div id="uploader_dragdrop" class="columns small-6">
 					<form action="/image/upload" class="dropzone"></form>
 				</div>
-				
 				<!-- URL upload -->
 				<div id="uploader_url" class="columns small-6">
 					<form action="/image/upload">
@@ -31,7 +32,6 @@
 						<a href="" class="button secondary">Upload</a>
 					</form>
 				</div>
-				
 			</div>
 		</div>
 		

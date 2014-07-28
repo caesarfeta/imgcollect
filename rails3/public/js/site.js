@@ -15,6 +15,16 @@ Dropzone.options.dropzone = {
 	createImageThumbnails: false
 }
 
+//------------------------------------------------------------
+//  Get the config.
+//------------------------------------------------------------
+jQuery( document ).ready( function(){
+	new ImgCollectConfig();
+});
+
+//------------------------------------------------------------
+//  When the config is ready.
+//------------------------------------------------------------
 jQuery( document ).on( 'ImgCollectConfig-READY', function() {
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
@@ -23,8 +33,11 @@ jQuery( document ).on( 'ImgCollectConfig-READY', function() {
 	uploadPop();
 });
 
-jQuery( document ).ready( function(){
-	new ImgCollectConfig();
+//------------------------------------------------------------
+//  Whoop there's an error
+//------------------------------------------------------------
+jQuery( document ).on( 'ImgCollectConfig-ERROR', function() {
+	alert( 'Could not contact ImgCollect server.' );
 });
 
 jQuery( window ).resize( function(){
@@ -87,7 +100,6 @@ jQuery( document ).on( 'ImgCollectApi-ERROR', function( _e, _data ) {
 /**************************
  * Search event listeners
  **************************/
-
 /**
  * If search results are returned retrieve them!
  */
