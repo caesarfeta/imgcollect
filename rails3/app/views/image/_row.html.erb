@@ -9,7 +9,11 @@
 		<% if row_times.include?(key) %>
 		<%= readTime(val) %>
 		<% else %>
-		<%= val %>
+			<% if val.class == Array %>
+			<%= val.join(' ') %>
+			<% else %>
+			<%= val %>
+			<% end %>
 		<% end %>
 		</span>
 	</td>

@@ -194,15 +194,33 @@ a.edit img {
 }
 
 /* upload file icon */
-#uploader {
+#imgUploader,
+#collectionCreate {
 	padding:5px;
 	position:fixed;
+	background-color:#753A3A;
+}
+#imgUploader {
 	top:0;
 	right:0;
-	background-color:#333;
 }
-#uploader img {
-	width: 25px;
+#imgUploader img {
+	width:25px;
+}
+
+/* create collection icon */
+#collectionCreate {
+	top:0;
+	right:40px;
+}
+#collectionCreate img {
+	width:25px;
+}
+
+/* collection pop-up */
+#collectionModal input {
+	padding:10px;
+	width:100%;
 }
 
 /* dropzone drag and drop uploader */

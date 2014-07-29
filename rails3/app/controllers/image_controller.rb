@@ -48,7 +48,8 @@ class ImageController < ActionController::Base
   def update
     img = Image.new
     img.byId( params[:id] )
-    img.change( ControllerHelper.cleanParams( params ) )
+    vals = ControllerHelper.cleanParams( params )
+    img.change( vals )
     render :text => 'Success'
   end
   

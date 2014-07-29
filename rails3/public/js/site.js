@@ -137,8 +137,9 @@ function imageFullResize() {
  * Upload pop-up
  */
 function uploadPop() {
-	jQuery( '#uploader' ).on( 'touchstart click', function( _e ) {
-		jQuery('#myModal').foundation('reveal', 'open');
+	jQuery( '.modal' ).on( 'touchstart click', function( _e ) {
+		var selector = jQuery( this ).attr('data-reveal-id');
+		jQuery('#'+selector).foundation('reveal', 'open');
 	});
 }
 
@@ -146,7 +147,8 @@ function uploadPop() {
  * Upload hide
  */
 function uploadHide() {
-	jQuery('#myModal').foundation('reveal', 'close');
+	jQuery('#imageModal').foundation('reveal', 'close');
+	jQuery('#collectionModal').foundation('reveal', 'close');
 }
 
 /* 

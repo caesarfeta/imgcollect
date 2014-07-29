@@ -3,6 +3,8 @@
 ImgCollectSearch = function() {
 	this.build();
 }
+ImgCollectSearch.prototype.history = [];
+ImgCollectSearch.prototype.historyIndex = 0;
 ImgCollectSearch.prototype.events = {
 	success: 'ImgCollectSearch-SUCCESS',
 	error: 'ImgCollectSearch-ERROR',
@@ -32,9 +34,20 @@ ImgCollectSearch.prototype.build = function() {
 ImgCollectSearch.prototype.start = function() {
 	var self = this;
 	var input = jQuery( '#imgcollect_search #input' );
-	input.keyup( function( _e ) {
-		if ( _e.keyCode == 13 ) {
-			self.search( input.val() );
+	input.keydown( function( _e ) {
+		switch (_e.which) {
+			case 13: // Enter key
+				self.search( input.val() );
+				_e.preventDefault();
+				break;
+			case 38: // up key
+				self.navHistory('up');
+				_e.preventDefault();
+				break;
+			case 40: // down key
+				self.navHistory('down');
+				_e.preventDefault();
+				break;
 		}
 	});
 	jQuery( '#imgcollect_search #click').on( 'touchstart click', function( _e ) {
@@ -44,12 +57,44 @@ ImgCollectSearch.prototype.start = function() {
 }
 
 /**
+ * Browse navigation history
+ */
+ImgCollectSearch.prototype.navHistory = function( _dir ) {
+	switch( _dir ) {
+		case 'down':
+			this.historyIndex++;
+			this.historyIndex = ( this.historyIndex >= this.history.length ) ? this.history.length-1 : this.historyIndex;
+			break;
+		case 'up':
+			this.historyIndex--;
+			this.historyIndex = ( this.historyIndex < 0 ) ? 0 : this.historyIndex;
+			break;
+	}
+	var search = this.history[ this.historyIndex ];
+	var input = jQuery( '#imgcollect_search #input' );
+	input.focus();
+	input.val( search );
+}
+
+/**
+ * Update history
+ */
+ImgCollectSearch.prototype.historyUpdate = function( _search ) {
+	this.history.push( _search );
+	this.historyIndex = this.history.length-1;
+}
+
+/**
  * Query the SPARQL endpoint
  * 
  * @param { string } The search command as entered in the input field
  */
 ImgCollectSearch.prototype.search = function( _search ) {
 	var self = this;
+	//------------------------------------------------------------
+	//  Update the history
+	//------------------------------------------------------------
+	self.historyUpdate( _search );
 	//------------------------------------------------------------
 	//  Mark the search
 	//------------------------------------------------------------
