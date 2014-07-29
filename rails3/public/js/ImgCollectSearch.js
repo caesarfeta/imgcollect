@@ -1,6 +1,7 @@
 /* require jslib/src/js/StringExt.js */
 
 ImgCollectSearch = function() {
+	this.utils = new ImgCollectUtils();
 	this.build();
 }
 ImgCollectSearch.prototype.history = [];
@@ -45,7 +46,7 @@ ImgCollectSearch.prototype.start = function() {
 				_e.preventDefault();
 				break;
 			case 40: // down key
-				self.navHistory('down');
+				self.navHistory('down'); 
 				_e.preventDefault();
 				break;
 		}
@@ -98,7 +99,7 @@ ImgCollectSearch.prototype.search = function( _search ) {
 	//------------------------------------------------------------
 	//  Mark the search
 	//------------------------------------------------------------
-	self.mark( _search );
+	self.utils.mark( 'search', _search );
 	//------------------------------------------------------------
 	//  Do a bit of validation.  
 	//  There should be three distinct groups.
@@ -227,19 +228,4 @@ ImgCollectSearch.prototype.modelSlack = function( _model ) {
 			jQuery( document ).trigger( this.events['error'] );
 			return;
 	}
-}
-
-/**
- * Mark the search.
- */
-ImgCollectSearch.prototype.mark = function( _search ) {
-	jQuery( '#results' ).append( '\
-		<div class="row">\
-			<div class="columns small-12">\
-				<h2 class="search_string">\
-					<span class="smaller">search:</span> '+_search+'\
-				</h2>\
-			</div>\
-		</div>' 
-	);
 }

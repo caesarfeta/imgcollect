@@ -1,6 +1,7 @@
 ImgCollectUpload = function() {
 	this.api = new ImgCollectApi();
 	this.input = '#uploader_url input';
+	this.utils = new ImgCollectUtils();
 	this.start();
 }
 
@@ -68,6 +69,10 @@ ImgCollectUpload.prototype.latest = function( _data ) {
 			urns.push( _data[i]['urn'] );
 		}
 	}
+	//------------------------------------------------------------
+	//  Mark the upload
+	//------------------------------------------------------------
+	self.utils.mark( 'upload', urns.join(',').escapeHtml().smoosh() );
 	//------------------------------------------------------------
 	//  Loop through the urns and download 'em!
 	//------------------------------------------------------------

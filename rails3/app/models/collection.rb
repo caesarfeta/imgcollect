@@ -5,7 +5,7 @@ class Collection < SparqlModel
     @endpoint =  Rails.configuration.sparql_endpoint
     @attributes = {
       :name => [ "this:name", ::String, SINGLE, REQUIRED, UNIQUE, KEY ],
-      :nickname => [ "this:nickname", ::String, SINGLE, REQUIRED ],
+      :cite_urn => [ "this:cite_urn", ::String, SINGLE, REQUIRED ],
       :keywords => [ "this:keywords", ::String, MULTI ],
       :images => [ "this:images", ::String, MULTI ],
       :subcollections => [ "this:subcollections", ::String, MULTI ]

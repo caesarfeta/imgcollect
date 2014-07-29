@@ -18,7 +18,7 @@ class CollectionController < ActionController::Base
     collection = Collection.new
     collection.create({
       :name => params[ :name ],
-      :nickname => params[ :nickname ]
+      :cite_urn => params[ :cite_urn ]
     });
     #-------------------------------------------------------------
     #  Output
