@@ -23,7 +23,7 @@ class CollectionController < ActionController::Base
     #-------------------------------------------------------------
     #  Output
     #-------------------------------------------------------------
-    #render :text => "#{ collection.name } : #{ collection.nickname } has been created successfully"
+    render :json => { :message => "Success", :collection => collection.all }
   end
   
   #  Add an image to a collection

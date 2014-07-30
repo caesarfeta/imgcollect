@@ -4,10 +4,10 @@ ImgCollectApi = function() {
 	/**
 	 *  There should be only one API object.
 	 */ 
-	if ( ImgCollectApi.prototype._singleton ) {
-		return ImgCollectApi.prototype._singleton;
+	if ( ImgCollectApi.prototype._me ) {
+		return ImgCollectApi.prototype._me;
 	}
-	ImgCollectApi.prototype._singleton = this;
+	ImgCollectApi.prototype._me = this;
 	
 	/**
 	 * Events
@@ -44,6 +44,9 @@ ImgCollectApi = function() {
 		'collection/full': {
 			method: 'GET',
 			pathVars: [ 'id' ]
+		},
+		'collection/create': {
+			method: 'POST'
 		}
 	};
 	

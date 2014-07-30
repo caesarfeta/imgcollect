@@ -72,7 +72,7 @@ ImgCollectUpload.prototype.latest = function( _data ) {
 	//------------------------------------------------------------
 	//  Mark the upload
 	//------------------------------------------------------------
-	self.utils.mark( 'upload', urns.join(',').escapeHtml().smoosh() );
+	self.utils.mark( 'uploaded', urns.join(',').escapeHtml().smoosh() );
 	//------------------------------------------------------------
 	//  Loop through the urns and download 'em!
 	//------------------------------------------------------------

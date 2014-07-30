@@ -30,6 +30,7 @@ jQuery( document ).on( 'ImgCollectConfig-READY', function() {
 	api = new ImgCollectApi();
 	input = new ImgCollectInput();
 	new ImgCollectUpload();
+	new ImgCollectCol();
 	uploadPop();
 });
 
