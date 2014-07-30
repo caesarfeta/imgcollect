@@ -125,8 +125,9 @@ ImgCollectApi = function() {
 	 * @param { String }  The model
 	 * @param { Integer } The id
 	 */
-	this.get = function( _model, _id ) {
-		this.send( _model, 'full', { 'id': _id }, 'LoadFull' );
+	this.get = function( _model, _id, _context ) {
+		_context = ( _context == undefined ) ? 'LoadFull' : _context;
+		this.send( _model, 'full', { 'id': _id }, _context );
 	};
 };
 } ( window ) );

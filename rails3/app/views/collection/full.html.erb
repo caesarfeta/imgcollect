@@ -1,7 +1,6 @@
 <div class="row collection-box">
-	
 	<%# IMAGES %>
-	<div class="columns small-12 medium-6 samples">
+	<div class="columns small-12 medium-4 samples">
 		<% if @col.has_key?(:images) %>
 			<% @col[:images].each do |image| %>
 			<div><%= image %></div>
@@ -11,10 +10,11 @@
 	</div>
 	
 	<%# METADATA %>
-	<div class="columns small-12 medium-6 metadata">
+	<div class="columns small-8 medium-6 metadata">
 		
 		<%# NAME %>
-		<h2 class="name"><%= @col[:name] %></h2><img class="check" src="/img/check.png" />
+		<h2 class="name"><%= @col[:name] %></h2>
+		<div class="cite_urn"><%= @col[:cite_urn] %></div>
 		<div class="clearfix"></div>
 		
 		<%# COUNTS %>
@@ -41,5 +41,10 @@
 			<h3 class="date"><%= readTime(@col[:created]) %></h3>
 		</div>
 		
+	</div>
+	
+	<%# ACTIVATE %>
+	<div class="columns small-4 medium-2">
+		<a data-urn="<%= @col[:urn] %>" class="button secondary tiny dark activate">Activate</a>
 	</div>
 </div>

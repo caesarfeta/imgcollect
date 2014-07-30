@@ -1,24 +1,25 @@
 class CollectionController < ActionController::Base
 
-  #-------------------------------------------------------------
-  #                          POSTS
-  #-------------------------------------------------------------
   #  Create a new collection
   def create
     #-------------------------------------------------------------
     #  If no form has been submitted
     #-------------------------------------------------------------
     if request.post? == false
-      render :file => 'app/views/collection/create.haml'
+      render :json => { :message => "Error" }
       return
     end
+    #-------------------------------------------------------------
+    #  Clean up the parameters
+    #-------------------------------------------------------------
+    vals = ControllerHelper.cleanParams( params )
     #-------------------------------------------------------------
     #  Build a new collection
     #-------------------------------------------------------------
     collection = Collection.new
     collection.create({
-      :name => params[ :name ],
-      :cite_urn => params[ :cite_urn ]
+      :name => vals[ :name ],
+      :cite_urn => vals[ :cite_urn ]
     });
     #-------------------------------------------------------------
     #  Output

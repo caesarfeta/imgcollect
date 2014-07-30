@@ -29,8 +29,8 @@ jQuery( document ).on( 'ImgCollectConfig-READY', function() {
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
 	input = new ImgCollectInput();
+	col = new ImgCollectCol();
 	new ImgCollectUpload();
-	new ImgCollectCol();
 	uploadPop();
 });
 
@@ -68,6 +68,7 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	//  Create an input listener
 	//------------------------------------------------------------
 	input.start( data );
+	col.activate( data );
 	loaded++;
 	//------------------------------------------------------------
 	//  When all the results and images are loaded...
