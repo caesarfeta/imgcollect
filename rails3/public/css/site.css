@@ -37,11 +37,11 @@ div {
 	background-color:#3D3D3D;
 	color: #FF9999;
 }
-.button.active {
+.button.dark.active {
 	color:#2D2D2D;
 	background-color: #FF8888;
 }
-.button.active:hover {
+.button.dark.active:hover {
 	color:#2D2D2D;
 	background-color: #FF9999;
 }
@@ -256,6 +256,29 @@ a.edit img {
 }
 #results .row {
 	max-width:87.5em;
+}
+
+/* active collection */
+#activeDock {
+	font-size:.9em;
+	position: fixed;
+	top:0;
+	left:10px;
+	background-color: #FF8888;
+	padding:5px;
+}
+#activeDock div,
+#activeDock h1,
+#activeDock h2,
+#activeDock h3,
+#activeDock h4 {
+	padding:0;
+	margin:0;
+	color:#2D2D2D;
+}
+#activeDock .item {
+	float:left;
+	margin:5px;
 }
 
 /* smaller */

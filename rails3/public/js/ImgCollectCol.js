@@ -41,13 +41,32 @@ ImgCollectCol.prototype.activate = function( _elem ) {
 		jQuery( '.button.activate', _elem ).on( 'touchstart click', function( _e ) {
 			jQuery( '.collection-box .button.activate' ).removeClass( 'active' );
 			jQuery( this ).addClass( 'active' );
-			var urn = jQuery( this ).attr( 'data-urn' );
-			self.dockActive( urn );
+			self.dockActive( jQuery( _elem ) );
 		});
 	}
 }
 
-ImgCollectCol.prototype.dockActive = function( _urn ) {
+/**
+ * Dock the active collection.
+ */
+ImgCollectCol.prototype.dockActive = function( _elem ) {
+	var urn = jQuery( _elem ).attr( 'data-urn' );
 	jQuery('#activeDock').remove();
+	jQuery('body').append('\
+		<div id="activeDock" data-urn="'+urn+'">\
+			<div class="row">\
+				<div class="column small-12">\
+					<div class="name">Collection</div>\
+					<div class="cite_urn">urn:cite:perseus:collectionection</div>\
+				</div>\
+			</div>\
+			<div class="row">\
+				<div class="column small-12">\
+					<div class="smaller item images"><span class="amount">0</span> images</div>\
+					<div class="smaller item subcollections"><span class="amount">0</span> subcollections</div>\
+				</div>\
+			</div>\
+		</div>\
+	');
 }
 
