@@ -41,6 +41,10 @@ ImgCollectApi = function() {
 			method: 'GET',
 			pathVars: [ 'id' ]
 		},
+		'collection/dock': {
+			method: 'GET',
+			pathVars: ['id']
+		},
 		'collection/full': {
 			method: 'GET',
 			pathVars: [ 'id' ]

@@ -18,6 +18,7 @@ class ImageController < ActionController::Base
     send_file file, :disposition => 'inline'
   end
   
+  # Get the error image
   def errorImg
     File.join( Rails.configuration.public_dir, 'img', 'img_not_found.png' )
   end
@@ -43,7 +44,6 @@ class ImageController < ActionController::Base
     render :text => 'Success'
   end
   
-
   # Update image metadata
   def update
     img = Image.new

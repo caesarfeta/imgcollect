@@ -30,7 +30,7 @@ class CollectionController < ActionController::Base
   #  Add an image to a collection
   def add_image
     if request.post? == false
-      render :file => 'app/views/collection/add_image.haml'
+      render :json => { :message => "Error" }
       return
     end
     #-------------------------------------------------------------
@@ -41,13 +41,13 @@ class CollectionController < ActionController::Base
     image = Image.new()
     image.byId( params[ :image_id ] )
     collection.add( :images, image.urn )
-    render :text => "Collection #{ collection.urn }, Image #{ image.urn }"
+    render :json => { :message => "Success", :collection => collection.all }
   end
   
   #  Add a subcollection
   def add_collection
     if request.post? == false
-      render :file => 'app/views/collection/add_collection.haml'
+      render :json => { :message => "Error" }
       return
     end
     #-------------------------------------------------------------
@@ -58,35 +58,28 @@ class CollectionController < ActionController::Base
     subcollection = Collection.new()
     subcollection.byId( params[ :subcollection_id ] )
     collection.add( :subcollections, subcollection.urn )
-    render :text => "Collection #{ collection.urn }, Subcollection #{ subcollection.urn }"
-  end
-  
-  #  Add a keyword to a collection
-  def add_keyword
-    if request.post? == false
-      render :file => 'app/views/collection/add_keyword.haml'
-      return
-    end
-    #-------------------------------------------------------------
-    #  Add a keyword to a collection
-    #-------------------------------------------------------------
-    collection = Collection.new()
-    collection.byId( params[ :collection_id ] )
-    keyword = params[ :keyword ]
-    collection.add( :keywords, keyword )
-    render :text => "Collection #{ collection.urn }, Keyword #{ keyword }"
+    render :json => { :message => "Success", :collection => collection.all }
   end
   
   #-------------------------------------------------------------
   #                         GETS
   #-------------------------------------------------------------
   
-  # Get a full collection report
+  # Get a full collection
   def full
     col = Collection.new
     col.byId( params[:id] )
     @col = col.all
     render 'collection/full'
+  end
+
+  # Get a collection dock  
+  def dock
+    col = Collection.new
+    puts params[:id]
+    col.byId( params[:id] )
+    @col = col.all
+    render 'collection/dock'
   end
   
   #  Get all images belonging to a collection

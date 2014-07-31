@@ -13,10 +13,21 @@ ImgCollectCol.prototype.start = function() {
 	//  Collection has been created... get it.
 	//------------------------------------------------------------
 	jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
-		if ( _data['context'] != 'ImgCollectCol' ) {
-			return;
+		switch ( _data['context'] ) {
+			//------------------------------------------------------------
+			//  After creating a new collection
+			//------------------------------------------------------------
+			case 'ImgCollectCol-CREATE':
+				self.api.get( 'collection', _data['data']['collection']['urn'].lastInt() );
+				break;
+			//------------------------------------------------------------
+			//  Dock a collection
+			//------------------------------------------------------------
+			case 'ImgCollectCol-DOCK':
+				jQuery('#activeDock').remove();
+				jQuery('body').append( _data['data'] );
+				break;
 		}
-		self.api.get( 'collection', _data['data']['collection']['urn'].lastInt() );
 	});
 	//------------------------------------------------------------
 	//  Click the Create button?
@@ -26,7 +37,7 @@ ImgCollectCol.prototype.start = function() {
 		var data = {};
 		data['name'] = jQuery( '#collectionName' ).val();
 		data['cite_urn'] = jQuery( '#collectionURN' ).val();
-		self.api.send( 'collection', 'create', data, 'ImgCollectCol')
+		self.api.send( 'collection', 'create', data, 'ImgCollectCol-CREATE')
 	})
 }
 
@@ -41,7 +52,7 @@ ImgCollectCol.prototype.activate = function( _elem ) {
 		jQuery( '.button.activate', _elem ).on( 'touchstart click', function( _e ) {
 			jQuery( '.collection-box .button.activate' ).removeClass( 'active' );
 			jQuery( this ).addClass( 'active' );
-			self.dockActive( jQuery( _elem ) );
+			self.dock( jQuery( this ) );
 		});
 	}
 }
@@ -49,24 +60,8 @@ ImgCollectCol.prototype.activate = function( _elem ) {
 /**
  * Dock the active collection.
  */
-ImgCollectCol.prototype.dockActive = function( _elem ) {
+ImgCollectCol.prototype.dock = function( _elem ) {
 	var urn = jQuery( _elem ).attr( 'data-urn' );
-	jQuery('#activeDock').remove();
-	jQuery('body').append('\
-		<div id="activeDock" data-urn="'+urn+'">\
-			<div class="row">\
-				<div class="column small-12">\
-					<div class="name">Collection</div>\
-					<div class="cite_urn">urn:cite:perseus:collectionection</div>\
-				</div>\
-			</div>\
-			<div class="row">\
-				<div class="column small-12">\
-					<div class="smaller item images"><span class="amount">0</span> images</div>\
-					<div class="smaller item subcollections"><span class="amount">0</span> subcollections</div>\
-				</div>\
-			</div>\
-		</div>\
-	');
+	self.api.send( 'collection', 'dock', { 'id': urn.lastInt() }, 'ImgCollectCol-DOCK')
 }
 

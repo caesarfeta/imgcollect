@@ -1,0 +1,18 @@
+<div id="activeDock" data-urn="<%= @col[:urn] %>">
+	<div class="row">
+		<div class="column small-12">
+			<div class="name"><%= @col[:name] %></div>
+			<div class="cite_urn"><%= @col[:cite_urn] %></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="column small-12">
+			<div class="smaller item images">
+				<span class="n"><%= count(@col[:images]) %></span> images
+			</div>
+			<div class="smaller item subcollections">
+				<span class="n"><%= count(@col[:subcollections]) %></span> subcollections
+			</div>
+		</div>
+	</div>
+</div>
