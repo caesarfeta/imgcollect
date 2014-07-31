@@ -9,11 +9,11 @@
 <%# now begins the markup %>
 <div class="row">
 	<div data-urn="<%= @img[:urn] %>" class="columns small-12 image-full">
+		<%# image preview %>
 		<div class="row collapse">
 			<div class="columns small-12 medium-6">
 				<div class="display">
 					<img src="<%= imgSrc(@img[:basic]) %>" />
-					
 					<%# different image sizes %>
 					<div class="size">
 						<% img_keys.each do |key| %>
@@ -25,32 +25,30 @@
 					<div class="clearfix"></div>
 				</div>
 			</div>
-			
 			<div class="columns small-12 medium-6">
+				<%# image metadata %>
 				<div class="metadata">
+					<a href="" class="tiny add button dark active">Add</a>
+					<div class="clearfix"></div>
 					<%# creation and edit times %>
 					<div class="times">
 						<% top_times.each do |key| %>
 						<%= render "shared/timestamp", :locals => { :time => @img[key], :label => key.to_s.capitalize } %>
 						<% end %>
 					</div>
-					
 					<%# values table %>
 					<div class="values">
 						<table>
-							
 							<%# first values %>
 							<% first.each do |key| %>
 								<%= render "image/row", :locals => { :key => key, :val => @img[key], :editable => editable, :row_times => row_times } %>
 							<% end %>
-							
 							<%# all the other values %>
 							<% @img.sort.map do |key,val| %>
 							<% if ignore.include?(key) == false %>
 								<%= render "image/row", :locals => { :key => key, :val => val, :editable => editable, :row_times => row_times } %>
 							<% end %>
 							<% end %>
-							
 						</table>
 					</div>
 				</div>

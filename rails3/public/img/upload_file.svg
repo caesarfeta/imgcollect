@@ -5,10 +5,10 @@
 	 width="127px" height="163px" viewBox="0 0 127 163" enable-background="new 0 0 127 163" xml:space="preserve">
 <g>
 	<g>
-		<path fill="#999999" d="M127,163H0V0h78.907L127,42.943V163z M10,153h107V47.421L75.093,10H10V153z"/>
+		<path fill="#FF9999" d="M127,163H0V0h78.907L127,42.943V163z M10,153h107V47.421L75.093,10H10V153z"/>
 	</g>
 	<g>
-		<polygon fill="#999999" points="122,53 72,53 72,5 78,5 78,47 122,47 		"/>
+		<polygon fill="#FF9999" points="122,53 72,53 72,5 78,5 78,47 122,47 		"/>
 	</g>
 </g>
 </svg>

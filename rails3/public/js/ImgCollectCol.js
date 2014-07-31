@@ -24,8 +24,7 @@ ImgCollectCol.prototype.start = function() {
 			//  Dock a collection
 			//------------------------------------------------------------
 			case 'ImgCollectCol-DOCK':
-				jQuery('#activeDock').remove();
-				jQuery('body').append( _data['data'] );
+				self.buildDock( _data );
 				break;
 		}
 	});
@@ -42,7 +41,7 @@ ImgCollectCol.prototype.start = function() {
 }
 
 /**
- * "Activate" the collection-box activate button.
+ * "Activate" the collection activate button.
  *
  * @param { Dom } _elem
  */
@@ -51,17 +50,46 @@ ImgCollectCol.prototype.activate = function( _elem ) {
 	if ( _elem.hasClass('collection-box') ) {
 		jQuery( '.button.activate', _elem ).on( 'touchstart click', function( _e ) {
 			jQuery( '.collection-box .button.activate' ).removeClass( 'active' );
+			var urn = jQuery( this ).attr( 'data-urn' );
+			var dock_urn = jQuery( '#activeDock' ).attr( 'data-urn' );
+			if ( dock_urn != undefined && dock_urn == urn ) {
+				self.deactivate();
+				return;
+			}
 			jQuery( this ).addClass( 'active' );
-			self.dock( jQuery( this ) );
+			self.dock( urn );
 		});
 	}
 }
 
 /**
+ * "Deactivate" the collection
+ */
+ImgCollectCol.prototype.deactivate = function() {
+	jQuery( '#activeDock').remove();
+	jQuery( '.collection-box .button.activate.active' ).removeClass( 'active' );
+}
+
+/**
  * Dock the active collection.
  */
-ImgCollectCol.prototype.dock = function( _elem ) {
-	var urn = jQuery( _elem ).attr( 'data-urn' );
-	self.api.send( 'collection', 'dock', { 'id': urn.lastInt() }, 'ImgCollectCol-DOCK')
+ImgCollectCol.prototype.dock = function( _urn ) {
+	self.api.send( 'collection', 'dock', { 'id': _urn.lastInt() }, 'ImgCollectCol-DOCK' );
+}
+
+/**
+ * Build the dock
+ */
+ImgCollectCol.prototype.buildDock = function( _data ) {
+	var self = this;
+	jQuery( '#activeDock' ).remove();
+	jQuery( 'body' ).append( _data['data'] );
+	//------------------------------------------------------------
+	//  Start 
+	//------------------------------------------------------------
+	jQuery( '#activeDock .close' ).on( 'touchstart click', function( _e ) {
+		_e.preventDefault();
+		self.deactivate();
+	});
 }
 

@@ -41,10 +41,6 @@ jQuery( document ).on( 'ImgCollectConfig-ERROR', function() {
 	alert( 'Could not contact ImgCollect server.' );
 });
 
-jQuery( window ).resize( function(){
-	imageFullResize();
-});
-
 /**************************
  * API event listeners
  **************************/
@@ -63,7 +59,7 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	//  Append the search results data
 	//------------------------------------------------------------
 	var data = jQuery( _data['data'] );
-	jQuery('#results').append( data );
+	jQuery( '#results' ).append( data );
 	//------------------------------------------------------------
 	//  Create an input listener
 	//------------------------------------------------------------
@@ -71,26 +67,32 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	col.activate( data );
 	loaded++;
 	//------------------------------------------------------------
-	//  When all the results and images are loaded...
+	//  When all the search results are loaded...
 	//------------------------------------------------------------
 	if ( loaded == wait ) {
 		var imageloads = [];
-		jQuery('#results').find("img").each(function () {
+		jQuery( '#results' ).find( 'img' ).each(function () {
 			var dfd = jQuery.Deferred();
-				jQuery(this).on('load', function () {
+				jQuery( this ).on( 'load', function () {
 				    dfd.resolve();
 				});
 				//------------------------------------------------------------
-				// Is image  cached?
+				// Is image cached?
 				//------------------------------------------------------------
 				if ( this.complete ) {
-				    jQuery( this ).trigger('load');
+				    jQuery( this ).trigger( 'load' );
 				}
-				imageloads.push(dfd);
+				imageloads.push( dfd );
 		});
-	    jQuery.when.apply(undefined, imageloads).done( function () {
-			imageFullResize();
-			jQuery.scrollToBottom(.5);
+		//------------------------------------------------------------
+		//  Scroll to the bottom
+		//------------------------------------------------------------
+		jQuery.scrollToBottom( .5 );
+		//------------------------------------------------------------
+		//  Scroll to bottom again after all the images load
+		//------------------------------------------------------------
+	    jQuery.when.apply( undefined, imageloads ).done( function () {
+			jQuery.scrollToBottom( .5 );
 		});
 	}
 });
@@ -119,29 +121,12 @@ jQuery( document ).on( 'ImgCollectSearch-SUCCESS', function() {
 });
 
 /**
- * Resize
- */
-function imageFullResize() {
-	jQuery( '.image-full' ).each( function(){
-		//------------------------------------------------------------
-		//  Set the height
-		//------------------------------------------------------------
-		var height = jQuery( '.display', this ).height();
-		height = ( height < 300 ) ? 300 : height;
-		jQuery( this ).height( height );
-		jQuery( '.metadata', this ).css({
-			'height': height
-		});
-	});
-}
-
-/**
  * Upload pop-up
  */
 function uploadPop() {
 	jQuery( '.modal' ).on( 'touchstart click', function( _e ) {
-		var selector = jQuery( this ).attr('data-reveal-id');
-		jQuery('#'+selector).foundation('reveal', 'open');
+		var selector = jQuery( this ).attr( 'data-reveal-id' );
+		jQuery( '#'+selector ).foundation( 'reveal', 'open' );
 	});
 }
 
@@ -149,12 +134,6 @@ function uploadPop() {
  * Upload hide
  */
 function uploadHide() {
-	jQuery('#imageModal').foundation('reveal', 'close');
-	jQuery('#collectionModal').foundation('reveal', 'close');
+	jQuery( '#imageModal' ).foundation( 'reveal', 'close' );
+	jQuery( '#collectionModal' ).foundation( 'reveal', 'close' );
 }
-
-/* 
->> Playing with update <<
-api.send( 'image', 'update', { id: 5, name: 'North American Desert' });
-api.send( 'image', 'add', { id: 5, keywords: 'desert' });
-*/

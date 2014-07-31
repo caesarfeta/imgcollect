@@ -207,11 +207,10 @@ a.edit img {
 #collectionCreate {
 	padding:5px;
 	position:fixed;
-	background-color:#753A3A;
 }
 #imgUploader {
 	top:0;
-	right:0;
+	right:20px;
 }
 #imgUploader img {
 	width:25px;
@@ -220,7 +219,7 @@ a.edit img {
 /* create collection icon */
 #collectionCreate {
 	top:0;
-	right:40px;
+	right:60px;
 }
 #collectionCreate img {
 	width:25px;
@@ -276,9 +275,20 @@ a.edit img {
 	margin:0;
 	color:#2D2D2D;
 }
+#activeDock .name {
+	float:left;
+	margin:0 5px 0 0;
+}
 #activeDock .item {
 	float:left;
 	margin:5px;
+}
+#activeDock .close {
+	margin: 0 0 0 15px;
+	font-size: .75em;
+	vertical-align:text-top;
+	float:right;
+	color:#2D2D2D;
 }
 
 /* smaller */
