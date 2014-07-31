@@ -5,10 +5,24 @@ ImgCollectCol = function() {
 }
 
 /**
- * Start the create collection button.
+ * Start collection event handlers
  */
 ImgCollectCol.prototype.start = function() {
 	var self = this;
+	//------------------------------------------------------------
+	//  When image previews are loaded
+	//------------------------------------------------------------
+	jQuery( document ).on( 'ImgsLoaded-START', function( _e ) {
+		jQuery( '.image-full .button.new' ).each( function() {
+			jQuery( this ).removeClass( 'new' );
+			jQuery( this ).on( 'touchstart click', function( _e ) {
+				_e.preventDefault();
+			
+				console.log( 'done it' );
+			});
+		});
+	})
+	
 	//------------------------------------------------------------
 	//  Collection has been created... get it.
 	//------------------------------------------------------------
@@ -28,6 +42,7 @@ ImgCollectCol.prototype.start = function() {
 				break;
 		}
 	});
+	
 	//------------------------------------------------------------
 	//  Click the Create button?
 	//------------------------------------------------------------

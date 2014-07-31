@@ -41,6 +41,10 @@ jQuery( document ).on( 'ImgCollectConfig-ERROR', function() {
 	alert( 'Could not contact ImgCollect server.' );
 });
 
+jQuery( document ).on( 'ImgCollectApi-ERROR', function( _e, _data ) {
+	console.log( _data['error'] );
+});
+
 /**************************
  * API event listeners
  **************************/
@@ -85,20 +89,13 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 				imageloads.push( dfd );
 		});
 		//------------------------------------------------------------
-		//  Scroll to the bottom
-		//------------------------------------------------------------
-		jQuery.scrollToBottom( .5 );
-		//------------------------------------------------------------
 		//  Scroll to bottom again after all the images load
 		//------------------------------------------------------------
 	    jQuery.when.apply( undefined, imageloads ).done( function () {
+			jQuery( document ).trigger( 'ImgsLoaded-START' );
 			jQuery.scrollToBottom( .5 );
 		});
 	}
-});
-
-jQuery( document ).on( 'ImgCollectApi-ERROR', function( _e, _data ) {
-	console.log( _data['error'] );
 });
 
 /**************************
