@@ -93,7 +93,6 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 		//------------------------------------------------------------
 	    jQuery.when.apply( undefined, imageloads ).done( function () {
 			jQuery( document ).trigger( 'ImgsLoaded-START' );
-			jQuery.scrollToBottom( .5 );
 		});
 	}
 });

@@ -9,6 +9,7 @@ ImgCollectCol = function() {
  */
 ImgCollectCol.prototype.start = function() {
 	var self = this;
+	
 	//------------------------------------------------------------
 	//  When image previews are loaded
 	//------------------------------------------------------------
@@ -17,11 +18,14 @@ ImgCollectCol.prototype.start = function() {
 			jQuery( this ).removeClass( 'new' );
 			jQuery( this ).on( 'touchstart click', function( _e ) {
 				_e.preventDefault();
-			
-				console.log( 'done it' );
+				var img_urn = jQuery( this ).parents( '.image-full' ).attr( 'data-urn' );
+				var col_urn = jQuery( '#activeDock' ).attr( 'data-urn' );
+				var img_id = img_urn.lastInt();
+				var col_id = col_urn.lastInt();
+				self.api.send( 'collection', 'add/image', { collection_id: col_id, image_id: img_id }, 'ImgCollectCol-ADDIMG' );
 			});
 		});
-	})
+	});
 	
 	//------------------------------------------------------------
 	//  Collection has been created... get it.
@@ -40,6 +44,12 @@ ImgCollectCol.prototype.start = function() {
 			case 'ImgCollectCol-DOCK':
 				self.buildDock( _data );
 				break;
+			//------------------------------------------------------------
+			//  After adding an image to a collection
+			//------------------------------------------------------------
+			case 'ImgCollectCol-ADDIMG':
+				self.dock( _data['data']['collection']['urn'] );
+				break;
 		}
 	});
 	
@@ -52,7 +62,7 @@ ImgCollectCol.prototype.start = function() {
 		data['name'] = jQuery( '#collectionName' ).val();
 		data['cite_urn'] = jQuery( '#collectionURN' ).val();
 		self.api.send( 'collection', 'create', data, 'ImgCollectCol-CREATE')
-	})
+	});
 }
 
 /**
@@ -83,12 +93,14 @@ ImgCollectCol.prototype.activate = function( _elem ) {
 ImgCollectCol.prototype.deactivate = function() {
 	jQuery( '#activeDock').remove();
 	jQuery( '.collection-box .button.activate.active' ).removeClass( 'active' );
+	jQuery( '#results' ).removeClass( 'active' );
 }
 
 /**
  * Dock the active collection.
  */
 ImgCollectCol.prototype.dock = function( _urn ) {
+	var self = this;
 	self.api.send( 'collection', 'dock', { 'id': _urn.lastInt() }, 'ImgCollectCol-DOCK' );
 }
 
@@ -106,5 +118,6 @@ ImgCollectCol.prototype.buildDock = function( _data ) {
 		_e.preventDefault();
 		self.deactivate();
 	});
+	jQuery( '#results' ).addClass( 'active' );
 }
 

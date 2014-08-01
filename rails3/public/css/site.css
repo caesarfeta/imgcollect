@@ -64,7 +64,6 @@ a.edit img {
 .collection-box .metadata {
 	padding:5px 10px;
 	background-color:#333;
-	margin-right:20px;
 }
 .collection-box .person,
 .collection-box .date {
@@ -286,7 +285,7 @@ a.edit img {
 }
 #activeDock .close {
 	margin: 0 0 0 15px;
-	font-size: .75em;
+	font-size:.75em;
 	vertical-align:text-top;
 	float:right;
 	color:#2D2D2D;
@@ -301,5 +300,11 @@ a.edit img {
 }
 .time_of_day {
 	margin-right:30px;
-	color: #444;
+	color:#444;
+}
+#results .image-full .metadata a {
+	display:none;
+}
+#results.active .image-full .metadata a {
+	display:inline-block;
 }

@@ -24,6 +24,13 @@ module ViewHelper
     _url
   end
   
+  # Generate image previews
+  # 
+  # _urns { Array }
+  def imgPreviews( _urns )
+    puts _urns
+  end
+  
   # Turn a key into a label
   # 
   # _text { String, ??? } The key

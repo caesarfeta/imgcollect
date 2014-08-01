@@ -21,5 +21,6 @@ function ImgCollectUtils() {
 				</div>\
 			</div>' 
 		);
+		jQuery.scrollToBottom( .5 );
 	}
 }
