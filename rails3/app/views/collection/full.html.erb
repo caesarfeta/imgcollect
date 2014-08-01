@@ -2,8 +2,9 @@
 	<%# IMAGES %>
 	<div class="columns small-12 medium-4 samples">
 		<% if @col.has_key?(:images) %>
-			<% @col[:images].each do |image| %>
-			<div><%= image %></div>
+			<% imgs = imgPreviews( @col[:images] ) %>
+			<% imgs.each do | img | %>
+			<img src="<%= img %>" />
 			<% end %>
 		<% end %>
 		<div class="clearfix"></div>

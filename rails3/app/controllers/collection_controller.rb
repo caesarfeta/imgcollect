@@ -128,12 +128,3 @@ class CollectionController < ActionController::Base
   end
 
 end
-
-#  This is an ignorance hack.
-#  TODO: Find a home for this that isn't here.
-class String
-  # Check to see if we're looking at an integer in string's clothing
-  def is_i?
-     !!( self =~ /\A[-+]?[0-9]+\z/ )
-  end
-end

@@ -28,7 +28,13 @@ module ViewHelper
   # 
   # _urns { Array }
   def imgPreviews( _urns )
-    puts _urns
+    this = []
+    _urns.each do | urn |
+      image = Image.new()
+      image.byId( urn.just_i )
+      this.push( imgSrc( image.thumb ) )
+    end
+    this
   end
   
   # Turn a key into a label
