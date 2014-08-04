@@ -186,9 +186,7 @@ UploadUtils.upload( "/usr/local/imgcollect/rails3/test/fixtures/collection_image
 
 ### Exif Testing
 ImgMeta.exif( "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG" )
-
 ImgMeta.xmp( "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG" )
-
 ImgMeta.triples( "<urn:imgcollect:img.3>", "/usr/local/imgcollect/rails3/test/fixtures/collection_images/desert1.JPG" )
 
 ### Sparql Queries
@@ -306,9 +304,13 @@ Run a single test.
 # Load Test Data
 
 	cd /usr/local/imgcollect/rails3
-	rails console
+	rails console development
+	ApplicationHelper.wipeout
 	ApplicationHelper.loadtest
 
 
 
 # How do I make data in fuseki persistent across restarts?
+# How do I secure fuseki?
+
+http://www.epimorphics.com/web/wiki/simple-security-fuseki

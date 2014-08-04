@@ -5,6 +5,7 @@ class Image < SparqlModel
     @endpoint = Rails.configuration.sparql_endpoint
     @prefixes = {
       :exif => "<http://www.kanzaki.com/ns/exif#>",
+      :cite =>  "<http://www.homermultitext.org/cite/rdf/>"
     }
     @attributes = {
       #-------------------------------------------------------------
@@ -65,6 +66,10 @@ class Image < SparqlModel
       :x_resolution => [ "exif:xResolution", ::Rational, SINGLE ],
       :ycb_cr_positioning => [ "exif:ycbCrPositioning", ::String, SINGLE ],
       :y_resolution => [ "exif:yResolution", ::Rational, SINGLE ],
+      #-------------------------------------------------------------
+      #  CITE collection stuff
+      #-------------------------------------------------------------
+      :license => [ "cite:license", ::String, SINGLE ]
     }
     super( _key )
   end
