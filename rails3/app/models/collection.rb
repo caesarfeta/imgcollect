@@ -3,12 +3,16 @@ class Collection < SparqlModel
 
   def initialize( _key=nil )
     @endpoint =  Rails.configuration.sparql_endpoint
+    @prefixes = {
+      :rdf => "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+    }
     @attributes = {
       :name => [ "this:name", ::String, SINGLE, REQUIRED, UNIQUE, KEY ],
-      :cite_urn => [ "this:cite_urn", ::RDF::URI, SINGLE, REQUIRED, UNIQUE ],
+      :cite_urn => [ "this:cite_urn", ::String, SINGLE, REQUIRED, UNIQUE ],
+      :label => [ "rdf:label", ::String, SINGLE, REQUIRED ],
       :keywords => [ "this:keywords", ::String, MULTI ],
-      :images => [ "this:images", ::RDF::URI, MULTI ],
-      :subcollections => [ "this:subcollections", ::RDF::URI, MULTI ]
+      :images => [ "this:images", ::String, MULTI ],
+      :subcollections => [ "this:subcollections", ::String, MULTI ]
     }
     super( _key )
   end

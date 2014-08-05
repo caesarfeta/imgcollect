@@ -19,7 +19,8 @@ class CollectionController < ActionController::Base
     collection = Collection.new
     collection.create({
       :name => vals[ :name ],
-      :cite_urn => vals[ :cite_urn ].ltgt
+      :cite_urn => vals[ :cite_urn ].ltgt,
+      :label => vals[ :label ]
     });
     #-------------------------------------------------------------
     #  Output
@@ -36,16 +37,16 @@ class CollectionController < ActionController::Base
     #-------------------------------------------------------------
     #  Add an image to a collection
     #-------------------------------------------------------------
-    collection = Collection.new()
+    collection = Collection.new
     collection.byId( params[ :collection_id ] )
-    image = Image.new()
+    image = Image.new
     image.byId( params[ :image_id ] )
     collection.add( :images, image.urn )
     render :json => { :message => "Success", :collection => collection.all }
   end
   
   #  Add a subcollection
-  def add_collection
+  def add_subcollection
     if request.post? == false
       render :json => { :message => "Error" }
       return
@@ -53,17 +54,41 @@ class CollectionController < ActionController::Base
     #-------------------------------------------------------------
     #  Add a subcollection to a collection
     #-------------------------------------------------------------
-    collection = Collection.new()
+    collection = Collection.new
     collection.byId( params[ :collection_id ] )
-    subcollection = Collection.new()
+    subcollection = Collection.new
     subcollection.byId( params[ :subcollection_id ] )
     collection.add( :subcollections, subcollection.urn )
     render :json => { :message => "Success", :collection => collection.all }
   end
   
-  #-------------------------------------------------------------
-  #                         GETS
-  #-------------------------------------------------------------
+  #  Delete an image from a collection
+  def delete_image
+    if request.post? == false
+      render :json => { :message => "Error" }
+      return
+    end
+    image = Image.new
+    image.byId( params[ :image_id ] )
+    collection = Collection.new
+    collection.byId( params[ :collection_id ] )
+    collection.delete( :images, image.urn )
+    render :json => { :message => "Success", :collection => collection.all }
+  end
+  
+  # Delete a subcollection
+  def delete_subcollection
+    if request.post? == false
+      render :json => { :message => "Error" }
+      return
+    end
+    collection = Collection.new
+    collection.byId( params[ :collection_id] )
+    subcollection = Collection.new
+    subcollection.byId( params[ :subcollection_id] )
+    collection.delete( :subcollections, subcollection.urn )
+    render :json => { :message => "Success", :collection => collection.all }
+  end
   
   # Get a full collection
   def full
@@ -80,14 +105,6 @@ class CollectionController < ActionController::Base
     col.byId( params[:id] )
     @col = col.all
     render 'collection/dock'
-  end
-  
-  #  Get all images belonging to a collection
-  def images
-    collection = Collection.new()
-    collection.byId( params[ :id ] )
-    images = image_dig( collection, [], [ collection.urn ] )
-    render :text => images.join(',')
   end
   
   #  Recursively retrieve subcollection images
@@ -110,7 +127,7 @@ class CollectionController < ActionController::Base
     subs = _collection.subcollections
     if subs
       subs.each do | sub |
-        collection = Collection.new()
+        collection = Collection.new
         collection.byId( sub.tagify )
         #-------------------------------------------------------------
         #  Avoid circular subcollection referencing.

@@ -28,7 +28,7 @@ Imgcollect::Application.routes.draw do
   #-------------------------------------------------------------
   match 'collection/create' => 'collection#create'
   match 'collection/add/image' => 'collection#add_image'
-  match 'collection/add/collection' => 'collection#add_collection'
+  match 'collection/add/collection' => 'collection#add_subcollection'
   match 'collection/add/keyword' => 'collection#add_keyword'
   match 'collection/*id/image/sequence' => 'collection#image_sequence'
   match 'collection/*id/images' => 'collection#images'

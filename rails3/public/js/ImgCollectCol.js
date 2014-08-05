@@ -61,6 +61,7 @@ ImgCollectCol.prototype.start = function() {
 		var data = {};
 		data['name'] = jQuery( '#collectionName' ).val();
 		data['cite_urn'] = jQuery( '#collectionURN' ).val();
+		data['label'] = jQuery( '#collectionLabel' ).val();
 		self.api.send( 'collection', 'create', data, 'ImgCollectCol-CREATE')
 	});
 }

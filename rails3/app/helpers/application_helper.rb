@@ -30,7 +30,7 @@ module ApplicationHelper
     
     params = { 
       :name => 'Forests', 
-      :nickname => 'Forests' 
+      :cite_urn => '<urn:cite:perseus:forests>'
     }
     rest.post( 'collection/create', params )
 
@@ -66,7 +66,7 @@ module ApplicationHelper
     
     params = { 
       :name => 'Deserts', 
-      :nickname => 'Deserts' 
+      :cite_urn => '<urn:cite:perseus:deserts>'
     }
     rest.post( 'collection/create', params )
     
@@ -93,7 +93,7 @@ module ApplicationHelper
 
     params = { 
       :name => 'Insects', 
-      :nickname => 'Insects' 
+      :cite_urn => '<urn:cite:perseus:insects>'
     }
     rest.post( 'collection/create', params )
     
@@ -111,7 +111,7 @@ module ApplicationHelper
     #-------------------------------------------------------------
     params = {
       :name => 'All',
-      :nickname => 'All'
+      :cite_urn => '<urn:cite:perseus:all>'
     }
     rest.post( 'collection/create', params )
     
