@@ -25,8 +25,15 @@ ImgCollectSearch.prototype.build = function() {
 			<a class="button dark tiny" href="" id="click">Go!</a>\
 		</div>\
 	</div>';
-	jQuery( 'body' ).append( searchbox );
+	jQuery( 'body' ).prepend( searchbox );
 	this.start();
+}
+
+/**
+ * Build the search hints
+ */
+ImgCollectSearch.prototype.hints = function() {
+	// ImgCollectConfig.config
 }
 
 /**
@@ -41,11 +48,11 @@ ImgCollectSearch.prototype.start = function() {
 				self.search( input.val() );
 				_e.preventDefault();
 				break;
-			case 38: // up key
+			case 38: // Up key
 				self.navHistory('up');
 				_e.preventDefault();
 				break;
-			case 40: // down key
+			case 40: // Down key
 				self.navHistory('down'); 
 				_e.preventDefault();
 				break;

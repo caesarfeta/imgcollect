@@ -2,6 +2,8 @@
 <% val = locals[:val] %>
 <% editable = locals[:editable] %>
 <% row_times = locals[:row_times] %>
+
+<% if editable.include?(key) == true || val != '' %>
 <tr>
 	<td class="key"><%= labelify(key) %>:</td>
 	<td class="value">
@@ -19,3 +21,4 @@
 	</td>
 	<td><% if editable.include?(key) == true %><a class="edit"><img src="/img/edit_pencil.svg" /></a><% end %></td>
 </tr>
+<% end %>

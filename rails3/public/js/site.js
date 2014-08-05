@@ -121,6 +121,7 @@ jQuery( document ).on( 'ImgCollectSearch-SUCCESS', function() {
  */
 function uploadPop() {
 	jQuery( '.modal' ).on( 'touchstart click', function( _e ) {
+		_e.preventDefault();
 		var selector = jQuery( this ).attr( 'data-reveal-id' );
 		jQuery( '#'+selector ).foundation( 'reveal', 'open' );
 	});
