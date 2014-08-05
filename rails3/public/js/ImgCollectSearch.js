@@ -32,8 +32,24 @@ ImgCollectSearch.prototype.build = function() {
 /**
  * Build the search hints
  */
-ImgCollectSearch.prototype.hints = function() {
-	// ImgCollectConfig.config
+ImgCollectSearch.prototype.autocomplete = function( _input ) {
+	var val = _input.val();
+	if ( val == null ) {
+		return;
+	}
+	var arr = val.shellArgs();
+	if ( arr.length < 2 ) {
+		return;
+	}
+	var model = this.modelSlack( arr[0] );
+	var attr = ImgCollectConfig.config[ model ]['attributes'];
+	var matches = [];
+	for ( var key in attr ) {
+		if ( key.indexOf( arr[1] ) == 0 ) {
+			matches.push( key );
+		}
+	}
+	console.log( matches );
 }
 
 /**
@@ -42,8 +58,11 @@ ImgCollectSearch.prototype.hints = function() {
 ImgCollectSearch.prototype.start = function() {
 	var self = this;
 	var input = jQuery( '#imgcollect_search #input' );
+	//------------------------------------------------------------
+	//  Enter key is as good as pressing Go! button
+	//------------------------------------------------------------
 	input.keydown( function( _e ) {
-		switch (_e.which) {
+		switch ( _e.which ) {
 			case 13: // Enter key
 				self.search( input.val() );
 				_e.preventDefault();
@@ -58,6 +77,15 @@ ImgCollectSearch.prototype.start = function() {
 				break;
 		}
 	});
+	//------------------------------------------------------------
+	//  Auto complete search
+	//------------------------------------------------------------
+	input.keyup( function( _e ) {
+		self.autocomplete( input );
+	});
+	//------------------------------------------------------------
+	//  Click the Go! button?
+	//------------------------------------------------------------
 	jQuery( '#imgcollect_search #click').on( 'touchstart click', function( _e ) {
 		_e.preventDefault();
 		self.search( input.val() );
@@ -111,6 +139,9 @@ ImgCollectSearch.prototype.search = function( _search ) {
 	//  Do a bit of validation.  
 	//  There should be three distinct groups.
 	//------------------------------------------------------------
+	if ( _search == null ) {
+		jQuery( document ).trigger( self.events['error'] );
+	}
 	var args = _search.shellArgs()
 	if ( args.length < 3 ) {
 		jQuery( document ).trigger( self.events['error'] );
