@@ -54,6 +54,9 @@ ImgCollectApi = function() {
 		},
 		'collection/create': {
 			method: 'POST'
+		},
+		'collection/citeify': {
+			method: 'POST'
 		}
 	};
 	

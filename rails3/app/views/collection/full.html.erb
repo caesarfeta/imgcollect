@@ -1,4 +1,5 @@
 <div class="row collection-box">
+	
 	<%# IMAGES %>
 	<div class="columns small-12 medium-4 samples">
 		<% if @col.has_key?(:images) %>
@@ -47,5 +48,6 @@
 	<%# ACTIVATE %>
 	<div class="columns small-4 medium-2">
 		<a data-urn="<%= @col[:urn] %>" class="button secondary tiny dark activate">Select</a>
+		<a data-urn="<%= @col[:urn] %>" class="button secondary tiny dark citeify">CITEify</a>
 	</div>
 </div>

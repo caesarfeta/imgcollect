@@ -11,6 +11,18 @@ module CiteHelper
     :rdfs => "<http://www.w3.org/2000/01/rdf-schema#>"
   }
   
+  # Does a cite collection exist?
+  # _col { Collection }
+  def self.exists?( _col )
+    sparql = SparqlQuick.new( Rails.configuration.sparql_endpoint, @prefixes )
+    cite_urn = _col.cite_urn.tagify
+    id_triple = [ cite_urn, "rdf:type", "cite:ImageArchive" ];
+    if sparql.count( id_triple ) != 0
+      return true
+    end
+    false
+  end
+  
   # Take a SparqlModel collection and write CITE collection triples from it
   # _col { Collection }
   def self.create( _col )
@@ -18,13 +30,15 @@ module CiteHelper
     # Make sure you have what you need to to CITE-ify a collection
     self.check( _col )
     
+    # Does a cite collection exist?
+    if self.exists?( _col )
+      raise 'This collection has already been CITE-ified'
+    end
+    
     # This could point at a different sparql_endpoint if need be
     sparql = SparqlQuick.new( Rails.configuration.sparql_endpoint, @prefixes )
     cite_urn = _col.cite_urn.tagify
     id_triple = [ cite_urn, "rdf:type", "cite:ImageArchive" ];
-    if sparql.count( id_triple ) != 0
-      raise 'This collection has already been CITE-ified'
-    end
     
     # First things first... mark the collection as a CITE collection
     # and add all the necessary metadata
@@ -67,6 +81,7 @@ module CiteHelper
   private
   
   # Make sure you're dealing with a SparqlModel Collection
+  # _col { Collection }
   def self.check( _col )
     if _col.class != Collection
       raise "Argument must be an instance of Collection"

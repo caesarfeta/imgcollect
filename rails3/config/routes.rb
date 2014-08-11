@@ -35,6 +35,7 @@ Imgcollect::Application.routes.draw do
   match 'collection/instance/*id' => 'collection#instance'
   match 'collection/full/*id' => 'collection#full'
   match 'collection/dock/*id' => 'collection#dock'
+  match 'collection/citeify' => 'collection#citeify'
   #-------------------------------------------------------------
   #  Collections
   #-------------------------------------------------------------

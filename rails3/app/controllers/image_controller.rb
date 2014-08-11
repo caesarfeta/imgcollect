@@ -11,16 +11,24 @@ class ImageController < ActionController::Base
     #-------------------------------------------------------------
     #  If file isn't found return the 'IMAGE NOT FOUND' image
     #-------------------------------------------------------------
-    if File.exist?( file ) == false
-      send_file errorImg, :disposition => 'inline'
-      return
-    end
+    imgNotFound( file )
+    #-------------------------------------------------------------
+    #  Send the image file
+    #-------------------------------------------------------------
     send_file file, :disposition => 'inline'
   end
   
   # Get the error image
   def errorImg
     File.join( Rails.configuration.public_dir, 'img', 'img_not_found.png' )
+  end
+  
+  # Image not found
+  def imgNotFound( _file )
+    if File.exist?( _file ) == false
+      send_file errorImg, :disposition => 'inline'
+      return
+    end
   end
   
   # Get a full image report
@@ -41,7 +49,10 @@ class ImageController < ActionController::Base
     #-------------------------------------------------------------
     #  What will the output look like?
     #-------------------------------------------------------------
-    render :text => 'Success'
+    render :json => { 
+      :message => "Success", 
+      :img => img.all 
+    }
   end
   
   # Update image metadata
@@ -50,7 +61,10 @@ class ImageController < ActionController::Base
     img.byId( params[:id] )
     vals = ControllerHelper.cleanParams( params )
     img.change( vals )
-    render :text => 'Success'
+    render :json => { 
+      :message => "Success", 
+      :img => img.all 
+    }
   end
   
   # Upload an image
@@ -133,7 +147,10 @@ class ImageController < ActionController::Base
           #  No exif data is no big deal... Just move on.
           #-------------------------------------------------------------
         end
-        json.push({ :message => "Success", :urn => image.urn })
+        json.push({ 
+          :message => "Success", 
+          :urn => image.urn 
+        })
       end
     end
     render :json => json

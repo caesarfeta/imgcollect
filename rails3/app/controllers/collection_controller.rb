@@ -25,7 +25,10 @@ class CollectionController < ActionController::Base
     #-------------------------------------------------------------
     #  Output
     #-------------------------------------------------------------
-    render :json => { :message => "Success", :collection => collection.all }
+    render :json => { 
+      :message => "Success", 
+      :collection => collection.all 
+    }
   end
   
   #  Add an image to a collection
@@ -42,7 +45,28 @@ class CollectionController < ActionController::Base
     image = Image.new
     image.byId( params[ :image_id ] )
     collection.add( :images, image.urn )
-    render :json => { :message => "Success", :collection => collection.all }
+    render :json => { 
+      :message => "Success", 
+      :collection => collection.all 
+    }
+  end
+  
+  #  Turn a sparql_model collection into a cite collection
+  def citeify
+    if request.post? == false
+      render :json => { :message => "Error" }
+      return
+    end
+    #-------------------------------------------------------------
+    #  Turn a collection into a CITE collection
+    #-------------------------------------------------------------
+    collection = Collection.new
+    collection.byId( params[ :collection_id ] )
+    CiteHelper.create( collection )
+    render :json => { 
+      :message => "Success", 
+      :collection => collection.all 
+    }
   end
   
   #  Add a subcollection
@@ -59,7 +83,10 @@ class CollectionController < ActionController::Base
     subcollection = Collection.new
     subcollection.byId( params[ :subcollection_id ] )
     collection.add( :subcollections, subcollection.urn )
-    render :json => { :message => "Success", :collection => collection.all }
+    render :json => { 
+      :message => "Success", 
+      :collection => collection.all 
+    }
   end
   
   #  Delete an image from a collection
@@ -73,7 +100,10 @@ class CollectionController < ActionController::Base
     collection = Collection.new
     collection.byId( params[ :collection_id ] )
     collection.delete( :images, image.urn )
-    render :json => { :message => "Success", :collection => collection.all }
+    render :json => { 
+      :message => "Success", 
+      :collection => collection.all 
+    }
   end
   
   # Delete a subcollection
@@ -87,7 +117,10 @@ class CollectionController < ActionController::Base
     subcollection = Collection.new
     subcollection.byId( params[ :subcollection_id] )
     collection.delete( :subcollections, subcollection.urn )
-    render :json => { :message => "Success", :collection => collection.all }
+    render :json => { 
+      :message => "Success", 
+      :collection => collection.all 
+    }
   end
   
   # Get a full collection

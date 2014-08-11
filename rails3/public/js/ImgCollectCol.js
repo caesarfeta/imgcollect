@@ -50,6 +50,12 @@ ImgCollectCol.prototype.start = function() {
 			case 'ImgCollectCol-ADDIMG':
 				self.dock( _data['data']['collection']['urn'] );
 				break;
+			//------------------------------------------------------------
+			//  What happens after a citeify button gets clicked?
+			//------------------------------------------------------------
+			case "ImgCollectCol-CITEIFY":
+				console.log( _data );
+				break;
 		}
 	});
 	
@@ -67,25 +73,59 @@ ImgCollectCol.prototype.start = function() {
 }
 
 /**
- * "Activate" the collection activate button.
+ * "Activate" the collection buttons
  *
  * @param { Dom } _elem
  */
 ImgCollectCol.prototype.activate = function( _elem ) {
 	var self = this;
 	if ( _elem.hasClass('collection-box') ) {
-		jQuery( '.button.activate', _elem ).on( 'touchstart click', function( _e ) {
-			jQuery( '.collection-box .button.activate' ).removeClass( 'active' );
-			var urn = jQuery( this ).attr( 'data-urn' );
-			var dock_urn = jQuery( '#activeDock' ).attr( 'data-urn' );
-			if ( dock_urn != undefined && dock_urn == urn ) {
-				self.deactivate();
-				return;
-			}
-			jQuery( this ).addClass( 'active' );
-			self.dock( urn );
-		});
+		self.activateTouch( _elem );
+		self.citeTouch( _elem );
 	}
+}
+
+/**
+ * "Activate" the CITEify button
+ *
+ * @param { Dom } _elem
+ */
+ImgCollectCol.prototype.citeTouch = function( _elem ) {
+	var self = this;
+	jQuery( '.button.citeify', _elem ).on( 'touchstart click', function( _e ) {
+		var urn = jQuery( this ).attr( 'data-urn' );
+		self.citeify( urn );
+	});
+}
+
+/**
+ * "Activate" the collection activate button
+ *
+ * @param { Dom } _elem
+ */
+ImgCollectCol.prototype.activateTouch = function( _elem ) {
+	var self = this;
+	jQuery( '.button.activate', _elem ).on( 'touchstart click', function( _e ) {
+		jQuery( '.collection-box .button.activate' ).removeClass( 'active' );
+		var urn = jQuery( this ).attr( 'data-urn' );
+		var dock_urn = jQuery( '#activeDock' ).attr( 'data-urn' );
+		if ( dock_urn != undefined && dock_urn == urn ) {
+			self.deactivate();
+			return;
+		}
+		jQuery( this ).addClass( 'active' );
+		self.dock( urn );
+	});
+}
+
+/**
+ * CITEify a collection
+ *
+ * @param { String } _urn
+ */
+ImgCollectCol.prototype.citeify = function( _urn ) {
+	var self = this;
+	self.api.send( 'collection', 'citeify', { 'collection_id': _urn.lastInt() }, 'ImgCollectCol-CITEIFY' );
 }
 
 /**
@@ -98,7 +138,9 @@ ImgCollectCol.prototype.deactivate = function() {
 }
 
 /**
- * Dock the active collection.
+ * Dock the active collection
+ *
+ * @param { String } _urn
  */
 ImgCollectCol.prototype.dock = function( _urn ) {
 	var self = this;
@@ -107,6 +149,8 @@ ImgCollectCol.prototype.dock = function( _urn ) {
 
 /**
  * Build the dock
+ *
+ * @param { JSON } _data
  */
 ImgCollectCol.prototype.buildDock = function( _data ) {
 	var self = this;
