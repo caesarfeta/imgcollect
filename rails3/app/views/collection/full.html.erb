@@ -1,3 +1,4 @@
+<% citeified = CiteHelper.exists?( @col ) %>
 <div class="row collection-box">
 	
 	<%# IMAGES %>
@@ -16,7 +17,12 @@
 		
 		<%# NAME %>
 		<h2 class="name"><%= @col[:name] %></h2>
-		<div class="cite_urn"><%= @col[:cite_urn] %></div>
+		<div class="cite_urn">
+			<%= @col[:cite_urn] %>
+		</div>
+		<% if citeified == true  %>
+		<img class="citeified" src="/img/check.svg" />
+		<% end %>
 		<div class="clearfix"></div>
 		
 		<%# COUNTS %>
@@ -48,6 +54,8 @@
 	<%# ACTIVATE %>
 	<div class="columns small-4 medium-2">
 		<a data-urn="<%= @col[:urn] %>" class="button secondary tiny dark activate">Select</a>
+		<% if citeified == false %>
 		<a data-urn="<%= @col[:urn] %>" class="button secondary tiny dark citeify">CITEify</a>
+		<% end %>
 	</div>
 </div>

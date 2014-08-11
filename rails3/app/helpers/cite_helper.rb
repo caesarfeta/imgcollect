@@ -15,7 +15,11 @@ module CiteHelper
   # _col { Collection }
   def self.exists?( _col )
     sparql = SparqlQuick.new( Rails.configuration.sparql_endpoint, @prefixes )
-    cite_urn = _col.cite_urn.tagify
+    if _col.class == Hash
+      cite_urn = _col[:cite_urn].tagify
+    else
+      cite_urn = _col.cite_urn.tagify
+    end
     id_triple = [ cite_urn, "rdf:type", "cite:ImageArchive" ];
     if sparql.count( id_triple ) != 0
       return true
