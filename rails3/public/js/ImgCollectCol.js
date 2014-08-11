@@ -54,7 +54,7 @@ ImgCollectCol.prototype.start = function() {
 			//  What happens after a citeify button gets clicked?
 			//------------------------------------------------------------
 			case "ImgCollectCol-CITEIFY":
-				console.log( _data );
+				// TODO Do something here?
 				break;
 		}
 	});

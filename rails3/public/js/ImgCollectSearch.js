@@ -31,14 +31,18 @@ ImgCollectSearch.prototype.build = function() {
 
 /**
  * Build the search hints
+ *
+ * @param { String } _input
  */
 ImgCollectSearch.prototype.autocomplete = function( _input ) {
 	var val = _input.val();
 	if ( val == null ) {
+		this.autocompleteRemove();
 		return;
 	}
 	var arr = val.shellArgs();
 	if ( arr.length < 2 ) {
+		this.autocompleteRemove();
 		return;
 	}
 	var model = this.modelSlack( arr[0] );
@@ -49,7 +53,40 @@ ImgCollectSearch.prototype.autocomplete = function( _input ) {
 			matches.push( key );
 		}
 	}
-	console.log( matches );
+	this.autocompleteDisplay( matches );
+}
+
+/**
+ * Autocomplete display
+ *
+ * @param { Array } _matches
+ */
+ImgCollectSearch.prototype.autocompleteDisplay = function( _matches ) {
+	this.autocompleteRemove();
+	jQuery( '#imgcollect_search #input' ).before( '\
+		<div id="autocomplete"></div>\
+		<div class="clearfix"></div>' 
+	);
+	for ( var i=0; i<_matches.length; i++ ) {
+		this.autocompleteDisplayItem( _matches[i] );
+	}
+}
+
+/**
+ * Remove autocomplete element
+ */
+ImgCollectSearch.prototype.autocompleteRemove = function() {
+	jQuery( '#imgcollect_search #autocomplete' ).remove();
+}
+
+/**
+ * Autocomplete display item
+ *
+ * @param { String } _item
+ */
+ImgCollectSearch.prototype.autocompleteDisplayItem = function( _item ) {
+	var item = '<div>'+_item+'</div>'.smoosh();
+	jQuery( '#imgcollect_search #autocomplete' ).prepend( item );
 }
 
 /**
@@ -81,7 +118,15 @@ ImgCollectSearch.prototype.start = function() {
 	//  Auto complete search
 	//------------------------------------------------------------
 	input.keyup( function( _e ) {
-		self.autocomplete( input );
+		switch ( _e.which ) {
+			case 13:
+			case 38:
+			case 40:
+				break;
+			default:
+				self.autocomplete( input );
+				break;
+		}
 	});
 	//------------------------------------------------------------
 	//  Click the Go! button?
@@ -128,6 +173,10 @@ ImgCollectSearch.prototype.historyUpdate = function( _search ) {
 ImgCollectSearch.prototype.search = function( _search ) {
 	var self = this;
 	//------------------------------------------------------------
+	//  Remove the autocomplete element
+	//------------------------------------------------------------
+	self.autocompleteRemove();
+	//------------------------------------------------------------
 	//  Update the history
 	//------------------------------------------------------------
 	self.historyUpdate( _search );
@@ -136,8 +185,8 @@ ImgCollectSearch.prototype.search = function( _search ) {
 	//------------------------------------------------------------
 	self.utils.mark( 'search', _search );
 	//------------------------------------------------------------
-	//  Do a bit of validation.  
-	//  There should be three distinct groups.
+	//  Do a bit of validation
+	//  There should be three distinct groups
 	//------------------------------------------------------------
 	if ( _search == null ) {
 		jQuery( document ).trigger( self.events['error'] );
@@ -164,7 +213,7 @@ ImgCollectSearch.prototype.search = function( _search ) {
 /**
  * Clean up the results
  *
- * @param { json } _results Values returned by jQuery ajax call.
+ * @param { json } _results Values returned by jQuery ajax call
  * @return { json } Simplified results
  */
 ImgCollectSearch.prototype.cleanResults = function( _results ) {

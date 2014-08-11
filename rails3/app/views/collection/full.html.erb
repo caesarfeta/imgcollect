@@ -1,4 +1,6 @@
+<%# Hash the collection been CITEified %>
 <% citeified = CiteHelper.exists?( @col ) %>
+
 <div class="row collection-box">
 	
 	<%# IMAGES %>
@@ -26,12 +28,12 @@
 		<div class="clearfix"></div>
 		
 		<%# COUNTS %>
-		<h3 class="value-count"><span class="n"><%= count(@col[:images]) %></span> images</h3>
-		<h3 class="value-count"><span class="n"><%= count(@col[:subcollections]) %></span> subcollections</h3>
+		<h3 class="value-count"><span class="n"><%= count( @col[:images] ) %></span> images</h3>
+		<h3 class="value-count"><span class="n"><%= count( @col[:subcollections] ) %></span> subcollections</h3>
 		<div class="clearfix"></div>
 		
 		<%# KEYWORDS %>
-		<% if @col.has_key?(:keywords) && @col[:keywords].length > 0 %>
+		<% if @col.has_key?( :keywords ) && @col[:keywords].length > 0 %>
 		<div class="keywords">
 			<% @col[:keywords].each do |keyword| %>
 			<a href="" class="keyword"><%= keyword %></a>
@@ -42,11 +44,11 @@
 		<%# DATES %>
 		<div class="date-person">
 			<h3 class="header">Last Updated</h3>
-			<h3 class="date"><%= readTime(@col[:edited]) %></h3>
+			<h3 class="date"><%= readTime( @col[:edited] ) %></h3>
 		</div>
 		<div class="date-person">
 			<h3 class="header">Created</h3>
-			<h3 class="date"><%= readTime(@col[:created]) %></h3>
+			<h3 class="date"><%= readTime( @col[:created] ) %></h3>
 		</div>
 		
 	</div>

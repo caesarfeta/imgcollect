@@ -113,7 +113,6 @@ a.edit img {
 	width:50px;
 	padding:2px 10px;
 }
-
 .collection-box .citeified {
 	margin-left:5px;
 	height:15px;
@@ -210,6 +209,9 @@ a.edit img {
 #imgcollect_search input:hover,
 #imgcollect_search input:focus {
 	opacity:1;
+}
+#imgcollect_search #autocomplete {
+	padding: 10px 0;
 }
 
 /* upload file icon */
