@@ -1,5 +1,11 @@
 class String
   
+  # Clip the first and last characters from a string
+  # @return { String }
+  def clip
+    self[1..-2]
+  end
+  
   # Check to see if we're looking at an integer in string's clothing
   def is_i?
      !!( self =~ /\A[-+]?[0-9]+\z/ )
@@ -11,7 +17,7 @@ class String
   end
   
   # Wrap <>
-  def ltgt
+  def tagify
     this = self
     if this[0] != "<"
       this = "<#{this}"
