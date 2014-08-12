@@ -11,9 +11,25 @@ class String
      !!( self =~ /\A[-+]?[0-9]+\z/ )
   end
   
+  # Turn delimiters into colons
+  # _char { String } The character
+  def colonize( _char )
+    self.gsub!( _char, ':' )
+  end
+  
   # Return integer
   def just_i
     /\d+/.match( self ).to_s.to_i
+  end
+  
+  # Add urn
+  def add_urn
+    urn = "urn:"
+    this = self
+    if this[0,4] != urn
+      this = "#{urn}#{this}"
+    end
+    this
   end
   
   # Wrap <>

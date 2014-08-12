@@ -14,7 +14,7 @@ module CiteHelper
   # Does a cite collection exist?
   # _col { Collection }
   def self.exists?( _col )
-    sparql = SparqlQuick.new( Rails.configuration.sparql_endpoint, @prefixes )
+    sparql = self.sparql
     if _col.class == Hash
       cite_urn = _col[:cite_urn].tagify
     else
@@ -40,7 +40,7 @@ module CiteHelper
     end
     
     # This could point at a different sparql_endpoint if need be
-    sparql = SparqlQuick.new( Rails.configuration.sparql_endpoint, @prefixes )
+    sparql = self.sparql
     cite_urn = _col.cite_urn.tagify
     id_triple = [ cite_urn, "rdf:type", "cite:ImageArchive" ];
     
@@ -66,7 +66,7 @@ module CiteHelper
     self.check( _col )
     
     # This could point at a different sparql_endpoint if need be
-    sparql = SparqlQuick.new( Rails.configuration.sparql_endpoint, @prefixes )
+    sparql = self.sparql
     cite_col = _col.cite_urn.tagify
     
     # Get the associated images
@@ -82,6 +82,17 @@ module CiteHelper
     sparql.delete([ cite_col, :p, :o ])
   end
   
+  # Get the URN to the SPARQL image
+  # _urn { String } The cite urn to an image
+  def self.sparqlImage( _urn )
+    sparql = self.sparql
+    images = sparql.get_objects([ _urn, "rdfs:isDefinedBy" ])
+    if images.length > 1
+      raise "Something is fishy. Query should return only one urn."
+    end
+    images[0][:o].to_s
+  end
+  
   private
   
   # Make sure you're dealing with a SparqlModel Collection
@@ -93,6 +104,11 @@ module CiteHelper
     if _col.cite_urn == nil
       raise "Collection cite_urn cannot be null"
     end
+  end
+  
+  # Return a SparqlQuick instance
+  def self.sparql
+    SparqlQuick.new( Rails.configuration.sparql_endpoint, @prefixes )
   end
 
 end

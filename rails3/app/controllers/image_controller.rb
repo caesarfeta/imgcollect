@@ -7,13 +7,11 @@ class ImageController < ActionController::Base
       returnFile( errorImg )
     end
     file = File.join( Rails.configuration.img_dir, params[:dir]+'.'+params[:format] )
-    #-------------------------------------------------------------
-    #  If file isn't found return the 'IMAGE NOT FOUND' image
-    #-------------------------------------------------------------
+    
+    # If file isn't found return the 'IMAGE NOT FOUND' image
     imgNotFound( file )
-    #-------------------------------------------------------------
-    #  Send the image file
-    #-------------------------------------------------------------
+    
+    # Send the image file
     returnFile( file )
   end
   
@@ -34,25 +32,36 @@ class ImageController < ActionController::Base
     ok = [ "path", "thumb", "basic", "advanced" ]
     urn = params[:urn]
     size = params[:size]
-    #-------------------------------------------------------------
-    #  We need a urn
-    #-------------------------------------------------------------
+    
+    # We need a urn
     if urn == nil
       returnFile( errorImg )
     end
-    #-------------------------------------------------------------
-    #  Default size
-    #-------------------------------------------------------------
+    
+    # Default size
     if ok.include?( size ) == false
-      urn+=size
+      urn += ".#{size}"
       size = "path"
     end
-    #-------------------------------------------------------------
-    #  Cite URN or SPARQL MODEL?
-    #-------------------------------------------------------------
-    img = Image.new
-    img.byId( urn.just_i )
-    returnFile( img.all[ size.to_sym ] )
+    
+    # sparql_model urn?
+    if urn.include?( 'cite' )
+      urn = urn.colonize('/').add_urn.tagify
+      begin
+        urn = CiteHelper.sparqlImage( urn )
+      rescue
+        returnFile( errorImg )
+      end
+    end
+    
+    # return that file.
+    begin
+      img = Image.new
+      img.byId( urn.just_i )
+      returnFile( img.all[ size.to_sym ] )
+    rescue
+      returnFile( errorImg )
+    end
   end
   
   # Get the error image
@@ -83,9 +92,8 @@ class ImageController < ActionController::Base
     ControllerHelper.cleanParams( params ).each do |key,val|
       img.add( key, val )
     end
-    #-------------------------------------------------------------
-    #  What will the output look like?
-    #-------------------------------------------------------------
+
+    # What will the output look like?
     render :json => { 
       :message => "Success", 
       :img => img.all 
@@ -106,57 +114,48 @@ class ImageController < ActionController::Base
   
   # Upload an image
   def upload
-    #-------------------------------------------------------------
-    #  If no form has been submitted
-    #-------------------------------------------------------------
+    
+    # If no form has been submitted
     if request.post? == false
       render :file => 'app/views/image/upload.haml'
       return
     end
-    #-------------------------------------------------------------
-    #  Save the file
-    #-------------------------------------------------------------
+    
+    # Save the file
     file = ImgUpload.new
     file.save( params )
-    #-------------------------------------------------------------
-    #  Check the file type because zip files need to be unzipped
-    #  and certain image files need to be converted too.
-    #-------------------------------------------------------------
+    
+    # Check the file type because zip files need to be unzipped
+    # and certain image files need to be converted too.
     report = Array.new
     case file.ext
     when '.ZIP'
       zipper = ImgUnzip.new
       report = zipper.unzip( file.uploadPath )
     when '.JPG', '.JPEG', '.GIF', '.PNG', '.TIFF', '.TIF'
-      #-------------------------------------------------------------
-      #  Save file to images directory
-      #-------------------------------------------------------------
+      
+      # Save file to images directory
       report.push( file.toImgDir )
-    #-------------------------------------------------------------
-    #  Not supported
-    #-------------------------------------------------------------
+
+    # Not supported
     else
       render :text => "Filetype is not supported"
       return
     end
-    #-------------------------------------------------------------
-    #  What will become the JSON return
-    #-------------------------------------------------------------
+    
+    # What will become the JSON return
     json = []
-    #-------------------------------------------------------------
-    #  Resize the image & save it in the triplestore
-    #-------------------------------------------------------------
+    
+    # Resize the image & save it in the triplestore
     report.each do |item|
       if item['path'] != nil && item['error'] == nil
-        #-------------------------------------------------------------
-        #  Build the images
-        #-------------------------------------------------------------
+        
+        # Build the images
         item['thumb'] = ImgSize.thumb( item['path'] )
         item['basic'] = ImgSize.basic( item['path'] )
         item['advanced'] = ImgSize.advanced( item['path'] )
-        #-------------------------------------------------------------
-        #  Create an image record in the triplestore
-        #-------------------------------------------------------------
+        
+        # Create an image record in the triplestore
         image = Image.new
         image.create({ 
           :original => item['original'],
@@ -165,24 +164,20 @@ class ImageController < ActionController::Base
           :basic => item['basic'], 
           :advanced => item['advanced'] 
         })
-        #-------------------------------------------------------------
-        #  Get the original dimensions
-        #-------------------------------------------------------------
+        
+        # Get the original dimensions
         size = FastImage.size( item['path'] )
         image.change({
           :width => size[0],
           :height => size[1]
         })
-        #-------------------------------------------------------------
-        #  Update the image record exif metadata
-        #-------------------------------------------------------------
+        
+        # Update the image record exif metadata
         begin
           exif = ImgMeta.exif( item['path'] )
           image.change( exif );
         rescue
-          #-------------------------------------------------------------
-          #  No exif data is no big deal... Just move on.
-          #-------------------------------------------------------------
+          # No exif data is no big deal... Just move on.
         end
         json.push({ 
           :message => "Success", 
