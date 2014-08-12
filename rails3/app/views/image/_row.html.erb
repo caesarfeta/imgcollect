@@ -5,7 +5,7 @@
 
 <% if editable.include?(key) == true || val != '' %>
 <tr>
-	<td class="key"><%= labelify(key) %>:</td>
+	<td class="key"><%= key %>:</td>
 	<td class="value">
 		<span class="current">
 		<% if row_times.include?(key) %>

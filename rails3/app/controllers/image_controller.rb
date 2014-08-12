@@ -4,8 +4,7 @@ class ImageController < ActionController::Base
   # TODO: Secure this sunnamabitch.
   def show
     if params[:dir] == nil || params[:format] == nil
-      send_file errorImg, :disposition => 'inline'
-      return
+      returnFile( errorImg )
     end
     file = File.join( Rails.configuration.img_dir, params[:dir]+'.'+params[:format] )
     #-------------------------------------------------------------
@@ -15,7 +14,45 @@ class ImageController < ActionController::Base
     #-------------------------------------------------------------
     #  Send the image file
     #-------------------------------------------------------------
-    send_file file, :disposition => 'inline'
+    returnFile( file )
+  end
+  
+  def returnFile( _file )
+    send_file _file, :disposition => 'inline'
+  end
+  
+  # Display an image by passing a URN
+  #
+  # All of these should work
+  # http://127.0.0.1:3000/urn/cite/perseus/forests/1/basic
+  # http://127.0.0.1:3000/urn/8/basic
+  # http://127.0.0.1:3000/urn/sparql_model/image/8/basic
+  # http://127.0.0.1:3000/urn/sparql_model/image/8
+  #
+  # If size is null then return "path" which is the original size
+  def byUrn
+    ok = [ "path", "thumb", "basic", "advanced" ]
+    urn = params[:urn]
+    size = params[:size]
+    #-------------------------------------------------------------
+    #  We need a urn
+    #-------------------------------------------------------------
+    if urn == nil
+      returnFile( errorImg )
+    end
+    #-------------------------------------------------------------
+    #  Default size
+    #-------------------------------------------------------------
+    if ok.include?( size ) == false
+      urn+=size
+      size = "path"
+    end
+    #-------------------------------------------------------------
+    #  Cite URN or SPARQL MODEL?
+    #-------------------------------------------------------------
+    img = Image.new
+    img.byId( urn.just_i )
+    returnFile( img.all[ size.to_sym ] )
   end
   
   # Get the error image

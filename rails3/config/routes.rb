@@ -20,6 +20,10 @@ Imgcollect::Application.routes.draw do
   match 'image/full/*id' => 'image#full'
   match 'image/update' => 'image#update'
   #-------------------------------------------------------------
+  #  Image by urn
+  #-------------------------------------------------------------
+  match 'urn/*urn/*size' => 'image#byUrn'
+  #-------------------------------------------------------------
   #  Images
   #-------------------------------------------------------------
   match 'images/all' => 'images#all'
