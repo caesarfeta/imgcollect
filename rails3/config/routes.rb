@@ -6,30 +6,27 @@ Imgcollect::Application.routes.draw do
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
   
-  #-------------------------------------------------------------
-  #  Search
-  #-------------------------------------------------------------
+  # Search
   match 'search/config' => 'search#config'
-  #-------------------------------------------------------------
-  #  Image
-  #-------------------------------------------------------------
+
+  # Image
   match 'image/upload' => 'image#upload'
   match 'image/show/*dir' => 'image#show', :as => :custom_image
   match 'image/preview/*id' => 'image#preview'
   match 'image/add' => 'image#add'
   match 'image/full/*id' => 'image#full'
   match 'image/update' => 'image#update'
-  #-------------------------------------------------------------
-  #  Image by urn
-  #-------------------------------------------------------------
+  
+  # Subregion
+  match 'subregion/create' => 'subregion#create'
+
+  # Image by urn
   match 'urn/*urn/*size' => 'image#byUrn'
-  #-------------------------------------------------------------
-  #  Images
-  #-------------------------------------------------------------
+
+  # Images
   match 'images/all' => 'images#all'
-  #-------------------------------------------------------------
-  #  Collection
-  #-------------------------------------------------------------
+
+  # Collection
   match 'collection/create' => 'collection#create'
   match 'collection/add/image' => 'collection#add_image'
   match 'collection/add/collection' => 'collection#add_subcollection'
@@ -40,9 +37,6 @@ Imgcollect::Application.routes.draw do
   match 'collection/full/*id' => 'collection#full'
   match 'collection/dock/*id' => 'collection#dock'
   match 'collection/citeify' => 'collection#citeify'
-  #-------------------------------------------------------------
-  #  Collections
-  #-------------------------------------------------------------
   
   # map.connect 'collection/show/:name',
   #   :controller => 'collection',

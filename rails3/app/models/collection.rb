@@ -8,7 +8,7 @@ class Collection < SparqlModel
     }
     @attributes = {
       :name => [ "this:name", ::String, SINGLE, REQUIRED, UNIQUE, KEY ],
-      :cite_urn => [ "this:cite_urn", ::String, SINGLE, REQUIRED, UNIQUE ],
+      :cite_urn => [ "this:cite_urn", ::URN, SINGLE, REQUIRED, UNIQUE ],
       :label => [ "rdf:label", ::String, SINGLE, REQUIRED ],
       :keywords => [ "this:keywords", ::String, MULTI ],
       :images => [ "this:images", ::String, MULTI ],

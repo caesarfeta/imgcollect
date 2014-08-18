@@ -134,7 +134,7 @@ class CollectionController < ActionController::Base
   # Get a collection dock  
   def dock
     col = Collection.new
-    puts params[:id]
+    # puts params[:id]
     col.byId( params[:id] )
     @col = col.all
     render 'collection/dock'
@@ -142,8 +142,8 @@ class CollectionController < ActionController::Base
   
   #  Recursively retrieve subcollection images
   def image_dig( _collection, _images, _check )
-    puts _collection
-    puts _check.inspect
+    # puts _collection
+    # puts _check.inspect
     #-------------------------------------------------------------
     #  No sequence just exit...
     #-------------------------------------------------------------

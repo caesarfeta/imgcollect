@@ -1,6 +1,6 @@
 class ImageController < ActionController::Base
   
-  #  Display an image
+  # Display an image
   # TODO: Secure this sunnamabitch.
   def show
     if params[:dir] == nil || params[:format] == nil
@@ -64,7 +64,7 @@ class ImageController < ActionController::Base
     end
   end
   
-  # Get the error image
+  # The error image
   def errorImg
     File.join( Rails.configuration.public_dir, 'img', 'img_not_found.png' )
   end
