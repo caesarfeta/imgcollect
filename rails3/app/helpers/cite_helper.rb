@@ -52,7 +52,7 @@ module CiteHelper
     
     # Now loop through the images and add their triples
     col.images.each_with_index do | image, i |
-      cite_img = "#{col.cite_urn}.#{i+1}".tagify
+      cite_img = "#{col.cite_urn.detagify}.#{i+1}".tagify
       sparql.insert([ cite_img, "rdfs:isDefinedBy", image.tagify ])
       sparql.insert([ cite_img, "cite:belongsTo", cite_urn  ])
       sparql.insert([ cite_urn, "cite:possesses", cite_img  ])

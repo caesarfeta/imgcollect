@@ -44,4 +44,16 @@ class String
     this
   end
   
+  # Unwrap <>
+  def detagify
+    this = self
+    if this[0] == "<"
+      this = this[1..-1]
+    end
+    if this[-1,1] == ">"
+      this = this[0..-2]
+    end
+    this
+  end
+  
 end
