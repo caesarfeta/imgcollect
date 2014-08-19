@@ -314,3 +314,11 @@ Run a single test.
 # How do I secure fuseki?
 
 http://www.epimorphics.com/web/wiki/simple-security-fuseki
+
+
+
+# Crop mini_magick
+
+mini_magick
+
+http://maxivak.com/crop-and-resize-an-image-using-minimagick-ruby-on-rails/

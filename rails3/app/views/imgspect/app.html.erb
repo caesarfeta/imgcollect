@@ -1,0 +1,48 @@
+<html>
+<head>
+	<link rel="stylesheet" href="/third-party/imgspect/third_party/menumucil/css/menumucil.css">
+	<link rel="stylesheet" href="/third-party/imgspect/src/css/imgspect.css">
+	<link rel="stylesheet" href="/third-party/imgspect/src/css/imgbit.css">
+	<style type="text/css">
+		body {
+			margin: 0;
+			background-color: #222;
+		}
+		#app {
+			background-color: #222;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<img id="item" src="<%= imgSrc( @img[:src] ) %>" />
+	</div>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+
+<script src="/third-party/imgspect/third_party/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+<script src="/third-party/imgspect/third_party/jslib/src/js/jQueryPlus.js"></script>
+<script src="/third-party/imgspect/third_party/jslib/src/js/StringExt.js"></script>
+
+<script src="/third-party/imgspect/third_party/jslib/third_party/datejs/date.js"></script>
+<script src="/third-party/imgspect/third_party/jslib/src/js/TimeStamp.js"></script>
+
+<script src="/third-party/imgspect/third_party/jslib/src/js/ObjectExt.js"></script>
+<script src="/third-party/imgspect/third_party/jslib/src/js/Culuh.js"></script>
+<script src="/third-party/imgspect/third_party/jslib/src/js/Sorted.js"></script>
+
+<script src="/third-party/imgspect/third_party/menumucil/menumucil.js"></script>
+<script src="/third-party/imgspect/src/js/imgspect.js"></script>
+<script src="/third-party/imgspect/src/js/imgbit.js"></script>
+
+<script type="text/javascript">
+	var spect = null;
+	$(window).load( function(){
+		/**
+		 * Start imgspect and grab a handler
+		 */
+		spect = $( '#item' ).imgspect().data( '#item' );
+	});
+</script>
+</html>

@@ -29,39 +29,10 @@ class ImageController < ActionController::Base
   #
   # If size is null then return "path" which is the original size
   def byUrn
-    ok = [ "path", "thumb", "basic", "advanced" ]
-    urn = params[:urn]
-    size = params[:size]
-    
-    # We need a urn
-    if urn == nil
-      returnFile( errorImg )
-    end
-    
-    # Default size
-    if ok.include?( size ) == false
-      urn += ".#{size}"
-      size = "path"
-    end
-    
-    # sparql_model urn?
-    if urn.include?( 'cite' )
-      urn = urn.colonize('/').add_urn.tagify
-      begin
-        urn = CiteHelper.sparqlImage( urn )
-      rescue
-        returnFile( errorImg )
-      end
-    end
-    
-    # return that file.
-    begin
-      img = Image.new
-      img.byId( urn.just_i )
-      returnFile( img.all[ size.to_sym ] )
-    rescue
-      returnFile( errorImg )
-    end
+    img = CiteHelper.toImgPath( params[:urn], params[:size] )
+    returnFile( img )
+  rescue
+    returnFile( errorImg )
   end
   
   # The error image

@@ -7,3 +7,6 @@
 [submodule "rails3/public/third-party/dropzone"]
 	path = rails3/public/third-party/dropzone
 	url = http://github.com/caesarfeta/dropzone
+[submodule "rails3/public/third-party/imgspect"]
+	path = rails3/public/third-party/imgspect
+	url = https://github.com/PerseusDL/imgspect

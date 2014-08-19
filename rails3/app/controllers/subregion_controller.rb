@@ -10,7 +10,6 @@ class SubregionController < ActionController::Base
       return
     end
     vals = ControllerHelper.cleanParams( params )
-    puts vals.inspect
     sub = Subregion.new
     sub.create( vals )
     render :json => { :subregion => sub }

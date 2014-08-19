@@ -17,6 +17,9 @@ Imgcollect::Application.routes.draw do
   match 'image/full/*id' => 'image#full'
   match 'image/update' => 'image#update'
   
+  # Imgspect
+  match 'imgspect/*urn/*size' => 'imgspect#load'
+  
   # Subregion
   match 'subregion/create' => 'subregion#create'
 

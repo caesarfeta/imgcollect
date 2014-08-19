@@ -1,4 +1,5 @@
 require_relative "../../../../sparql_model/lib/sparql_quick.rb"
+include ControllerHelper
 
 # This class contains methods for converting SparqlModel collection triples into CITE collection triples
 module CiteHelper
@@ -12,13 +13,13 @@ module CiteHelper
   }
   
   # Does a cite collection exist?
-  # _col { Collection }
-  def self.exists?( _col )
+  # col { Collection }
+  def self.exists?( col )
     sparql = self.sparql
-    if _col.class == Hash
-      cite_urn = _col[:cite_urn].tagify
+    if col.class == Hash
+      cite_urn = col[:cite_urn].tagify
     else
-      cite_urn = _col.cite_urn.tagify
+      cite_urn = col.cite_urn.tagify
     end
     id_triple = [ cite_urn, "rdf:type", "cite:ImageArchive" ];
     if sparql.count( id_triple ) != 0
@@ -28,30 +29,30 @@ module CiteHelper
   end
   
   # Take a SparqlModel collection and write CITE collection triples from it
-  # _col { Collection }
-  def self.create( _col )
+  # col { Collection }
+  def self.create( col )
     
     # Make sure you have what you need to to CITE-ify a collection
-    self.check( _col )
+    self.check( col )
     
     # Does a cite collection exist?
-    if self.exists?( _col )
+    if self.exists?( col )
       raise 'This collection has already been CITE-ified'
     end
     
     # This could point at a different sparql_endpoint if need be
     sparql = self.sparql
-    cite_urn = _col.cite_urn.tagify
+    cite_urn = col.cite_urn.tagify
     id_triple = [ cite_urn, "rdf:type", "cite:ImageArchive" ];
     
     # First things first... mark the collection as a CITE collection
     # and add all the necessary metadata
     sparql.insert( id_triple )
-    sparql.insert([ cite_urn, "rdf:label", _col.label ])
+    sparql.insert([ cite_urn, "rdf:label", col.label ])
     
     # Now loop through the images and add their triples
-    _col.images.each_with_index do | image, i |
-      cite_img = "#{_col.cite_urn}.#{i+1}".tagify
+    col.images.each_with_index do | image, i |
+      cite_img = "#{col.cite_urn}.#{i+1}".tagify
       sparql.insert([ cite_img, "rdfs:isDefinedBy", image.tagify ])
       sparql.insert([ cite_img, "cite:belongsTo", cite_urn  ])
       sparql.insert([ cite_urn, "cite:possesses", cite_img  ])
@@ -59,18 +60,18 @@ module CiteHelper
   end
   
   # Delete CITE collection triples reference Collection.
-  # _col { Collection }
-  def self.delete( _col )
+  # col { Collection }
+  def self.delete( col )
     
     # Make sure you have a CITE-ified collection
-    self.check( _col )
+    self.check( col )
     
     # This could point at a different sparql_endpoint if need be
     sparql = self.sparql
-    cite_col = _col.cite_urn.tagify
+    citecol = col.cite_urn.tagify
     
     # Get the associated images
-    images = sparql.get_objects([ cite_col, "cite:possesses" ])
+    images = sparql.get_objects([ citecol, "cite:possesses" ])
     
     # Delete the related images
     images.each do | image |
@@ -79,14 +80,45 @@ module CiteHelper
     end
     
     # Delete the collections
-    sparql.delete([ cite_col, :p, :o ])
+    sparql.delete([ citecol, :p, :o ])
+  end
+  
+  # Take a cite urn and retrieve an img path
+  def self.toImgPath( urn, size, cite=false )
+    ok = [ "path", "thumb", "basic", "advanced" ]
+    
+    # We need a urn
+    if urn == nil
+      raise "urn cannot be nil"
+    end
+    
+    # Default size
+    if ok.include?( size ) == false
+      urn += ".#{size}"
+      size = "path"
+    end
+    
+    # sparql_model urn?
+    if urn.include?( 'cite' )
+      urn = ControllerHelper.colonUrn( urn )
+      urn = self.sparqlImage( urn )
+    else
+      if cite == true
+        raise "cite urn required"
+      end
+    end
+    
+    # return that file.
+    img = Image.new
+    img.byId( urn.just_i )
+    img.all[ size.to_sym ]
   end
   
   # Get the URN to the SPARQL image
-  # _urn { String } The cite urn to an image
-  def self.sparqlImage( _urn )
+  # urn { String } The cite urn to an image
+  def self.sparqlImage( urn )
     sparql = self.sparql
-    images = sparql.get_objects([ _urn, "rdfs:isDefinedBy" ])
+    images = sparql.get_objects([ urn, "rdfs:isDefinedBy" ])
     if images.length > 1
       raise "Something is fishy. Query should return only one urn."
     end
@@ -96,12 +128,12 @@ module CiteHelper
   private
   
   # Make sure you're dealing with a SparqlModel Collection
-  # _col { Collection }
-  def self.check( _col )
-    if _col.class != Collection
+  # col { Collection }
+  def self.check( col )
+    if col.class != Collection
       raise "Argument must be an instance of Collection"
     end
-    if _col.cite_urn == nil
+    if col.cite_urn == nil
       raise "Collection cite_urn cannot be null"
     end
   end

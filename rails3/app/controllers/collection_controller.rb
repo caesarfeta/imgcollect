@@ -19,7 +19,7 @@ class CollectionController < ActionController::Base
     collection = Collection.new
     collection.create({
       :name => vals[ :name ],
-      :cite_urn => vals[ :cite_urn ].ltgt,
+      :cite_urn => vals[ :cite_urn ].tagify,
       :label => vals[ :label ]
     });
     #-------------------------------------------------------------
