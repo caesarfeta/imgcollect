@@ -3,8 +3,8 @@ class ImgspectController < ActionController::Base
   # Create a new subregion
   def load
     # Make sure an image exists
-    img = CiteHelper.toImgPath( params[:urn], params[:size], true )
-    @img = { :src => img }
+    src = CiteHelper.toImgPath( params[:urn], params[:size], true )
+    @img = { :src => src, :urn => params[:urn] }
     render 'imgspect/app'
   rescue
     render :status => 404

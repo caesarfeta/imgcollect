@@ -20,6 +20,9 @@ Imgcollect::Application.routes.draw do
   # Imgspect
   match 'imgspect/*urn/*size' => 'imgspect#load'
   
+  # Imgbit
+  match 'imgbit/*urn' => 'imgbit#show'
+  
   # Subregion
   match 'subregion/create' => 'subregion#create'
 
