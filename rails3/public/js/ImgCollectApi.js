@@ -57,6 +57,9 @@ ImgCollectApi = function() {
 		},
 		'collection/citeify': {
 			method: 'POST'
+		},
+		'subregion/create': {
+			method: 'POST'
 		}
 	};
 	
@@ -72,13 +75,11 @@ ImgCollectApi = function() {
 		var self = this;
 		var url = [ _model, _action ];
 		lookup = url.join('/');
-		//------------------------------------------------------------
+		
 		//  What's the method? 
-		//------------------------------------------------------------
 		var method = self.httpMethod( lookup );
-		//------------------------------------------------------------
+		
 		//  Append path data
-		//------------------------------------------------------------
 		var pathVars = self.pathVars( lookup );
 		for ( var i=0; i<pathVars.length; i++ ) {
 			if ( pathVars[i] in _data ) {
@@ -87,9 +88,10 @@ ImgCollectApi = function() {
 			}
 		}
 		url = url.join('/');
-		//------------------------------------------------------------
-		//  TODO: make sure _data is key value pairs
-		//------------------------------------------------------------
+		
+		// Remember we want an absolute path
+		url = '/'+url;
+
 		jQuery.ajax({
 			url: url,
 			type: method,

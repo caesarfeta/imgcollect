@@ -19,19 +19,16 @@ class ImgSize
   end
   
   def self.create( _src, _size, _dir )
-    #-------------------------------------------------------------
     #  Build the thumbnail filename
-    #-------------------------------------------------------------
     file = File.basename( _src )
     path = File.join( _dir, file )
     res = UploadUtils.filename( path )
-    #-------------------------------------------------------------
+
     #  Create the thumbnail
-    #-------------------------------------------------------------
     image = MiniMagick::Image.open( _src )
     image.resize( _size )
     image.write( res['path'] )
-    return res['path']
+    res['path']
   end
   
 end

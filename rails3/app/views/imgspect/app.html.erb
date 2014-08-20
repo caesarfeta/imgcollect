@@ -14,8 +14,13 @@
 </style>
 </head>
 <body>
+	<input type="hidden" id="urn" value="<%= @img[:urn] %>" />
+	</div>
 	<div id="app">
 		<img id="item" src="<%= imgSrc( @img[:src] ) %>" />
+	</div>
+	<div class="imgspect">
+		<a class="tool" id="save" href="">Save</a>
 	</div>
 </body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -31,12 +36,14 @@
 <script src="/third-party/imgspect/third_party/menumucil/menumucil.js"></script>
 <script src="/third-party/imgspect/src/js/imgspect.js"></script>
 <script src="/third-party/imgspect/src/js/imgbit.js"></script>
-<script src="/third-party/imgspect/src/js/imgcollectBridge.js"></script>
+<script src="/js/ImgCollectApi.js"></script>
+<script src="/js/ImgSpectBridge.js"></script>
 <script type="text/javascript">
 	var spect = null;
 	$(window).load( function(){
 		// Start imgspect and grab a handler
 		spect = $('#item').imgspect().data('#item');
+		new ImgSpectBridge( spect );
 	});
 </script>
 </html>

@@ -12,8 +12,18 @@ module ControllerHelper
     clean
   end
   
+  # Take a path and turn it into a colon separated URN
   def self.colonUrn( urn )
     urn.colonize('/').add_urn.tagify
+  end
+
+  # Retrieve a full path
+  def self.fullPath( params )
+    format = ''
+    if params[:format] != nil
+      format = ".#{ params[:format] }"
+    end
+    return params[:urn] + format
   end
   
 end

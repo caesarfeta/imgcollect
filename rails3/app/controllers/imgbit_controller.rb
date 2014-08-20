@@ -2,15 +2,25 @@ class ImgbitController < ActionController::Base
   
   # Create a new subregion
   def show
-    path = params[:urn] + '.' + params[:format]
+    
+    # Get the urn to the image and the subregion coordinates
+    path = ControllerHelper.fullPath( params )
     item = path.split(/\//)
-    dim = { :height => item.pop, :width => item.pop, :y => item.pop, :x => item.pop }
+    d = { :h => item.pop.to_f, :w => item.pop.to_f, :y => item.pop.to_f, :x => item.pop.to_f }
     n = item.pop
+    
+    # Make sure everything we need is there
+    d.each do | key, value |
+      if value < 0 || value > 1
+        raise "value #{value} out of range"
+      end
+    end
+
+    # Get the local path to the image
     src = CiteHelper.toImgPath( item.join('/')+".#{n}", 'path', true )
-    @img = { :src => src, :item => item, :dim => dim }
+    @img = { :src => src, :item => item, :d => d }
     render 'imgbit/show'
-  rescue
-    render :status => 404
+
   end
   
 end

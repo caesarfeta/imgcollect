@@ -1,8 +1,5 @@
 class SubregionController < ActionController::Base
   
-  def show
-  end
-  
   # Create a new subregion
   def create
     if request.post? == false
@@ -17,8 +14,8 @@ class SubregionController < ActionController::Base
   # rest = RestTest.new( 'http://localhost:3000' )
   # rest.post( 'subregion/create', {
   #   :cite_urn => 'urn:cite:perseus:forests.2',
-  #   :x => 100,
-  #   :y => 100,
+  #   :x => 0.25,
+  #   :y => 0.6,
   #   :width => 0.4,
   #   :height => 0.25,
   #   :caption => 'Some green stuff.'
@@ -28,5 +25,8 @@ class SubregionController < ActionController::Base
   def delete
   end
   
+  # Get all subregions associated with a CITE URN
+  def all
+  end
   
 end

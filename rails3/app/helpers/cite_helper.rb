@@ -28,7 +28,8 @@ module CiteHelper
     false
   end
   
-  # Take a SparqlModel collection and write CITE collection triples from it
+  # Take a SparqlModel collection and 
+  # write CITE collection triples from it
   # col { Collection }
   def self.create( col )
     
@@ -83,6 +84,14 @@ module CiteHelper
     sparql.delete([ citecol, :p, :o ])
   end
   
+  # Create a 
+  def self.imgUrn( urn, extra )
+    if extra != nil
+      urn += ".#{extra}"
+    end
+    ControllerHelper.colonUrn( urn )
+  end
+  
   # Take a cite urn and retrieve an img path
   def self.toImgPath( urn, size, cite=false )
     ok = [ "path", "thumb", "basic", "advanced" ]
@@ -93,14 +102,16 @@ module CiteHelper
     end
     
     # Default size
+    n = nil
     if ok.include?( size ) == false
-      urn += ".#{size}"
+      n = size
       size = "path"
     end
     
+    urn = self.imgUrn( urn, n )
+    
     # sparql_model urn?
     if urn.include?( 'cite' )
-      urn = ControllerHelper.colonUrn( urn )
       urn = self.sparqlImage( urn )
     else
       if cite == true
