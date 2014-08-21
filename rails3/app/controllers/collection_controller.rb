@@ -2,29 +2,25 @@ class CollectionController < ActionController::Base
 
   #  Create a new collection
   def create
-    #-------------------------------------------------------------
+    
     #  If no form has been submitted
-    #-------------------------------------------------------------
     if request.post? == false
       render :json => { :message => "Error" }
       return
     end
-    #-------------------------------------------------------------
+    
     #  Clean up the parameters
-    #-------------------------------------------------------------
     vals = ControllerHelper.cleanParams( params )
-    #-------------------------------------------------------------
+
     #  Build a new collection
-    #-------------------------------------------------------------
     collection = Collection.new
     collection.create({
       :name => vals[ :name ],
       :cite_urn => vals[ :cite_urn ].tagify,
       :label => vals[ :label ]
     });
-    #-------------------------------------------------------------
+
     #  Output
-    #-------------------------------------------------------------
     render :json => { 
       :message => "Success", 
       :collection => collection.all 
@@ -37,9 +33,8 @@ class CollectionController < ActionController::Base
       render :json => { :message => "Error" }
       return
     end
-    #-------------------------------------------------------------
+
     #  Add an image to a collection
-    #-------------------------------------------------------------
     collection = Collection.new
     collection.byId( params[ :collection_id ] )
     image = Image.new
@@ -57,9 +52,8 @@ class CollectionController < ActionController::Base
       render :json => { :message => "Error" }
       return
     end
-    #-------------------------------------------------------------
+
     #  Turn a collection into a CITE collection
-    #-------------------------------------------------------------
     collection = Collection.new
     collection.byId( params[ :collection_id ] )
     CiteHelper.create( collection )
@@ -75,9 +69,8 @@ class CollectionController < ActionController::Base
       render :json => { :message => "Error" }
       return
     end
-    #-------------------------------------------------------------
+
     #  Add a subcollection to a collection
-    #-------------------------------------------------------------
     collection = Collection.new
     collection.byId( params[ :collection_id ] )
     subcollection = Collection.new
@@ -142,38 +135,32 @@ class CollectionController < ActionController::Base
   
   #  Recursively retrieve subcollection images
   def image_dig( _collection, _images, _check )
-    # puts _collection
-    # puts _check.inspect
-    #-------------------------------------------------------------
+
     #  No sequence just exit...
-    #-------------------------------------------------------------
     images = _collection.images
     if images
       images.each do | image |
         _images.push( image )
       end
     end
-    #-------------------------------------------------------------
+
     #  Recurse subcollection to get associated images.
     #  If they exist of course.
-    #-------------------------------------------------------------
     subs = _collection.subcollections
     if subs
       subs.each do | sub |
         collection = Collection.new
         collection.byId( sub.tagify )
-        #-------------------------------------------------------------
+
         #  Avoid circular subcollection referencing.
-        #-------------------------------------------------------------
         if _check.include?( collection.urn ) == false
           _check.push( collection.urn )
           _images = image_dig( collection, _images, _check )
         end
       end
     end
-    #-------------------------------------------------------------
+
     #  Return those images.
-    #-------------------------------------------------------------
     _images
   end
 

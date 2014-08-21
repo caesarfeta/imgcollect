@@ -10,9 +10,7 @@ ImgCollectCol = function() {
 ImgCollectCol.prototype.start = function() {
 	var self = this;
 	
-	//------------------------------------------------------------
 	//  When image previews are loaded
-	//------------------------------------------------------------
 	jQuery( document ).on( 'ImgsLoaded-START', function( _e ) {
 		jQuery( '.image-full .button.new' ).each( function() {
 			jQuery( this ).removeClass( 'new' );
@@ -22,46 +20,46 @@ ImgCollectCol.prototype.start = function() {
 				var col_urn = jQuery( '#activeDock' ).attr( 'data-urn' );
 				var img_id = img_urn.lastInt();
 				var col_id = col_urn.lastInt();
-				self.api.send( 'collection', 'add/image', { collection_id: col_id, image_id: img_id }, 'ImgCollectCol-ADDIMG' );
+				
+				// Make the API call
+				self.api.send( 'collection', 'add/image', { 
+					collection_id: col_id, 
+					image_id: img_id }, 
+					'ImgCollectCol-ADDIMG' 
+				);
+				
 			});
 		});
 	});
 	
-	//------------------------------------------------------------
-	//  Collection has been created... get it.
-	//------------------------------------------------------------
+
+	//  API event handlers
 	jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 		switch ( _data['context'] ) {
-			//------------------------------------------------------------
+
 			//  After creating a new collection
-			//------------------------------------------------------------
 			case 'ImgCollectCol-CREATE':
 				self.api.get( 'collection', _data['data']['collection']['urn'].lastInt() );
 				break;
-			//------------------------------------------------------------
+
 			//  Dock a collection
-			//------------------------------------------------------------
 			case 'ImgCollectCol-DOCK':
 				self.buildDock( _data );
 				break;
-			//------------------------------------------------------------
+
 			//  After adding an image to a collection
-			//------------------------------------------------------------
 			case 'ImgCollectCol-ADDIMG':
 				self.dock( _data['data']['collection']['urn'] );
 				break;
-			//------------------------------------------------------------
+
 			//  What happens after a citeify button gets clicked?
-			//------------------------------------------------------------
 			case "ImgCollectCol-CITEIFY":
 				// TODO Do something here?
 				break;
 		}
 	});
 	
-	//------------------------------------------------------------
 	//  Click the Create button?
-	//------------------------------------------------------------
 	jQuery( this.button ).on( 'touchstart click', function( _e ) {
 		_e.preventDefault();
 		var data = {};
@@ -125,7 +123,10 @@ ImgCollectCol.prototype.activateTouch = function( _elem ) {
  */
 ImgCollectCol.prototype.citeify = function( _urn ) {
 	var self = this;
-	self.api.send( 'collection', 'citeify', { 'collection_id': _urn.lastInt() }, 'ImgCollectCol-CITEIFY' );
+	self.api.send( 'collection', 'citeify', { 
+		'collection_id': _urn.lastInt() }, 
+		'ImgCollectCol-CITEIFY' 
+	);
 }
 
 /**
@@ -144,7 +145,10 @@ ImgCollectCol.prototype.deactivate = function() {
  */
 ImgCollectCol.prototype.dock = function( _urn ) {
 	var self = this;
-	self.api.send( 'collection', 'dock', { 'id': _urn.lastInt() }, 'ImgCollectCol-DOCK' );
+	self.api.send( 'collection', 'dock', { 
+		'id': _urn.lastInt() }, 
+		'ImgCollectCol-DOCK' 
+	);
 }
 
 /**
@@ -156,9 +160,8 @@ ImgCollectCol.prototype.buildDock = function( _data ) {
 	var self = this;
 	jQuery( '#activeDock' ).remove();
 	jQuery( 'body' ).append( _data['data'] );
-	//------------------------------------------------------------
+
 	//  Start 
-	//------------------------------------------------------------
 	jQuery( '#activeDock .close' ).on( 'touchstart click', function( _e ) {
 		_e.preventDefault();
 		self.deactivate();

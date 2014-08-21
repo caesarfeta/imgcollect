@@ -95,9 +95,8 @@ ImgCollectSearch.prototype.autocompleteDisplayItem = function( _item ) {
 ImgCollectSearch.prototype.start = function() {
 	var self = this;
 	var input = jQuery( '#imgcollect_search #input' );
-	//------------------------------------------------------------
+
 	//  Enter key is as good as pressing Go! button
-	//------------------------------------------------------------
 	input.keydown( function( _e ) {
 		switch ( _e.which ) {
 			case 13: // Enter key
@@ -114,9 +113,8 @@ ImgCollectSearch.prototype.start = function() {
 				break;
 		}
 	});
-	//------------------------------------------------------------
+
 	//  Auto complete search
-	//------------------------------------------------------------
 	input.keyup( function( _e ) {
 		switch ( _e.which ) {
 			case 13:
@@ -128,9 +126,8 @@ ImgCollectSearch.prototype.start = function() {
 				break;
 		}
 	});
-	//------------------------------------------------------------
+
 	//  Click the Go! button?
-	//------------------------------------------------------------
 	jQuery( '#imgcollect_search #click').on( 'touchstart click', function( _e ) {
 		_e.preventDefault();
 		self.search( input.val() );
@@ -172,22 +169,18 @@ ImgCollectSearch.prototype.historyUpdate = function( _search ) {
  */
 ImgCollectSearch.prototype.search = function( _search ) {
 	var self = this;
-	//------------------------------------------------------------
+
 	//  Remove the autocomplete element
-	//------------------------------------------------------------
 	self.autocompleteRemove();
-	//------------------------------------------------------------
+
 	//  Update the history
-	//------------------------------------------------------------
 	self.historyUpdate( _search );
-	//------------------------------------------------------------
+
 	//  Mark the search
-	//------------------------------------------------------------
 	self.utils.mark( 'search', _search );
-	//------------------------------------------------------------
+
 	//  Do a bit of validation
 	//  There should be three distinct groups
-	//------------------------------------------------------------
 	if ( _search == null ) {
 		jQuery( document ).trigger( self.events['error'] );
 	}
@@ -234,17 +227,14 @@ ImgCollectSearch.prototype.cleanResults = function( _results ) {
  * @return { string } The SPARQL endpoint query
  */
 ImgCollectSearch.prototype.buildQuery = function( _model, _pred, _search ) {
-	//------------------------------------------------------------
+	
 	//  Determine the prefix
-	//------------------------------------------------------------
 	var prefixes = this.searchPrefixes( _model );
-	//------------------------------------------------------------
+
 	//  Get the predicate value
-	//------------------------------------------------------------
 	var pred = this.fullPred( _model, _pred );
-	//------------------------------------------------------------
+
 	//  Build the query
-	//------------------------------------------------------------
 	var query = prefixes+'\
 		SELECT ?s\
 		WHERE {\
@@ -261,10 +251,9 @@ ImgCollectSearch.prototype.buildQuery = function( _model, _pred, _search ) {
  * @param { string } _uri The uri
  */
 ImgCollectSearch.prototype.escapeURI = function( _uri ) {
-	//------------------------------------------------------------
+
 	//  %23 is the url encoding for a hashmark.
 	//  encodeURI ignores it.
-	//------------------------------------------------------------
 	return encodeURI( _uri ).replace( /#/g, '%23' );
 }
 
