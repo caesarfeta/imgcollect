@@ -17,6 +17,16 @@ module ControllerHelper
     urn.colonize('/').add_urn.tagify
   end
 
+  # Turn the last colon into a dot.
+  # Used by many automatically generated URNs
+  def self.lastDot( urn )
+    *a, b = urn.split(':', -1)
+    if a.length == 0
+      return urn
+    end
+    a.join(':')+'.'+b
+  end
+
   # Retrieve a full path
   def self.fullPath( params )
     format = ''

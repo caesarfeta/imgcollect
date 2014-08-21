@@ -27,6 +27,8 @@ class SubregionController < ActionController::Base
   
   # Get all subregions associated with a CITE URN
   def all
+    subregions = Subregions.all( params[:urn] )
+    render :json => { :subregions => subregions }
   end
   
 end

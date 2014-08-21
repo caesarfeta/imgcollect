@@ -60,6 +60,10 @@ ImgCollectApi = function() {
 		},
 		'subregion/create': {
 			method: 'POST'
+		},
+		'subregion/all': {
+			method: 'GET',
+			pathVars: [ 'cite_urn' ]
 		}
 	};
 	

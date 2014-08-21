@@ -1,4 +1,5 @@
 // require ImgCollectApi.js
+
 ( function( global ) {
 ImgSpectBridge = function( spect ) {
 	
@@ -13,19 +14,48 @@ ImgSpectBridge = function( spect ) {
 	// Store reference to imgspect instance
 	this.spect = spect;
 	this.api = new ImgCollectApi();
-	
-	/**
-	 *  TODO Retrieve subregions in triplestore
-	 */
-	this.get = function() {}
+	this.events = {
+		save: 'ImgSpectBridge-SAVE',
+		get: 'ImgSpectBridge-GET'
+	}
 	
 	/**
 	 *  Create save button
 	 */
 	this.start = function() {
 		var self = this;
-		$( '#save' ).on( 'touchstart click', function( _e ) {
-			_e.preventDefault();
+		self.saveClick();
+		
+		// API event handling
+		$( document ).on( 'ImgCollectApi-SUCCESS', function( e, result ) {
+			switch ( result.context ) {
+				case self.events['get']:
+					self.loadData( result['data'] );
+					break;
+				case self.events['save']:
+					break;
+			}
+		});
+		
+		// Get the subregions
+		self.get();
+	}
+
+	/**
+	 *  Load the subregion data into Imgspect
+	 */	
+	this.loadData = function( data ) {
+		var subs = data['subregions'];
+		spect.load( subs );
+	}
+	
+	/**
+	 *  When the save button is clicked
+	 */
+	this.saveClick = function() {
+		var self = this;
+		$( '#save' ).on( 'touchstart click', function( e ) {
+			e.preventDefault();
 			var bits = self.spect.imgbits;
 			for ( var i=0; i<bits.length; i++ ) {
 				var cap = bits[i].caption;
@@ -47,7 +77,18 @@ ImgSpectBridge = function( spect ) {
 			height: h,
 			caption: caption,
 			cite_urn: $( '#urn' ).val()
-		}, 'ImgSpectBridge' );
+		}, self.events['save'] );
+	}
+	
+	/**
+	 *  Retrieve subregions in triplestore
+	 */
+	this.get = function() {
+		var self = this;
+		var cite_urn = $( '#urn' ).val();
+		self.api.send( 'subregion', 'all', {
+			cite_urn: cite_urn.urnToPath()
+		}, self.events['get'] );
 	}
 	
 	// Start things up

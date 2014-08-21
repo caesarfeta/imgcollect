@@ -25,6 +25,7 @@ Imgcollect::Application.routes.draw do
   
   # Subregion
   match 'subregion/create' => 'subregion#create'
+  match 'subregion/all/*urn' => 'subregion#all'
 
   # Image by urn
   match 'urn/*urn/*size' => 'image#byUrn'
