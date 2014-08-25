@@ -129,6 +129,7 @@ class ImageController < ActionController::Base
         # Create an image record in the triplestore
         image = Image.new
         image.create({ 
+          :user => params[:user].tagify,
           :original => item['original'],
           :path => item['path'], 
           :thumb => item['thumb'], 

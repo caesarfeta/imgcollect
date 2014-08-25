@@ -7,25 +7,24 @@ class Image < SparqlModel
       :cite =>  "<http://www.homermultitext.org/cite/rdf/>"
     }
     @attributes = {
-      #-------------------------------------------------------------
-      #  Image paths
-      #-------------------------------------------------------------
+            
+      # Image paths
       :path => [ "this:path", ::String, SINGLE, REQUIRED, UNIQUE, KEY ],
       :original => [ "this:original", ::String, SINGLE, REQUIRED ],
       :thumb => [ "this:thumb", ::String, SINGLE, REQUIRED, UNIQUE ],
       :basic => [ "this:basic", ::String, SINGLE, REQUIRED, UNIQUE ],
       :advanced => [ "this:advanced", ::String, SINGLE, REQUIRED, UNIQUE ],
-      #-------------------------------------------------------------
-      #  Name
-      #-------------------------------------------------------------
+      
+      # User
+      :user => [ "this:user", ::String, SINGLE, REQUIRED ],
+
+      # Name
       :name => [ "this:name", ::String, SINGLE ],
-      #-------------------------------------------------------------
-      #  Keywords
-      #-------------------------------------------------------------
+
+      # Keywords
       :keywords => [ "this:keywords", ::String, MULTI ],
-      #-------------------------------------------------------------
-      #  Exif Metadata
-      #-------------------------------------------------------------
+
+      # Exif Metadata
       :brightness_value => [ "exif:brightnessValue", ::String, SINGLE ],
       :color_space => [ "exif:colorSpace", ::String, SINGLE ],
       :compressed_bits_per_pixel => [ "exif:compressedBitsPerPixel", ::String, SINGLE ],
@@ -65,9 +64,8 @@ class Image < SparqlModel
       :x_resolution => [ "exif:xResolution", ::Rational, SINGLE ],
       :ycb_cr_positioning => [ "exif:ycbCrPositioning", ::String, SINGLE ],
       :y_resolution => [ "exif:yResolution", ::Rational, SINGLE ],
-      #-------------------------------------------------------------
-      #  CITE collection stuff
-      #-------------------------------------------------------------
+
+      # CITE collection stuff
       :license => [ "cite:license", ::String, SINGLE ]
     }
     super( _key )

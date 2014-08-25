@@ -17,7 +17,8 @@ class CollectionController < ActionController::Base
     collection.create({
       :name => vals[ :name ],
       :cite_urn => vals[ :cite_urn ].tagify,
-      :label => vals[ :label ]
+      :label => vals[ :label ],
+      :user => vals[ :user ].tagify
     });
 
     #  Output

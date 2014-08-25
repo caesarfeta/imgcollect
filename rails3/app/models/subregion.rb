@@ -4,6 +4,7 @@ class Subregion < SparqlModel
     @endpoint = Rails.configuration.sparql_endpoint
     @attributes = {
       :cite_urn => [ "this:cite_urn", ::URN, SINGLE, REQUIRED ],
+      :user => [ "this:user", ::URN, SINGLE, REQUIRED ],
       :x => [ "this:x", ::Float, SINGLE, REQUIRED ],
       :y => [ "this:y", ::Float, SINGLE, REQUIRED ],
       :width => [ "this:width", ::Float, SINGLE, REQUIRED ],

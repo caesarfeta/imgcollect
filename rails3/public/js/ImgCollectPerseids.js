@@ -49,9 +49,7 @@ ImgCollectPerseids = function() {
 	// TODO: Build a better alert system!
 	this.start = function() {
 		var self = this;
-		$( document ).on( self.events.success, function() {
-			console.log( self );
-		});
+		$( document ).on( self.events.success, function() {});
 		$( document ).on( self.events.error, function() {
 			alert( 'Could not contact Perseids to retrieve user info!' );
 		});

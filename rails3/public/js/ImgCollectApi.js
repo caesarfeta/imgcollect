@@ -15,8 +15,14 @@ ImgCollectApi = function() {
 	this.events = {
 		success: 'ImgCollectApi-SUCCESS',
 		error: 'ImgCollectApi-ERROR',
-		img_loaded: 'ImgCollectApi-Img'
+		img_loaded: 'ImgCollectApi-Img',
+		login_req: 'ImgCollectApi-LOGIN_REQ'
 	};
+	
+	/**
+	 * Where user data is retrieved.
+	 */
+	this.perseids = new ImgCollectPerseids();
 	
 	/**
 	 * API Config
@@ -29,20 +35,24 @@ ImgCollectApi = function() {
 	 */
 	this.config = {
 		'image/add': {
-			method: 'POST'
+			method: 'POST',
+			user_req: true
 		},
 		'image/upload': {
-			method: 'POST'
+			method: 'POST',
+			user_req: true
 		},
 		'image/update': {
-			method: 'POST'
+			method: 'POST',
+			user_req: true
 		},
 		'image/full': {
 			method: 'GET',
 			pathVars: [ 'id' ]
 		},
 		'collection/add/image': {
-			method: 'POST'
+			method: 'POST',
+			user_req: true
 		},
 		'collection/dock': {
 			method: 'GET',
@@ -53,13 +63,16 @@ ImgCollectApi = function() {
 			pathVars: [ 'id' ]
 		},
 		'collection/create': {
-			method: 'POST'
+			method: 'POST',
+			user_req: true
 		},
 		'collection/citeify': {
-			method: 'POST'
+			method: 'POST',
+			user_req: true
 		},
 		'subregion/create': {
-			method: 'POST'
+			method: 'POST',
+			user_req: true
 		},
 		'subregion/all': {
 			method: 'GET',
@@ -83,6 +96,11 @@ ImgCollectApi = function() {
 		//  What's the method? 
 		var method = self.httpMethod( lookup );
 		
+		// Only Perseidslogged-in users have access to POST.
+		if ( self.userReq( lookup ) ) {
+			_data.user = self.perseids.user;
+		}
+		
 		//  Append path data
 		var pathVars = self.pathVars( lookup );
 		for ( var i=0; i<pathVars.length; i++ ) {
@@ -96,18 +114,18 @@ ImgCollectApi = function() {
 		// Remember we want an absolute path
 		url = '/'+url;
 
-		jQuery.ajax({
+		$.ajax({
 			url: url,
 			type: method,
 			data: _data,
 			success: function( _data, _status ) {
-				jQuery( document ).trigger( self.events['success'], { 
+				$( document ).trigger( self.events.success, { 
 					context: _context, 
 					data: _data } 
 				);
 			},
 			error: function( _error ) {
-				jQuery( document ).trigger( self.events['error'], { 
+				$( document ).trigger( self.events.error, { 
 					context: _context, 
 					data: null, 
 					error: _error } 
@@ -123,7 +141,7 @@ ImgCollectApi = function() {
 	 */
 	this.pathVars = function( _url ) {
 		if ( 'pathVars' in this.config[ _url ] ) {
-			return this.config[ _url ]['pathVars'];
+			return this.config[ _url ].pathVars;
 		}
 		return [];
 	};
@@ -134,13 +152,21 @@ ImgCollectApi = function() {
 	 * @param { String } The url
 	 */
 	this.httpMethod = function( _url ) {
-		var method = this.config[ _url ]['method']
+		var method = this.config[ _url ].method;
 		method = method.toUpperCase();
 		if ( method == 'POST' || method == 'GET' ) {
 			return method;
 		}
-		jQuery( document ).trigger( self.events['error'] );
+		$( document ).trigger( self.events['error'] );
 	};
+	
+	this.userReq = function( _url ) {
+		var item = this.config[ _url ];
+		if ( 'user_req' in item && item.user_req == true ) {
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * Get an image or collection
