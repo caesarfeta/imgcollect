@@ -50,7 +50,8 @@ Thumbs.db
 /jena-fuseki*
 /fuseki
 
-# Uploads & Images #
-####################
-/uploads
-/images
+# Uploads & Images & Triples #
+##############################
+/uploads/*
+/images/*
+/triples/*

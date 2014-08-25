@@ -301,16 +301,13 @@ Run a single test.
 
 
 
-# Load Test Data
-
-	cd /usr/local/imgcollect/rails3
-	rails console development
-	ApplicationHelper.wipeout
-	ApplicationHelper.loadtest
-
-
-
+# Load Quality Test Data
 # How do I make data in fuseki persistent across restarts?
+https://jena.apache.org/documentation/tdb/index.html
+I should probably use TDB.
+
+
+
 # How do I secure fuseki?
 
 http://www.epimorphics.com/web/wiki/simple-security-fuseki

@@ -11,7 +11,7 @@ function startRails() {
 function startFuseki() {
 	cd $DIR
 	cd fuseki
-	./fuseki-server --update --mem --port=$SPARQL_PORT /ds &
+	./fuseki-server --update --loc=$RDF_DATA --port=$SPARQL_PORT /ds &
 	echo $! > $DIR/fuseki.pid
 }
 
