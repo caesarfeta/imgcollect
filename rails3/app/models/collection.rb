@@ -1,4 +1,3 @@
-require_relative "../../../../sparql_model/lib/sparql_model.rb"
 class Collection < SparqlModel
 
   def initialize( _key=nil )

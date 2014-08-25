@@ -101,10 +101,17 @@ ImgCollectApi = function() {
 			type: method,
 			data: _data,
 			success: function( _data, _status ) {
-				jQuery( document ).trigger( self.events['success'], { context: _context, data: _data } );
+				jQuery( document ).trigger( self.events['success'], { 
+					context: _context, 
+					data: _data } 
+				);
 			},
 			error: function( _error ) {
-				jQuery( document ).trigger( self.events['error'], { context: _context, data: null, error: _error } );
+				jQuery( document ).trigger( self.events['error'], { 
+					context: _context, 
+					data: null, 
+					error: _error } 
+				);
 			}
 		});
 	};

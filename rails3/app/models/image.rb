@@ -1,4 +1,3 @@
-require_relative "../../../../sparql_model/lib/sparql_model.rb"
 class Image < SparqlModel
 
   def initialize( _key=nil )

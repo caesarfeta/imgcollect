@@ -300,6 +300,10 @@ ImgCollectSearch.prototype.modelSlack = function( _model ) {
 		case 'col':
 		case 'c':
 			return 'collection';
+		case 'subregion':
+		case 'subreg':
+		case 's':
+			return 'subregion';
 		default:
 			jQuery( document ).trigger( this.events['error'] );
 			return;

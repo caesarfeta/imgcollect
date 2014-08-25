@@ -14,7 +14,7 @@ class SearchController < ActionController::Base
       'collection' => {
         'prefixes' => col.prefixes,
         'attributes' => col.attributes
-      }
+      },
       'subregion' => {
         'prefixes' => sub.prefixes,
         'attributes' => sub.attributes
