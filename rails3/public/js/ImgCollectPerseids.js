@@ -33,11 +33,12 @@ ImgCollectPerseids = function() {
 			dataType: 'json',
 			success: function( data ) {
 				self.data = data;
-				self.user = data.user.uri;
 				if ( self.oe.isEmpty( self.data ) ) {
 					$( document ).trigger( self.events.no_user );
 					return;
 				}
+				self.user = data.user.uri;
+				$( 'input[name="user"]' ).val( data.user.uri );
 				$( document ).trigger( self.events.success );
 			},
 			error: function( error ) {
@@ -49,7 +50,9 @@ ImgCollectPerseids = function() {
 	// TODO: Build a better alert system!
 	this.start = function() {
 		var self = this;
-		$( document ).on( self.events.success, function() {});
+		$( document ).on( self.events.success, function() {
+			
+		});
 		$( document ).on( self.events.error, function() {
 			alert( 'Could not contact Perseids to retrieve user info!' );
 		});

@@ -54,7 +54,11 @@
 				
 				<!-- Drag and drop upload -->
 				<div id="uploader_dragdrop" class="columns small-12 medium-6">
-					<form action="/image/upload" class="dropzone"></form>
+					<form action="/image/upload" class="dropzone">
+						
+						<!-- Dropzone accessible user param -->
+						<input type="hidden" name="user" />
+					</form>
 				</div>
 				
 				<!-- URL upload -->
