@@ -3,6 +3,7 @@ var search = null;
 var input = null;
 var wait = 0;
 var loaded = 0;
+var perseids = null;
 
 /**************************
  * Get ready...
@@ -18,37 +19,39 @@ Dropzone.options.dropzone = {
 //------------------------------------------------------------
 //  Get the config.
 //------------------------------------------------------------
-jQuery( document ).ready( function(){
+$( document ).ready( function(){
 	new ImgCollectConfig();
 });
 
 //------------------------------------------------------------
 //  When the config is ready.
 //------------------------------------------------------------
-jQuery( document ).on( 'ImgCollectConfig-READY', function() {
+$( document ).on( 'ImgCollectConfig-READY', function() {
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
 	input = new ImgCollectInput();
 	col = new ImgCollectCol();
 	new ImgCollectUpload();
 	uploadPop();
+	perseids = new ImgCollectPerseids();
+	perseids.start();
 });
 
 //------------------------------------------------------------
 //  Whoop there's an error
 //------------------------------------------------------------
-jQuery( document ).on( 'ImgCollectConfig-ERROR', function() {
+$( document ).on( 'ImgCollectConfig-ERROR', function() {
 	alert( 'Could not contact ImgCollect server.' );
 });
 
-jQuery( document ).on( 'ImgCollectApi-ERROR', function( _e, _data ) {
+$( document ).on( 'ImgCollectApi-ERROR', function( _e, _data ) {
 	console.log( _data['error'] );
 });
 
 /**************************
  * API event listeners
  **************************/
-jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
+$( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	//------------------------------------------------------------
 	//  Check the context of the API call
 	//------------------------------------------------------------
@@ -62,8 +65,8 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	//------------------------------------------------------------
 	//  Append the search results data
 	//------------------------------------------------------------
-	var data = jQuery( _data['data'] );
-	jQuery( '#results' ).append( data );
+	var data = $( _data['data'] );
+	$( '#results' ).append( data );
 	//------------------------------------------------------------
 	//  Create an input listener
 	//------------------------------------------------------------
@@ -75,24 +78,24 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	//------------------------------------------------------------
 	if ( loaded == wait ) {
 		var imageloads = [];
-		jQuery( '#results' ).find( 'img' ).each(function () {
-			var dfd = jQuery.Deferred();
-				jQuery( this ).on( 'load', function () {
+		$( '#results' ).find( 'img' ).each(function () {
+			var dfd = $.Deferred();
+				$( this ).on( 'load', function () {
 				    dfd.resolve();
 				});
 				//------------------------------------------------------------
 				// Is image cached?
 				//------------------------------------------------------------
 				if ( this.complete ) {
-				    jQuery( this ).trigger( 'load' );
+				    $( this ).trigger( 'load' );
 				}
 				imageloads.push( dfd );
 		});
 		//------------------------------------------------------------
 		//  Scroll to bottom again after all the images load
 		//------------------------------------------------------------
-	    jQuery.when.apply( undefined, imageloads ).done( function () {
-			jQuery( document ).trigger( 'ImgsLoaded-START' );
+	    $.when.apply( undefined, imageloads ).done( function () {
+			$( document ).trigger( 'ImgsLoaded-START' );
 		});
 	}
 });
@@ -100,10 +103,11 @@ jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 /**************************
  * Search event listeners
  **************************/
+
 /**
  * If search results are returned retrieve them!
  */
-jQuery( document ).on( 'ImgCollectSearch-SUCCESS', function() {
+$( document ).on( 'ImgCollectSearch-SUCCESS', function() {
 	//------------------------------------------------------------
 	//  Retrieve the search results
 	//------------------------------------------------------------
@@ -120,10 +124,10 @@ jQuery( document ).on( 'ImgCollectSearch-SUCCESS', function() {
  * Upload pop-up
  */
 function uploadPop() {
-	jQuery( '.modal' ).on( 'touchstart click', function( _e ) {
+	$( '.modal' ).on( 'touchstart click', function( _e ) {
 		_e.preventDefault();
-		var selector = jQuery( this ).attr( 'data-reveal-id' );
-		jQuery( '#'+selector ).foundation( 'reveal', 'open' );
+		var selector = $( this ).attr( 'data-reveal-id' );
+		$( '#'+selector ).foundation( 'reveal', 'open' );
 	});
 }
 
@@ -131,6 +135,6 @@ function uploadPop() {
  * Upload hide
  */
 function uploadHide() {
-	jQuery( '#imageModal' ).foundation( 'reveal', 'close' );
-	jQuery( '#collectionModal' ).foundation( 'reveal', 'close' );
+	$( '#imageModal' ).foundation( 'reveal', 'close' );
+	$( '#collectionModal' ).foundation( 'reveal', 'close' );
 }

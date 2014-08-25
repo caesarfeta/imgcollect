@@ -55,23 +55,21 @@ module Imgcollect
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    #-------------------------------------------------------------
-    #  Autoload library
-    #-------------------------------------------------------------
+    
+    
+    ## Custom 
+    # Autoload library
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
-    #-------------------------------------------------------------
-    #  HAML templating engine
-    #-------------------------------------------------------------
+
+    # HAML templating engine
     config.generators do |g|
       g.template_engine :haml
     end
-    #-------------------------------------------------------------
-    #  Sparql
-    #-------------------------------------------------------------
+    
+    # Sparql
     config.sparql_endpoint = "http://localhost:8080/ds"
-    #-------------------------------------------------------------
-    #  Filesystem
-    #-------------------------------------------------------------
+
+    # Filesystem
     config.public_dir = '/usr/local/imgcollect/rails3/public'
     config.upload_dir = '/usr/local/imgcollect/uploads'
     config.img_dir = '/usr/local/imgcollect/images'

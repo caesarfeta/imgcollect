@@ -9,17 +9,21 @@
 		<title>Search</title>
 	</head>
 	<body>
+		
 		<!-- Results -->
 		<section id="results"></section>
 		<div class="clearfix"></div>
+		
 		<!-- Image upload modal window -->
 		<a class="modal button dark" href="#" data-reveal-id="imageModal" id="imgUploader">
 			<img src="img/upload_file.svg" />
 		</a>
+		
 		<!-- Create collection modal window -->
 		<a class="modal button dark" href="#" data-reveal-id="collectionModal" id="collectionCreate">
 			<img src="img/collection.svg" />
 		</a>
+		
 		<!-- Collection modal -->
 		<div id="collectionModal" class="reveal-modal" data-reveal>
 			<div class="row">
@@ -38,6 +42,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<!-- Image upload modal -->
 		<div id="imageModal" class="reveal-modal" data-reveal>
 			<div class="row">
@@ -46,10 +51,12 @@
 				</div>
 			</div>
 			<div class="row">
+				
 				<!-- Drag and drop upload -->
 				<div id="uploader_dragdrop" class="columns small-12 medium-6">
 					<form action="/image/upload" class="dropzone"></form>
 				</div>
+				
 				<!-- URL upload -->
 				<div id="uploader_url" class="columns small-12 medium-6">
 					<form action="/image/upload">
@@ -59,6 +66,7 @@
 				</div>
 			</div>
 		</div>
+		
 	</body>
 	<!-- Foundation -->
 	<script src="third-party/foundation/js/vendor/jquery.js"></script>
@@ -69,6 +77,7 @@
 	<script src="third-party/dropzone/downloads/dropzone.min.js"></script>
 	<!-- Library -->
 	<script src="third-party/jslib/src/js/StringExt.js"></script>
+	<script src="third-party/jslib/src/js/ObjectExt.js"></script>
 	<script src="third-party/jslib/src/js/TimeStamp.js"></script>
 	<script src="third-party/jslib/src/js/jQueryPlus.js"></script>
 	<!-- ImgCollect -->
@@ -79,5 +88,6 @@
 	<script src="js/ImgCollectSearch.js"></script>
 	<script src="js/ImgCollectUpload.js"></script>
 	<script src="js/ImgCollectCol.js"></script>
+	<script src="js/ImgCollectPerseids.js"></script>
 	<script src="js/site.js"></script>
 </html>
