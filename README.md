@@ -302,9 +302,6 @@ Run a single test.
 
 
 # Load Quality Test Data
-# How do I make data in fuseki persistent across restarts?
-https://jena.apache.org/documentation/tdb/index.html
-I should probably use TDB.
 
 
 
@@ -319,3 +316,11 @@ http://www.epimorphics.com/web/wiki/simple-security-fuseki
 mini_magick
 
 http://maxivak.com/crop-and-resize-an-image-using-minimagick-ruby-on-rails/
+
+
+# Running this error
+SocketError (getaddrinfo: nodename nor servname provided, or not known):
+  app/controllers/image_controller.rb:131:in `block in upload'
+  app/controllers/image_controller.rb:121:in `each'
+  app/controllers/image_controller.rb:121:in `upload'
+

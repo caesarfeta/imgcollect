@@ -136,7 +136,10 @@ a.edit img {
 	margin:1px;
 }
 .image-full .display img {
-	float: right;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	padding: 10px 0;
 }
 .image-full .metadata {
 	height: 400px;
@@ -253,12 +256,20 @@ a.edit img {
 	min-height:200px;
 }
 
+#uploader_message img {
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+}
+
 /* url uploader */
 #uploader_url input {
 	padding:10px;
 	width:100%;
 }
-#uploader_url .button {}
+#uploader_url .button {
+	width:100%;
+}
 
 /* results area */
 #results {
@@ -319,4 +330,9 @@ a.edit img {
 }
 #results.active .image-full .metadata a.add {
 	display:inline-block;
+}
+
+/* dropzone */
+.dz-preview {
+	display:none;
 }

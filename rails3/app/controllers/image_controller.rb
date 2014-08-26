@@ -128,14 +128,19 @@ class ImageController < ActionController::Base
         
         # Create an image record in the triplestore
         image = Image.new
-        image.create({ 
-          :user => params[:user].tagify,
-          :original => item['original'],
-          :path => item['path'], 
-          :thumb => item['thumb'], 
-          :basic => item['basic'], 
-          :advanced => item['advanced'] 
-        })
+        
+        begin
+          image.create({ 
+            :user => params[:user].tagify,
+            :original => item['original'],
+            :path => item['path'], 
+            :thumb => item['thumb'], 
+            :basic => item['basic'], 
+            :advanced => item['advanced'] 
+          })
+        rescue
+          render :json => { :error => 'Error creating image triple.' }
+        end
         
         # Get the original dimensions
         size = FastImage.size( item['path'] )
