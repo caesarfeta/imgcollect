@@ -11,6 +11,12 @@ div {
 	color:#666;
 }
 
+/* Collection Modal */
+#collectionModal a {
+	margin-top: 25px;
+	width:100%;
+}
+
 /* Timestamp */
 .timestamp {
 	padding:20px;
@@ -269,6 +275,7 @@ a.edit img {
 }
 #uploader_url .button {
 	width:100%;
+	margin-top:25px;
 }
 
 /* results area */
