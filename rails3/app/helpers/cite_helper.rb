@@ -1,4 +1,3 @@
-require_relative "../../../../sparql_model/lib/sparql_quick.rb"
 include ControllerHelper
 
 # This class contains methods for converting SparqlModel collection triples into CITE collection triples

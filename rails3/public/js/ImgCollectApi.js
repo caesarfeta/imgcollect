@@ -78,6 +78,10 @@ ImgCollectApi = function() {
 			method: 'GET',
 			pathVars: [ 'cite_urn' ]
 		}
+		'subregion/full': {
+			method: 'GET',
+			pathVars: [ 'id' ]
+		}
 	};
 	
 	/**
@@ -160,6 +164,11 @@ ImgCollectApi = function() {
 		$( document ).trigger( self.events['error'] );
 	};
 	
+	/**
+	 * Check to see if the API method requires user urn
+	 *
+	 * @param { String } The url
+	 */
 	this.userReq = function( _url ) {
 		var item = this.config[ _url ];
 		if ( 'user_req' in item && item.user_req == true ) {

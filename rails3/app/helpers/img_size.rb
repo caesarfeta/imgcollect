@@ -29,6 +29,7 @@ class ImgSize
     px_y = ( image[:height] * y.to_f ).floor
     image.crop( "#{px_w}x#{px_h}+#{px_x}+#{px_y}" )
     image.write( res['path'] )
+    res['path']
   end
   
   

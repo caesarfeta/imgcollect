@@ -1,4 +1,4 @@
-class ImageController < ActionController::Base
+class ImageController < ImageBase
   
   # Display an image
   # TODO: Secure this sunnamabitch.
@@ -15,10 +15,6 @@ class ImageController < ActionController::Base
     returnFile( file )
   end
   
-  def returnFile( _file )
-    send_file _file, :disposition => 'inline'
-  end
-  
   # Display an image by passing a URN
   #
   # All of these should work
@@ -33,19 +29,6 @@ class ImageController < ActionController::Base
     returnFile( img )
   rescue
     returnFile( errorImg )
-  end
-  
-  # The error image
-  def errorImg
-    File.join( Rails.configuration.public_dir, 'img', 'img_not_found.png' )
-  end
-  
-  # Image not found
-  def imgNotFound( _file )
-    if File.exist?( _file ) == false
-      send_file errorImg, :disposition => 'inline'
-      return
-    end
   end
   
   # Get a full image report

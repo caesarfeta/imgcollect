@@ -194,6 +194,7 @@ ImgCollectSearch.prototype.search = function( _search ) {
 		url: query,
 		timeout: 10*1000, // 10 second timeout
 		success: function( _data ) {
+			console.log( _data );
 			self.results.push( self.cleanResults( _data ) );
 			jQuery( document ).trigger( self.events['success'] );
 		},
@@ -302,6 +303,7 @@ ImgCollectSearch.prototype.modelSlack = function( _model ) {
 			return 'collection';
 		case 'subregion':
 		case 'subreg':
+		case 'sub':
 		case 's':
 			return 'subregion';
 		default:

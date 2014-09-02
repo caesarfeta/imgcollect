@@ -1,4 +1,4 @@
-class SubregionController < ActionController::Base
+class SubregionController < ImageBase
   
   # Create a new subregion
   #
@@ -24,6 +24,21 @@ class SubregionController < ActionController::Base
     sub = Subregion.new
     sub.create( vals )
     render :json => { :subregion => sub }
+  end
+  
+  # Return the subregion and extras
+  def full
+    sub = Subregion.new
+    sub.byId( params[:id] )
+    @sub = sub.all
+    render 'subregion/full'
+  end
+  
+  # Return subregion image
+  def img
+    sub = Subregion.new
+    sub.byId( params[:id] )
+    returnFile( sub.cropped )
   end
   
   # Delete a subregion
