@@ -13,8 +13,8 @@ class String
   
   # Turn delimiters into colons
   # _char { String } The character
-  def colonize( _char )
-    self.gsub!( _char, ':' )
+  def colonize( char )
+    self.gsub!( char, ':' ) || self
   end
   
   # Return integer

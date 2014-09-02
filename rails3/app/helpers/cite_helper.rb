@@ -107,7 +107,7 @@ module CiteHelper
       n = size
       size = "path"
     end
-    
+
     urn = self.imgUrn( urn, n )
     
     # sparql_model urn?

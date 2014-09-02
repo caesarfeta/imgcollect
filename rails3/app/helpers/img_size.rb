@@ -23,10 +23,10 @@ class ImgSize
     dir = UploadUtils.monthDir( Rails.configuration.img_dir, Rails.configuration.subregion_dir )
     res = self.uniq_path( src, dir )
     image = MiniMagick::Image.open( src )
-    px_w = ( image[:width] * width ).floor
-    px_h = ( image[:height ] * height ).floor
-    px_x = ( image[:width] * x ).floor
-    px_y = ( image[:height] * y ).floor
+    px_w = ( image[:width] * width.to_f ).floor
+    px_h = ( image[:height ] * height.to_f ).floor
+    px_x = ( image[:width] * x.to_f ).floor
+    px_y = ( image[:height] * y.to_f ).floor
     image.crop( "#{px_w}x#{px_h}+#{px_x}+#{px_y}" )
     image.write( res['path'] )
   end

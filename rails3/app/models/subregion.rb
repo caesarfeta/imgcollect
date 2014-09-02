@@ -5,6 +5,7 @@ class Subregion < SparqlModel
     @attributes = {
       :cite_urn => [ "this:cite_urn", ::URN, SINGLE, REQUIRED ],
       :user => [ "this:user", ::URN, SINGLE, REQUIRED ],
+      :cropped => [ "this:cropped", ::String, SINGLE, REQUIRED ],
       :x => [ "this:x", ::Float, SINGLE, REQUIRED ],
       :y => [ "this:y", ::Float, SINGLE, REQUIRED ],
       :width => [ "this:width", ::Float, SINGLE, REQUIRED ],
