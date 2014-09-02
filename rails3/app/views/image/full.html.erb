@@ -18,7 +18,7 @@
 					<div class="size">
 						<% img_keys.each do |key| %>
 						<a class="button tiny dark" href="<%= imgSrc(@img[key]) %>" target="_blank">
-							<%= "#{key.capitalize} #{dimensions(key,@img[:width],@img[:height])}" %>
+							<%= "#{dimensions(key,@img[:width],@img[:height])}" %>
 						</a>
 						<% end %>
 					</div>

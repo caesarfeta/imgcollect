@@ -76,9 +76,8 @@ module ViewHelper
       orig = sizes[_size].to_f
       width = (orig/_width)*_width
       height = width*coeff
-      return "- #{width.round} x #{height.round}"
+      return "#{width.round} x #{height.round}"
     end
-    ''
   end
   
 end

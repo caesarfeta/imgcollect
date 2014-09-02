@@ -9,7 +9,8 @@ class Subregion < SparqlModel
       :y => [ "this:y", ::Float, SINGLE, REQUIRED ],
       :width => [ "this:width", ::Float, SINGLE, REQUIRED ],
       :height => [ "this:height", ::Float, SINGLE, REQUIRED ],
-      :caption => [ "this:caption", ::String, SINGLE ]
+      :caption => [ "this:caption", ::String, SINGLE ],
+      :color => [ "this:color", ::String, SINGLE ]
     }
     super( _key )
   end

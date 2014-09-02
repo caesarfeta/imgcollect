@@ -86,5 +86,7 @@ module Imgcollect
     config.advanced_dir = 'advanced'
     config.advanced_max_width = 2816
     config.advanced_max_height = 2816
+    
+    config.subregion_dir = 'subregion'
   end
 end

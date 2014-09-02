@@ -14,5 +14,4 @@ class ImgspectController < ActionController::Base
   rescue
     render :status => 404
   end
-  
 end
