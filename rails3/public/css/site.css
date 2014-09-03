@@ -189,8 +189,8 @@ a.edit img {
 	float:left;
 	background-color:#333;
 	padding:10px;
-	width:25%;
-	margin:0 2px;
+	width:380px;
+	margin:2px;
 }
 
 .subregion-full:last-of-type {
@@ -199,11 +199,26 @@ a.edit img {
 
 .subregion-full .caption {
 	text-align:center;
-	margin:5px 0;
+	margin:20px 0;
 }
 
-.subregion-full .user {
-	text-align:center;
+.subregion-full .user,
+.subregion-full .minitime {
+	font-size: .8em;
+	display:inline-block;
+}
+
+.subregion-full .urn,
+.subregion-full .cite_urn {
+	font-size: .8em;
+}
+
+.subregion-full .urn {
+	margin-bottom: 20px;
+}
+
+.subregion-full .cite_urn {
+	margin-bottom: 5px;
 }
 
 /* imgcollect_search */

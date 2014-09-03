@@ -1,0 +1,4 @@
+<% sub = locals[:sub] %>
+<% urn = sub[:cite_urn].detagify %>
+<% urn = "#{urn}@#{sub[:x]},#{sub[:y]},#{sub[:width]},#{sub[:height]}" %>
+<div class="cite_urn"><%= urn.tagify %></div>

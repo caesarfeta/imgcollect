@@ -1,7 +1,5 @@
 <% time = Time.at( locals[:time] ) %>
 <% date = time.strftime("%-m/%-d/%Y") %>
-<% time_of_day = time.strftime("%-I:%M %p %Z") %>
 <div class="minitime">
 	<span class="date"><%= date %></span>
-	<span class="time_of_day">at <%= time_of_day %></span>
 </div>

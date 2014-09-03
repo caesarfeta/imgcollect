@@ -1,4 +1,6 @@
 <div class="subregion-full" data-urn="<%= @sub[:urn] %>">
+	<div class="urn"><%= @sub[:urn] %></div>
+	<%= render "subregion/cite_urn", :locals => { :sub => @sub } %>
 	<img src="<%= imgSrc(@sub[:cropped])%>" />
 	<div class="caption"><%= @sub[:caption] %></div>
 	<div class="user"><%= urnLeaf( @sub[:user] ) %></div>

@@ -25,7 +25,7 @@ module ViewHelper
   # 
   # urn { String } urn
   def urnLeaf( urn )
-    urn.detagify.split('/').last
+    URI.unescape( urn.detagify.split('/').last )
   end
   
   # Generate image previews
