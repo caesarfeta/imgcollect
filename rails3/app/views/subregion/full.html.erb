@@ -1,0 +1,6 @@
+<div class="subregion-full" data-urn="<%= @sub[:urn] %>">
+	<img src="<%= imgSrc(@sub[:cropped])%>" />
+	<div class="caption"><%= @sub[:caption] %></div>
+	<div class="user"><%= urnLeaf( @sub[:user] ) %></div>
+	<%= render "shared/timestamp", :locals => { :time => @sub[:created], :label => 'Created' } %>
+</div>

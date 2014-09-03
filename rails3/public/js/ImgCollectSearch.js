@@ -193,12 +193,11 @@ ImgCollectSearch.prototype.search = function( _search ) {
 		dataType: "json",
 		url: query,
 		timeout: 10*1000, // 10 second timeout
-		success: function( _data ) {
-			console.log( _data );
-			self.results.push( self.cleanResults( _data ) );
+		success: function( data ) {
+			self.results.push( self.cleanResults( data ) );
 			jQuery( document ).trigger( self.events['success'] );
 		},
-		error: function( _e ) {
+		error: function( e ) {
 			jQuery( document ).trigger( self.events['error'] );
 		}
 	});

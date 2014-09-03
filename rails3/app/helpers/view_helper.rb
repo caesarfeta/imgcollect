@@ -2,26 +2,30 @@ module ViewHelper
   
   # Count the number of objects in an Array
   #
-  # _obj { Array, ??? }
-  def count( _obj )
-    if _obj.class == Array
-      return _obj.count
+  # obj { Array, ??? }
+  def count( obj )
+    if obj.class == Array
+      return obj.count
     end
     return 0
   end
   
   # If image is stored locally build the url to the image/show method
   # 
-  # _url { String } Image url
-  def imgSrc( _url )
-    #-------------------------------------------------------------
-    #  Processed Image directory?
-    #-------------------------------------------------------------
-    if _url.index( Rails.configuration.img_dir ) != nil
-      path = _url.sub( Rails.configuration.img_dir, '' )
+  # url { String } Image url
+  def imgSrc( url )
+    if url.index( Rails.configuration.img_dir ) != nil
+      path = url.sub( Rails.configuration.img_dir, '' )
       return "/image/show#{path}"
     end
-    _url
+    url
+  end
+  
+  # Return urn leaf
+  # 
+  # urn { String } urn
+  def urnLeaf( urn )
+    urn.detagify.split('/').last
   end
   
   # Generate image previews

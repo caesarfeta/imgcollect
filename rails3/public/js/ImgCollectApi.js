@@ -77,7 +77,7 @@ ImgCollectApi = function() {
 		'subregion/all': {
 			method: 'GET',
 			pathVars: [ 'cite_urn' ]
-		}
+		},
 		'subregion/full': {
 			method: 'GET',
 			pathVars: [ 'id' ]
