@@ -369,10 +369,11 @@ a.edit img {
 	margin-right:30px;
 	color:#444;
 }
-#results .image-full .metadata a.add {
+#results .image-full a.add {
 	display:none;
 }
-#results.active .image-full .metadata a.add {
+#results.active .image-full a.add {
+	position: absolute;
 	display:inline-block;
 }
 

@@ -12,6 +12,7 @@
 		<%# image preview %>
 		<div class="row collapse">
 			<div class="columns small-12 medium-6">
+				<a href="" data-urn="<%= @img[:urn] %>" class="new tiny add button dark active">Add</a>
 				<div class="display">
 					<img src="<%= imgSrc(@img[:basic]) %>" />
 					<%# different image sizes %>
@@ -28,7 +29,6 @@
 			<div class="columns small-12 medium-6">
 				<%# image metadata %>
 				<div class="metadata">
-					<a href="" data-urn="<%= @img[:urn] %>" class="new tiny add button dark active">Add</a>
 					<div class="clearfix"></div>
 					<%# creation and edit times %>
 					<div class="times">

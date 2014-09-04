@@ -23,6 +23,7 @@ $( document ).ready( function(){
 
 //  When the config is ready.
 $( document ).on( 'ImgCollectConfig-READY', function() {
+	welcome();
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
 	input = new ImgCollectInput();
@@ -105,6 +106,13 @@ $( document ).on( 'ImgCollectSearch-SUCCESS', function() {
 		api.get( arr[0], arr[1] );
 	}
 });
+
+/**
+ * Welcome screen pop-up
+ */
+function welcome() {
+	$( '#welcomeModal' ).foundation( 'reveal', 'open' );
+}
 
 /**
  * Upload pop-up
