@@ -6,7 +6,7 @@
 	<script src="third-party/foundation/js/vendor/modernizr.js"></script>
 	<link type="text/css" rel="stylesheet" href="css/site.css" />
 	<head>
-		<title>Search</title>
+		<title>imgcollect -- Organize your images the easy way</title>
 	</head>
 	<body>
 		
@@ -35,8 +35,25 @@
 				<div class="columns small-12 medium-6">
 					<form action="/collection/create">
 						<input id="collectionName" type="text" placeholder="Name" />
-						<input id="collectionURN" type="text" placeholder="Cite URN" />
 						<input id="collectionLabel" type="text" placeholder="Label" />
+						<a href="" class="button secondary large">Create</a>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<!-- CiteModal -->
+		<div id="citeModal" class="reveal-modal" data-reveal>
+			<div class="row">
+				<div class="columns small-12">
+					<h3>CITEify Collection</h3>
+					<p>Once a collection has been CITEified it has been published and images can no longer be added to it or removed from it.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="columns small-12 medium-6">
+					<form action="/collection/citeify">
+						<input id="citeUrn" type="text" placeholder="CITE URN e.g. urn:cite:perseus:collection, or simplified perseus:collection" />
 						<a href="" class="button secondary large">Create</a>
 					</form>
 				</div>
@@ -47,12 +64,12 @@
 		<div id="welcomeModal" class="reveal-modal" data-reveal>
 			<div class="row">
 				<div class="columns small-12">
-					<h2>imgcollect</h2>
-					<p>imgcollect will help you organize images into citeable collections for collaborative research.</p>
-					<p>It is integrated with imgspect, an image annotation transcription tool.</p>
+					<h2>imgcollect...</h2>
+					<p>will help you organize images into citeable collections for collaborative research.</p>
+					<p>It is integrated with imgspect, an image annotation &amp; transcription tool.</p>
 					<p>All image metadata &amp; transcriptions are stored as an RDF graph, which can be queried &amp; analyzed using a variety of tools, both custom to imgcollect &amp; third-party.</p>
 					<h3>How to use</h3>
-					
+					<p>[ YouTube demonstration video here ]</p>
 				</div>
 			</div>
 		</div>

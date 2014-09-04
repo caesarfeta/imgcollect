@@ -2,6 +2,8 @@ ImgCollectCol = function() {
 	this.button = "#collectionModal .button";
 	this.start();
 	this.api = new ImgCollectApi();
+	this.urn = null;
+	this.utils = new ImgCollectUtils();
 }
 
 /**
@@ -10,14 +12,21 @@ ImgCollectCol = function() {
 ImgCollectCol.prototype.start = function() {
 	var self = this;
 	
+	// Cite form handler
+	$( '#citeModal .button' ).on( 'touchstart click', function( e ) {
+		e.preventDefault();
+		self.utils.clearResults();
+		self.citeify();
+	});
+	
 	//  When image previews are loaded
-	jQuery( document ).on( 'ImgsLoaded-START', function( _e ) {
-		jQuery( '.image-full .button.new' ).each( function() {
-			jQuery( this ).removeClass( 'new' );
-			jQuery( this ).on( 'touchstart click', function( _e ) {
+	$( document ).on( 'ImgsLoaded-START', function( _e ) {
+		$( '.image-full .button.new' ).each( function() {
+			$( this ).removeClass( 'new' );
+			$( this ).on( 'touchstart click', function( _e ) {
 				_e.preventDefault();
-				var img_urn = jQuery( this ).parents( '.image-full' ).attr( 'data-urn' );
-				var col_urn = jQuery( '#activeDock' ).attr( 'data-urn' );
+				var img_urn = $( this ).parents( '.image-full' ).attr( 'data-urn' );
+				var col_urn = $( '#activeDock' ).attr( 'data-urn' );
 				var img_id = img_urn.lastInt();
 				var col_id = col_urn.lastInt();
 				
@@ -34,11 +43,13 @@ ImgCollectCol.prototype.start = function() {
 	
 
 	//  API event handlers
-	jQuery( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
+	$( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 		switch ( _data['context'] ) {
 
 			//  After creating a new collection
 			case 'ImgCollectCol-CREATE':
+				self.clearCreate();
+				self.utils.clearResults();
 				self.api.get( 'collection', _data['data']['collection']['urn'].lastInt() );
 				break;
 
@@ -54,18 +65,19 @@ ImgCollectCol.prototype.start = function() {
 
 			//  What happens after a citeify button gets clicked?
 			case "ImgCollectCol-CITEIFY":
-				// TODO Do something here?
+				self.clearCiteify();
+				self.api.get( 'collection', _data['data']['collection']['urn'].lastInt() );
 				break;
 		}
 	});
 	
 	//  Click the Create button?
-	jQuery( this.button ).on( 'touchstart click', function( _e ) {
+	$( this.button ).on( 'touchstart click', function( _e ) {
 		_e.preventDefault();
 		var data = {};
-		data['name'] = jQuery( '#collectionName' ).val();
-		data['cite_urn'] = jQuery( '#collectionURN' ).val();
-		data['label'] = jQuery( '#collectionLabel' ).val();
+		data['name'] = $( '#collectionName' ).val();
+		data['cite_urn'] = $( '#collectionURN' ).val();
+		data['label'] = $( '#collectionLabel' ).val();
 		self.api.send( 'collection', 'create', data, 'ImgCollectCol-CREATE' );
 	});
 }
@@ -90,9 +102,9 @@ ImgCollectCol.prototype.activate = function( _elem ) {
  */
 ImgCollectCol.prototype.citeTouch = function( _elem ) {
 	var self = this;
-	jQuery( '.button.citeify', _elem ).on( 'touchstart click', function( _e ) {
-		var urn = jQuery( this ).attr( 'data-urn' );
-		self.citeify( urn );
+	$( '.button.citeify', _elem ).on( 'touchstart click', function( _e ) {
+		self.urn = $( this ).attr( 'data-urn' );
+		$( '#citeModal' ).foundation( 'reveal', 'open' );
 	});
 }
 
@@ -103,28 +115,32 @@ ImgCollectCol.prototype.citeTouch = function( _elem ) {
  */
 ImgCollectCol.prototype.activateTouch = function( _elem ) {
 	var self = this;
-	jQuery( '.button.activate', _elem ).on( 'touchstart click', function( _e ) {
-		jQuery( '.collection-box .button.activate' ).removeClass( 'active' );
-		var urn = jQuery( this ).attr( 'data-urn' );
-		var dock_urn = jQuery( '#activeDock' ).attr( 'data-urn' );
+	$( '.button.activate', _elem ).on( 'touchstart click', function( _e ) {
+		$( '.collection-box .button.activate' ).removeClass( 'active' );
+		var urn = $( this ).attr( 'data-urn' );
+		var dock_urn = $( '#activeDock' ).attr( 'data-urn' );
 		if ( dock_urn != undefined && dock_urn == urn ) {
 			self.deactivate();
 			return;
 		}
-		jQuery( this ).addClass( 'active' );
+		$( this ).addClass( 'active' );
 		self.dock( urn );
 	});
 }
 
 /**
  * CITEify a collection
- *
- * @param { String } _urn
  */
-ImgCollectCol.prototype.citeify = function( _urn ) {
+ImgCollectCol.prototype.citeify = function() {
 	var self = this;
+	var prefix = 'urn:cite:';
+	var cite_urn = $( '#citeModal input#citeUrn').val();
+	if ( cite_urn.indexOf( prefix ) != 0 ) {
+		cite_urn = prefix + cite_urn;
+	}
 	self.api.send( 'collection', 'citeify', { 
-		'collection_id': _urn.lastInt() }, 
+		'collection_id': self.urn.lastInt(),
+		'cite_urn': cite_urn }, 
 		'ImgCollectCol-CITEIFY' 
 	);
 }
@@ -133,9 +149,9 @@ ImgCollectCol.prototype.citeify = function( _urn ) {
  * "Deactivate" the collection
  */
 ImgCollectCol.prototype.deactivate = function() {
-	jQuery( '#activeDock').remove();
-	jQuery( '.collection-box .button.activate.active' ).removeClass( 'active' );
-	jQuery( '#results' ).removeClass( 'active' );
+	$( '#activeDock').remove();
+	$( '.collection-box .button.activate.active' ).removeClass( 'active' );
+	$( '#results' ).removeClass( 'active' );
 }
 
 /**
@@ -152,20 +168,43 @@ ImgCollectCol.prototype.dock = function( _urn ) {
 }
 
 /**
+ * Clear the inputs of the collection create form
+ */
+ImgCollectCol.prototype.clearCreate = function() {
+	this.clearInputs( '#collectionModal' );	
+}
+
+/**
+ * Clear the inputs of the collection citeify form
+ */
+ImgCollectCol.prototype.clearCiteify = function() {
+	this.clearInputs( '#citeModal' );
+}
+
+/**
+ * Clear form inputs
+ */
+ImgCollectCol.prototype.clearInputs = function( form ) {
+	$( form + ' input' ).each( function() {
+		$( this ).val('');
+	});
+}
+
+/**
  * Build the dock
  *
  * @param { JSON } _data
  */
 ImgCollectCol.prototype.buildDock = function( _data ) {
 	var self = this;
-	jQuery( '#activeDock' ).remove();
-	jQuery( 'body' ).append( _data['data'] );
+	$( '#activeDock' ).remove();
+	$( 'body' ).append( _data['data'] );
 
 	//  Start 
-	jQuery( '#activeDock .close' ).on( 'touchstart click', function( _e ) {
+	$( '#activeDock .close' ).on( 'touchstart click', function( _e ) {
 		_e.preventDefault();
 		self.deactivate();
 	});
-	jQuery( '#results' ).addClass( 'active' );
+	$( '#results' ).addClass( 'active' );
 }
 

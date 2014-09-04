@@ -16,7 +16,6 @@ class CollectionController < ActionController::Base
     collection = Collection.new
     collection.create({
       :name => vals[ :name ],
-      :cite_urn => vals[ :cite_urn ].tagify,
       :label => vals[ :label ],
       :user => vals[ :user ].tagify
     });
@@ -57,6 +56,7 @@ class CollectionController < ActionController::Base
     #  Turn a collection into a CITE collection
     collection = Collection.new
     collection.byId( params[ :collection_id ] )
+    collection.cite_urn = params[ :cite_urn ]
     CiteHelper.create( collection )
     render :json => { 
       :message => "Success", 
