@@ -150,6 +150,12 @@ a.edit img {
 .image-full .metadata > div {
 	width: 100%;
 }
+.image-full a.more {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	width: 60px;
+}
 .image-full a {
 	width: 100%;
 	margin: 1px 0;
@@ -158,11 +164,15 @@ a.edit img {
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
-	padding: 10px 0;
+	padding: 0;
 }
 .image-full .metadata {
-	height: 400px;
+	height: 0;
 	overflow-y:scroll;
+}
+.image-full.show .metadata {
+	height: 400px;
+	padding-bottom:33px;
 }
 .image-full table {
 	border-collapse:collapse;

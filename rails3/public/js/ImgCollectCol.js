@@ -20,11 +20,13 @@ ImgCollectCol.prototype.start = function() {
 	});
 	
 	//  When image previews are loaded
-	$( document ).on( 'ImgsLoaded-START', function( _e ) {
-		$( '.image-full .button.new' ).each( function() {
+	$( document ).on( 'ImgsLoaded-START', function( e ) {
+		
+		// Add button
+		$( '.image-full .button.new.add' ).each( function() {
 			$( this ).removeClass( 'new' );
-			$( this ).on( 'touchstart click', function( _e ) {
-				_e.preventDefault();
+			$( this ).on( 'touchstart click', function( e ) {
+				e.preventDefault();
 				var img_urn = $( this ).parents( '.image-full' ).attr( 'data-urn' );
 				var col_urn = $( '#activeDock' ).attr( 'data-urn' );
 				var img_id = img_urn.lastInt();
@@ -39,6 +41,17 @@ ImgCollectCol.prototype.start = function() {
 				
 			});
 		});
+		
+		// Show more button
+		$('.image-full .button.new.more' ).each( function() {
+			$( this ).removeClass( 'new' );
+			$( this ).on( 'touchstart click', function( e ) {
+				e.preventDefault();
+				$( this ).parents( '.image-full' ).toggleClass( 'show' );
+				utils.wall.masonry( 'layout' );
+			});
+		});
+		
 	});
 	
 

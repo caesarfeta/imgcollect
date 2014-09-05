@@ -180,7 +180,7 @@ ImgCollectSearch.prototype.search = function( _search ) {
 	self.historyUpdate( _search );
 
 	//  Mark the search
-	self.utils.mark( 'search', _search );
+	// self.utils.mark( 'search', _search );
 
 	//  Do a bit of validation
 	//  There should be three distinct groups

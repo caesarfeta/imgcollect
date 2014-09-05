@@ -95,7 +95,7 @@ ImgCollectUpload.prototype.latest = function( data ) {
 	}
 
 	//  Mark the upload
-	self.utils.mark( 'uploaded', urns.join(',').escapeHtml().smoosh() );
+//	self.utils.mark( 'uploaded', urns.join(',').escapeHtml().smoosh() );
 
 	//  Loop through the urns and download 'em!
 	for ( var i=0; i<urns.length; i++ ) {

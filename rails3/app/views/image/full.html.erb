@@ -9,11 +9,17 @@
 <%# now begins the markup %>
 <div data-urn="<%= @img[:urn] %>" class="image-full brick">
 <div class="bg_wrap">
+	
 	<%# image preview %>
-	<a href="" data-urn="<%= @img[:urn] %>" class="new tiny add button dark active">Add</a>
 	<div class="display">
+		<a href="" data-urn="<%= @img[:urn] %>" class="new tiny add button dark active">Add</a>
 		<img src="<%= imgSrc(@img[:basic]) %>" />
-		<%# different image sizes %>
+		<a href="" class="new tiny more button dark">+</a>
+	</div>
+	
+	<%# image metadata %>
+	<div class="metadata">
+
 		<div class="size">
 			<% img_keys.each do |key| %>
 			<a class="button tiny dark" href="<%= imgSrc(@img[key]) %>" target="_blank">
@@ -21,12 +27,6 @@
 			</a>
 			<% end %>
 		</div>
-		<div class="clearfix"></div>
-	</div>
-	
-	<%# image metadata %>
-	<div class="metadata">
-		<div class="clearfix"></div>
 		
 		<%# creation and edit times %>
 		<div class="times">

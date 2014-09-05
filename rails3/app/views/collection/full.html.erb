@@ -30,10 +30,6 @@
 		
 		<%# COUNTS %>
 		<h3 class="value-count"><span class="n"><%= count( @col[:images] ) %></span> images</h3>
-		<!---
-		<h3 class="value-count"><span class="n"><%= count( @col[:subcollections] ) %></span> subcollections</h3>
-		-->
-		<div class="clearfix"></div>
 		
 		<%# KEYWORDS %>
 		<% if @col.has_key?( :keywords ) && @col[:keywords].length > 0 %>
