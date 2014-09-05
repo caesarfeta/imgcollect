@@ -6,8 +6,8 @@
 	<%# IMAGES %>
 	<div class="columns small-12 medium-4 samples">
 		<% if @col.has_key?(:images) %>
-			<% imgs = imgPreviews( @col[:images] ) %>
-			<% imgs.each do | img | %>
+			<% @col[:images].each do | urn | %>
+			<% img = imgPreview( urn ) %>
 			<img src="<%= img %>" />
 			<% end %>
 		<% end %>

@@ -32,6 +32,7 @@ class String
   def add_urn
     urn = "urn:"
     this = self
+    this = this.detagify
     if this[0,4] != urn
       this = "#{urn}#{this}"
     end
