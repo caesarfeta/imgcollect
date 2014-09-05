@@ -30,4 +30,15 @@ function ImgCollectUtils() {
 	this.clearResults = function() {
 		$( '#results > *' ).hide();
 	}
+	
+	/**
+	 * Get masonry handle.
+	 */
+	this.masonry = function() {
+		this.wall = $( '#results' );
+		this.wall.masonry( {
+		    columnWidth:  350,
+		    itemSelector: '.brick'
+		});
+	}
 }

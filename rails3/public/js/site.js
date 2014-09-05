@@ -34,6 +34,7 @@ $( document ).on( 'ImgCollectConfig-READY', function() {
 	uploadPop();
 	perseids = new ImgCollectPerseids();
 	perseids.start();
+	utils.masonry()
 });
 
 
@@ -60,7 +61,7 @@ $( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 
 	//  Append the search results data
 	var data = $( _data['data'] );
-	$( '#results' ).append( data );
+	utils.wall.append( data );
 
 	//  Create an input listener
 	input.start( data );
@@ -86,6 +87,8 @@ $( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 		//  Scroll to bottom again after all the images load
 	    $.when.apply( undefined, imageloads ).done( function () {
 			$( document ).trigger( 'ImgsLoaded-START' );
+			utils.wall.masonry( 'reloadItems' );
+			utils.wall.masonry( 'layout' );
 		});
 	}
 });

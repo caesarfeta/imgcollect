@@ -29,6 +29,7 @@ module CiteHelper
   end
 
   # Find a the CITE urn's corresponding SparqlModel urn
+  # urn { String } CITE urn
   def self.toSparqlUrn( urn )
     sparql = self.sparql
     res = sparql.get_subjects( [ 'this:cite_urn', urn.colonize('/').tagify ])
