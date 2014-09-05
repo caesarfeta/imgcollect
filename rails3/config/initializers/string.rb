@@ -20,7 +20,7 @@ class String
   # Turn a URN into a path
   def urn_to_path()
     out = self.detagify
-    out.gsub!( ':', '/' ) || out
+    out.gsub!( /:|\./, '/' ) || out
   end
   
   # Return integer

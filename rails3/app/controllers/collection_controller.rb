@@ -107,6 +107,7 @@ class CollectionController < ActionController::Base
     collection = Collection.new
     collection.byId( urn.just_i )
     @col = collection.all
+    @map = CiteHelper.citeImageMap( cite );
     render 'collection/report'
   end
   

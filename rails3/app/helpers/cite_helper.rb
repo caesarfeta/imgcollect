@@ -136,12 +136,27 @@ module CiteHelper
   # Get the URN to the SPARQL image
   # urn { String } The cite urn to an image
   def self.sparqlImage( urn )
+    urn = urn.colonize('/').tagify
     sparql = self.sparql
     images = sparql.get_objects([ urn, "rdfs:isDefinedBy" ])
     if images.length > 1
       raise "Something is fishy. Query should return only one urn."
     end
     images[0][:o].to_s
+  end
+  
+  # Get a handy hash that maps SPARQL urns to CITE urns
+  # urn { String } CITE collection urn
+  def self.citeImageMap( urn )
+    urn = urn.colonize('/').tagify
+    sparql = self.sparql
+    images = sparql.get_objects([ urn, "cite:possesses" ])
+    @map = {}
+    images.each do | image |
+      cite = image[:o].to_s.tagify
+      @map[ self.sparqlImage( cite ) ] = cite.detagify
+    end
+    @map
   end
   
   private

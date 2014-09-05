@@ -12,9 +12,9 @@
 	<%# IMAGES %>
 	<div class="columns small-12 medium-4 samples">
 		<% if @col.has_key?(:images) %>
-			<% imgs = imgPreviews( @col[:images] ) %>
-			<% imgs.each do | img | %>
-			<img src="<%= img %>" />
+			<% @col[:images].each do | urn | %>
+			<% img = imgPreview( urn ) %>
+			<a href="/imgspect/<%= @map[urn].urn_to_path %>"><img src="<%= img %>" /></a>
 			<% end %>
 		<% end %>
 		<div class="clearfix"></div>

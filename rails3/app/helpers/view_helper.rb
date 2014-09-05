@@ -31,14 +31,10 @@ module ViewHelper
   # Generate image previews
   # 
   # _urns { Array }
-  def imgPreviews( _urns )
-    this = []
-    _urns.each do | urn |
-      image = Image.new()
-      image.byId( urn.just_i )
-      this.push( imgSrc( image.thumb ) )
-    end
-    this
+  def imgPreview( urn )
+    image = Image.new()
+    image.byId( urn.just_i )
+    imgSrc( image.thumb )
   end
   
   # Turn a key into a label
