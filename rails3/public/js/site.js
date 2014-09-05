@@ -1,9 +1,10 @@
 var api = null;
 var search = null;
 var input = null;
+var perseids = null;
+var utils = null;
 var wait = 0;
 var loaded = 0;
-var perseids = null;
 
 /**************************
  * Get ready...
@@ -24,6 +25,7 @@ $( document ).ready( function(){
 //  When the config is ready.
 $( document ).on( 'ImgCollectConfig-READY', function() {
 	welcome();
+	utils = new ImgCollectUtils();
 	search = new ImgCollectSearch();
 	api = new ImgCollectApi();
 	input = new ImgCollectInput();

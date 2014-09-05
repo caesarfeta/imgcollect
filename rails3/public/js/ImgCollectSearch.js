@@ -46,7 +46,7 @@ ImgCollectSearch.prototype.autocomplete = function( _input ) {
 		return;
 	}
 	var model = this.modelSlack( arr[0] );
-	var attr = ImgCollectConfig.config[ model ]['attributes'];
+	var attr = ImgCollectConfig.config[ model ].attributes;
 	var matches = [];
 	for ( var key in attr ) {
 		if ( key.indexOf( arr[1] ) == 0 ) {
@@ -169,6 +169,9 @@ ImgCollectSearch.prototype.historyUpdate = function( _search ) {
  */
 ImgCollectSearch.prototype.search = function( _search ) {
 	var self = this;
+	
+	// Clear previous search results
+	self.utils.clearResults();
 
 	//  Remove the autocomplete element
 	self.autocompleteRemove();
@@ -182,11 +185,11 @@ ImgCollectSearch.prototype.search = function( _search ) {
 	//  Do a bit of validation
 	//  There should be three distinct groups
 	if ( _search == null ) {
-		jQuery( document ).trigger( self.events['error'] );
+		jQuery( document ).trigger( self.events.error );
 	}
 	var args = _search.shellArgs()
 	if ( args.length < 3 ) {
-		jQuery( document ).trigger( self.events['error'] );
+		jQuery( document ).trigger( self.events.error );
 	}
 	var query = self.buildQuery( args[0], args[1], args[2] );
 	jQuery.ajax({
@@ -195,10 +198,10 @@ ImgCollectSearch.prototype.search = function( _search ) {
 		timeout: 10*1000, // 10 second timeout
 		success: function( data ) {
 			self.results.push( self.cleanResults( data ) );
-			jQuery( document ).trigger( self.events['success'] );
+			jQuery( document ).trigger( self.events.success );
 		},
 		error: function( e ) {
-			jQuery( document ).trigger( self.events['error'] );
+			jQuery( document ).trigger( self.events.error );
 		}
 	});
 }
@@ -210,10 +213,10 @@ ImgCollectSearch.prototype.search = function( _search ) {
  * @return { json } Simplified results
  */
 ImgCollectSearch.prototype.cleanResults = function( _results ) {
-	var vals = _results['results']['bindings'];
+	var vals = _results.results.bindings;
 	var clean = [];
 	for ( var i=0; i<vals.length; i++ ) {
-		clean.push(vals[i]['s']['value'].replace("urn:sparql_model:",""));
+		clean.push(vals[i].s.value.replace("urn:sparql_model:",""));
 	}
 	return clean;
 }
@@ -242,7 +245,7 @@ ImgCollectSearch.prototype.buildQuery = function( _model, _pred, _search ) {
 			FILTER regex( ?o, "'+_search+'", "i" )\
 		}\
 	';
-	return this.escapeURI( ImgCollectConfig.config['endpoint']+"?query="+query+"&format=json" );
+	return this.escapeURI( ImgCollectConfig.config.endpoint+"?query="+query+"&format=json" );
 }
 
 /**
@@ -265,7 +268,7 @@ ImgCollectSearch.prototype.escapeURI = function( _uri ) {
  */
 ImgCollectSearch.prototype.fullPred = function( _model, _pred ) {
 	var model = this.modelSlack( _model );
-	var attr = ImgCollectConfig.config[ model ]['attributes'];
+	var attr = ImgCollectConfig.config[ model ].attributes;
 	return attr[_pred.keyMe()][0];
 }
 
@@ -277,7 +280,7 @@ ImgCollectSearch.prototype.fullPred = function( _model, _pred ) {
 ImgCollectSearch.prototype.searchPrefixes = function( _model ) {
 	var model = this.modelSlack( _model );
 	var output = [];
-	var prefixes = ImgCollectConfig.config[ model ]['prefixes'];
+	var prefixes = ImgCollectConfig.config[ model ].prefixes;
 	for ( var key in prefixes ) {
 		output.push( "PREFIX "+key+": "+prefixes[key] );
 	}
@@ -306,7 +309,7 @@ ImgCollectSearch.prototype.modelSlack = function( _model ) {
 		case 's':
 			return 'subregion';
 		default:
-			jQuery( document ).trigger( this.events['error'] );
+			jQuery( document ).trigger( this.events.error );
 			return;
 	}
 }
