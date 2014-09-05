@@ -8,7 +8,8 @@ module CiteHelper
     :cite => "<http://www.homermultitext.org/cite/rdf/>",
     :rdf => "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
     :crm => "<http://www.cidoc-crm.org/cidoc-crm/>",
-    :rdfs => "<http://www.w3.org/2000/01/rdf-schema#>"
+    :rdfs => "<http://www.w3.org/2000/01/rdf-schema#>",
+    :this => "<http://localhost/sparql_model/collection#>"
   }
   
   # Does a cite collection exist?
@@ -25,6 +26,13 @@ module CiteHelper
       return true
     end
     false
+  end
+
+  # Find a the CITE urn's corresponding SparqlModel urn
+  def self.toSparqlUrn( urn )
+    sparql = self.sparql
+    res = sparql.get_subjects( [ 'this:cite_urn', urn.colonize('/').tagify ])
+    res[0][:s].to_s
   end
   
   # Take a SparqlModel collection and 
