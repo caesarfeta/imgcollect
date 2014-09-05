@@ -17,6 +17,12 @@ class String
     self.gsub!( char, ':' ) || self
   end
   
+  # Turn a URN into a path
+  def urn_to_path()
+    out = self.detagify
+    out.gsub!( ':', '/' ) || out
+  end
+  
   # Return integer
   def just_i
     /\d+/.match( self ).to_s.to_i

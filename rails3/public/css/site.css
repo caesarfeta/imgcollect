@@ -1,3 +1,11 @@
+a {
+	color: #FF8888;	
+	transition:color 1s;
+	-webkit-transition:color 1s;
+}
+a:hover {
+	color: #FF9999;	
+}
 .clearfix {
 	clear:both;
 }

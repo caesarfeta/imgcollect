@@ -46,6 +46,7 @@ Imgcollect::Application.routes.draw do
   match 'collection/full/*id' => 'collection#full'
   match 'collection/dock/*id' => 'collection#dock'
   match 'collection/citeify' => 'collection#citeify'
+  match 'collection/report/*urn' => 'collection#report'
   
   # map.connect 'collection/show/:name',
   #   :controller => 'collection',

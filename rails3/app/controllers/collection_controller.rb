@@ -100,6 +100,17 @@ class CollectionController < ActionController::Base
     }
   end
   
+  # Full collection report
+  def report
+    urn = params[ :urn ]
+    
+    # collection = Collection.new
+    # collection.byId( params[ :collection_id ] )
+    # @col = collection.all
+    # render 'collection/report'
+    render :json => { :urn => urn }
+  end
+  
   # Delete a subcollection
   def delete_subcollection
     if request.post? == false
@@ -107,7 +118,7 @@ class CollectionController < ActionController::Base
       return
     end
     collection = Collection.new
-    collection.byId( params[ :collection_id] )
+    collection.byId( params[ :collection_id ] )
     subcollection = Collection.new
     subcollection.byId( params[ :subcollection_id] )
     collection.delete( :subcollections, subcollection.urn )

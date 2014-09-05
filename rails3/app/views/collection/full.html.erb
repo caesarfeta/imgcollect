@@ -19,17 +19,20 @@
 		
 		<%# NAME %>
 		<h2 class="name"><%= @col[:name] %></h2>
-		<div class="cite_urn">
-			<%= @col[:cite_urn] %>
-		</div>
+		
+		<%# CITE LINK %>
 		<% if citeified == true  %>
+		<div class="cite_urn">
+			<a href="collection/report/<%= @col[:cite_urn].urn_to_path %>"><%= @col[:cite_urn] %></a>
+		</div>
 		<img class="citeified" src="/img/check.svg" />
 		<% end %>
-		<div class="clearfix"></div>
 		
 		<%# COUNTS %>
 		<h3 class="value-count"><span class="n"><%= count( @col[:images] ) %></span> images</h3>
+		<!---
 		<h3 class="value-count"><span class="n"><%= count( @col[:subcollections] ) %></span> subcollections</h3>
+		-->
 		<div class="clearfix"></div>
 		
 		<%# KEYWORDS %>
