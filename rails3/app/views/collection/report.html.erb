@@ -1,0 +1,49 @@
+<%= render "shared/pre" %>
+<head>
+	<title>collection: <%= @col[:name] %></title>
+</head>
+
+<body>
+	<h1><%= @col[:name] %></h1>
+	<h2><%= @col[:cite_urn] %></h2>
+	<h3><%= @col[:label] %></h2>
+	
+	<%# IMAGES %>
+	<div class="columns small-12 medium-4 samples">
+		<% if @col.has_key?(:images) %>
+			<% imgs = imgPreviews( @col[:images] ) %>
+			<% imgs.each do | img | %>
+			<img src="<%= img %>" />
+			<% end %>
+		<% end %>
+		<div class="clearfix"></div>
+	</div>
+	
+	<%# METADATA %>
+	<div class="columns small-8 medium-6 metadata">
+		
+		<%# COUNTS %>
+		<h3 class="value-count"><span class="n"><%= count( @col[:images] ) %></span> images</h3>
+		<div class="clearfix"></div>
+		
+		<%# KEYWORDS %>
+		<% if @col.has_key?( :keywords ) && @col[:keywords].length > 0 %>
+		<div class="keywords">
+			<% @col[:keywords].each do |keyword| %>
+			<a href="" class="keyword"><%= keyword %></a>
+			<% end %>
+		</div>
+		<% end %>
+		
+		<%# DATES %>
+		<div class="date-person">
+			<h3 class="header">Last Updated</h3>
+			<h3 class="date"><%= readTime( @col[:edited] ) %></h3>
+		</div>
+		<div class="date-person">
+			<h3 class="header">Created</h3>
+			<h3 class="date"><%= readTime( @col[:created] ) %></h3>
+		</div>
+	</div>
+	
+<body>

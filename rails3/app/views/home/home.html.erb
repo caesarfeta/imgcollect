@@ -1,0 +1,99 @@
+<%= render "shared/pre" %>
+<head>
+	<title>imgcollect: Home</title>
+</head>
+<body>
+	
+	<!-- Results -->
+	<section id="results"></section>
+	<div class="clearfix"></div>
+	
+	<!-- Image upload button -->
+	<a class="modal button dark" href="#" data-reveal-id="imageModal" id="imgUploader">
+		<img src="img/upload_file.svg" />
+	</a>
+	
+	<!-- Create collection button -->
+	<a class="modal button dark" href="#" data-reveal-id="collectionModal" id="collectionCreate">
+		<img src="img/collection.svg" />
+	</a>
+	
+	<!-- Collection -->
+	<div id="collectionModal" class="reveal-modal" data-reveal>
+		<div class="row">
+			<div class="columns small-12">
+				<h3>Create Collection</h3>
+			</div>
+		</div>
+		<div class="row">
+			<div class="columns small-12 medium-6">
+				<form action="/collection/create">
+					<input id="collectionName" type="text" placeholder="Name" />
+					<input id="collectionLabel" type="text" placeholder="Label" />
+					<a href="" class="button secondary large">Create</a>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<!-- CiteModal -->
+	<div id="citeModal" class="reveal-modal" data-reveal>
+		<div class="row">
+			<div class="columns small-12">
+				<h3>CITEify Collection</h3>
+				<p>Once a collection has been CITEified it has been published and images can no longer be added to it or removed from it.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="columns small-12 medium-6">
+				<form action="/collection/citeify">
+					<input id="citeUrn" type="text" placeholder="CITE URN e.g. urn:cite:perseus:collection, or simplified, perseus:collection" />
+					<a href="" class="button secondary large">Create</a>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Welcome -->
+	<div id="welcomeModal" class="reveal-modal" data-reveal>
+		<div class="row">
+			<div class="columns small-12">
+				<h2>imgcollect...</h2>
+				<p>will help you organize images into citeable collections for collaborative research.</p>
+				<p>It is integrated with imgspect, an image annotation &amp; transcription tool.</p>
+				<p>All image metadata &amp; transcriptions are stored as an RDF graph, which can be queried &amp; analyzed using a variety of tools, both custom to imgcollect &amp; third-party.</p>
+				<h3>How to use</h3>
+				<p>[ YouTube demonstration video here ]</p>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Image upload -->
+	<div id="imageModal" class="reveal-modal" data-reveal>
+		<div class="row">
+			<div class="columns small-12">
+				<h3>Upload Image</h3>
+			</div>
+		</div>
+		<div class="row">
+			<!-- Drag and drop upload -->
+			<div id="uploader_dragdrop" class="columns small-12 medium-6">
+				<form action="/image/upload" class="dropzone">
+					<!-- Dropzone accessible user param -->
+					<input type="hidden" name="user" />
+				</form>
+			</div>
+			<!-- URL upload -->
+			<div id="uploader_url" class="columns small-12 medium-6">
+				<form action="/image/upload">
+					<input type="text" placeholder="Copy URL to image here" />
+					<a href="" class="button secondary large">Upload</a>
+				</form>
+				<!-- Let the user know what's up -->
+				<div id="uploader_message"></div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+<%= render "shared/post" %>

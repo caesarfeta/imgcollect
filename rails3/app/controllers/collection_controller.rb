@@ -102,13 +102,12 @@ class CollectionController < ActionController::Base
   
   # Full collection report
   def report
-    urn = params[ :urn ]
-    
-    # collection = Collection.new
-    # collection.byId( params[ :collection_id ] )
-    # @col = collection.all
-    # render 'collection/report'
-    render :json => { :urn => urn }
+    cite = params[ :urn ]
+    urn = CiteHelper.toSparqlUrn( cite )
+    collection = Collection.new
+    collection.byId( urn.just_i )
+    @col = collection.all
+    render 'collection/report'
   end
   
   # Delete a subcollection
@@ -139,7 +138,6 @@ class CollectionController < ActionController::Base
   # Get a collection dock  
   def dock
     col = Collection.new
-    # puts params[:id]
     col.byId( params[:id] )
     @col = col.all
     render 'collection/dock'
