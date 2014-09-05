@@ -137,7 +137,6 @@ a.edit img {
 .image-full {
 	box-sizing: border-box;
 	max-width: 350px;
-	margin-bottom: 1em;
 	font-size:.8em;
 }
 .image-full .bg_wrap {
