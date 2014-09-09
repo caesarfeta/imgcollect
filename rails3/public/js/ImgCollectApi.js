@@ -23,6 +23,7 @@ ImgCollectApi = function() {
 	 * Where user data is retrieved.
 	 */
 	this.perseids = new ImgCollectPerseids();
+	this.perseids.start();
 	
 	/**
 	 * API Config

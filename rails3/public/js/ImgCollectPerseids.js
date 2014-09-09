@@ -38,6 +38,7 @@ ImgCollectPerseids = function() {
 					return;
 				}
 				self.user = data.user.uri;
+				console.log( self.user );
 				$( 'input[name="user"]' ).val( data.user.uri );
 				$( document ).trigger( self.events.success );
 			},
@@ -50,9 +51,7 @@ ImgCollectPerseids = function() {
 	// TODO: Build a better alert system!
 	this.start = function() {
 		var self = this;
-		$( document ).on( self.events.success, function() {
-			
-		});
+		$( document ).on( self.events.success, function() {});
 		$( document ).on( self.events.error, function() {
 			alert( 'Could not contact Perseids to retrieve user info!' );
 		});
