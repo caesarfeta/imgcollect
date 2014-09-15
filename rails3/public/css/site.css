@@ -66,10 +66,11 @@ a.edit img {
 }
 
 /* Collection-Box */
-.collection-box {
-	padding:10px;
+.collection-box {}
+.collection-box .wrapper {
 	background-color:#222;
-	margin-bottom: 5px;
+	padding:10px;
+	margin:2px;
 }
 .collection-box .samples {
 	padding:0;
@@ -80,7 +81,6 @@ a.edit img {
 }
 .collection-box .metadata {
 	padding:5px 10px;
-	background-color:#333;
 }
 .collection-box .person,
 .collection-box .date {
@@ -98,14 +98,13 @@ a.edit img {
 }
 .collection-box .cite_urn {
 	margin-bottom:2em;
-	float:left;
+	display:inline-block;
 }
 .collection-box h3 {
 	font-size:.75em;
 }
 .collection-box .value-count {
 	margin:0 5px;
-	float:left;
 }
 .collection-box .keywords a {
 	margin:0 5px;
@@ -117,7 +116,6 @@ a.edit img {
 }
 .collection-box .date-person {
 	margin:0 10px;
-	float:right;
 }
 .collection-box .date-person .header {
 	font-weight:bold;
@@ -130,7 +128,7 @@ a.edit img {
 .collection-box .citeified {
 	margin-left:5px;
 	height:15px;
-	float:left;
+	display: inline-block;
 }
 
 .brick {
@@ -171,6 +169,9 @@ a.edit img {
 .image-full .metadata {
 	height: 0;
 	overflow-y:scroll;
+	background-color: #222;
+	position:absolute;
+	z-index:5000;
 }
 .image-full.show .metadata {
 	height: 400px;
