@@ -70,6 +70,7 @@ $( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	
 	//  When all the search results are loaded...
 	if ( loaded == wait ) {
+//		masonrify();
 		var imageloads = [];
 		$( '#results' ).find( 'img' ).each(function () {
 			var dfd = $.Deferred();
@@ -87,8 +88,7 @@ $( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 		//  Scroll to bottom again after all the images load
 	    $.when.apply( undefined, imageloads ).done( function () {
 			$( document ).trigger( 'ImgsLoaded-START' );
-			utils.wall.masonry( 'reloadItems' );
-			utils.wall.masonry( 'layout' );
+			masonrify();
 		});
 	}
 });
@@ -111,6 +111,11 @@ $( document ).on( 'ImgCollectSearch-SUCCESS', function() {
 		api.get( arr[0], arr[1] );
 	}
 });
+
+function masonrify() {
+	utils.wall.masonry( 'reloadItems' );
+	utils.wall.masonry( 'layout' );
+}
 
 /**
  * Welcome screen pop-up

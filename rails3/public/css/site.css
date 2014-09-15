@@ -133,10 +133,13 @@ a.edit img {
 	float:left;
 }
 
+.brick {
+	width: 350px;
+}
+
 /* image-full */
 .image-full {
 	box-sizing: border-box;
-	max-width: 350px;
 	font-size:.8em;
 }
 .image-full .bg_wrap {
@@ -209,10 +212,20 @@ a.edit img {
 /* subregion-full */
 .subregion-full {
 	float:left;
+}
+
+.subregion-full .wrapper {
 	background-color:#333;
 	padding:10px;
-	width:380px;
 	margin:2px;
+}
+
+.subregion-full img {
+/*	max-width:350px; */
+	display:block;
+	margin-top:10px;
+	margin-left:auto;
+	margin-right:auto;
 }
 
 .subregion-full:last-of-type {
@@ -221,7 +234,7 @@ a.edit img {
 
 .subregion-full .caption {
 	text-align:center;
-	margin:20px 0;
+	margin:10px 0;
 }
 
 .subregion-full .user,
@@ -233,14 +246,8 @@ a.edit img {
 .subregion-full .urn,
 .subregion-full .cite_urn {
 	font-size: .8em;
-}
-
-.subregion-full .urn {
-	margin-bottom: 20px;
-}
-
-.subregion-full .cite_urn {
-	margin-bottom: 5px;
+	margin:0;
+	padding:0;
 }
 
 /* imgcollect_search */

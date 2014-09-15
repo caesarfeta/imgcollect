@@ -48,7 +48,6 @@ ImgCollectCol.prototype.start = function() {
 			$( this ).on( 'touchstart click', function( e ) {
 				e.preventDefault();
 				$( this ).parents( '.image-full' ).toggleClass( 'show' );
-				utils.wall.masonry( 'layout' );
 			});
 		});
 		

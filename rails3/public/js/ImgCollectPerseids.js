@@ -38,7 +38,6 @@ ImgCollectPerseids = function() {
 					return;
 				}
 				self.user = data.user.uri;
-				console.log( self.user );
 				$( 'input[name="user"]' ).val( data.user.uri );
 				$( document ).trigger( self.events.success );
 			},
