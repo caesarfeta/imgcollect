@@ -1,11 +1,15 @@
 require 'rake/testtask'
 require 'sparql_model'
 
-RDF_DATA = "/usr/local/imgcollect/triples"
-SPARQL_HOST = "http://localhost"
-SPARQL_PORT = "8080"
-SPARQL_DATA = "ds"
-SPARQL_ENDPOINT = "#{SPARQL_HOST}:#{SPARQL_PORT}/#{SPARQL_DATA}"
+FUSEKI_VERSION = "1.0.2"
+FUSEKI_DIR = "jena-fuseki-#{FUSEKI_VERSION}"
+FUSEKI_TAR = "#{FUSEKI_DIR}-distribution.tar.gz"
+FUSEKI_EXE = "fuseki/#{FUSEKI_DIR}/fuseki-server"
+FUSEKI_TRIPLES = "/usr/local/imgcollect/triples"
+FUSEKI_HOST = "http://localhost"
+FUSEKI_PORT = "8080"
+FUSEKI_DATA = "ds"
+FUSEKI_ENDPOINT = "#{FUSEKI_HOST}:#{FUSEKI_PORT}/#{FUSEKI_DATA}"
 RAILS = 'rails3'
 RAILS_PID = "#{RAILS}/tmp/pids/server.pid"
 RAILS_ENV = 'development'
@@ -25,8 +29,26 @@ namespace :start do
   desc 'Start fuseki'
   task :fuseki do
     Dir.chdir( FUSEKI )
-    `touch #{FUSEKI_PID}; ./fuseki-server --update --loc=#{RDF_DATA} --port=#{SPARQL_PORT} /#{SPARQL_DATA}& echo $! > #{FUSEKI_PID}`
+    `touch #{FUSEKI_PID}; ./fuseki-server --update --loc=#{FUSEKI_TRIPLES} --port=#{FUSEKI_PORT} /#{FUSEKI_DATA}& echo $! > #{FUSEKI_PID}`
   end
+end
+
+namespace :deploy do
+  desc 'Deploy imgcollect in Apache with Phusion Passenger'
+  task :apche do
+  end
+end
+
+namespace :install do
+  desc 'Download and install Fuseki'
+  task :fuseki do
+    `curl -O http://archive.apache.org/dist/jena/binaries/#{FUSEKI_TAR}`
+    `mkdir fuseki`
+    `tar xzvf #{FUSEKI_TAR} -C fuseki`
+    `chmod +x #{FUSEKI_EXE} fuseki/#{FUSEKI_DIR}/s-**`
+    `rm #{FUSEKI_TAR}`
+  end
+  
 end
 
 namespace :stop do
@@ -37,12 +59,11 @@ namespace :stop do
   
   desc 'Stop fuseki server'
   task :fuseki do
-    Process.kill 15, File.read( "#{FUSEKI}/#{FUSEKI_PID}" ).to_i
+    `echo "when you figure out a good way to do this update this task!"`
   end
 end
 
 namespace :destroy do
-  
   desc 'Destroy all upload data'
   task :uploads do
     STDOUT.puts "Are you sure you want to destroy all uploads? (y/n)"
@@ -72,11 +93,10 @@ namespace :destroy do
     STDOUT.puts "Are you sure you want to destroy all triples? (y/n)"
     input = STDIN.gets.strip
     if input == 'y'
-      quick = SparqlQuick.new( SPARQL_ENDPOINT )
+      quick = SparqlQuick.new( FUSEKI_ENDPOINT )
       quick.empty( :all )
     else
       STDOUT.puts "No data was destroyed.  It's still all there :)"
     end
   end
-  
 end
