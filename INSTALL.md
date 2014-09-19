@@ -97,6 +97,39 @@ if you need a console...
 
 	rails console development
 
+# Securing Fuseki
+The easiest way I know to basically secure Fuseki is to use an Apache proxy.
+If anyone knows a better way of doing this let me know.
+
+This goes in **/etc/apache2/httpd.conf**
+
+	LoadModule proxy_http_module /usr/lib/apache2/modules/mod_proxy_http.so
+	ProxyRequests Off
+	<Proxy *>
+	  Order deny,allow
+	  Allow from all
+	</Proxy>
+	
+	<Location /fuseki>
+		ProxyPass http://localhost:8080
+		ProxyPassReverse http://localhost:8080
+	</Location>
+	
+	<LocationMatch /fuseki/[^/]+/update>
+		Order deny,allow
+		Deny from all
+		Allow from 127.0.0.0
+	</LocationMatch>
+
+Then use iptables to drop all packets sent to :8080 from anywhere but localhost.
+
+	sudo iptables -A INPUT -p tcp -s localhost --dport 8080 -j ACCEPT
+	sudo iptables -A INPUT -p tcp --dport 8080 -j DROP
+
+To undo this...
+
+	sudo iptables -D INPUT -p tcp -s localhost --dport 8080 -j ACCEPT
+	sudo iptables -D INPUT -p tcp --dport 8080 -j DROP
 
 # Deploying in Apache with Phusion Passenger
 
@@ -149,4 +182,4 @@ If you get an error message like this...
 
 Try this...
 
-	 ln -s /var/www/imgcollect /Users/username/cite_collections
+	 ln -s /var/www/imgcollect /Users/username/imgcollect

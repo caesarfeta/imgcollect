@@ -36,6 +36,7 @@ end
 namespace :deploy do
   desc 'Deploy imgcollect in Apache with Phusion Passenger'
   task :apche do
+    puts "TODO..."
   end
 end
 
@@ -59,7 +60,7 @@ namespace :stop do
   
   desc 'Stop fuseki server'
   task :fuseki do
-    `echo "when you figure out a good way to do this update this task!"`
+    puts "TODO..."
   end
 end
 
