@@ -1,7 +1,6 @@
 module ViewHelper
   
   # Count the number of objects in an Array
-  #
   # obj { Array, ??? }
   def count( obj )
     if obj.class == Array
@@ -11,7 +10,6 @@ module ViewHelper
   end
   
   # If image is stored locally build the url to the image/show method
-  # 
   # url { String } Image url
   def imgSrc( url )
     if url.index( Rails.configuration.img_dir ) != nil
@@ -22,14 +20,12 @@ module ViewHelper
   end
   
   # Return urn leaf
-  # 
   # urn { String } urn
   def urnLeaf( urn )
     URI.unescape( urn.detagify.split('/').last )
   end
   
   # Generate image previews
-  # 
   # _urns { Array }
   def imgPreview( urn )
     image = Image.new()
@@ -38,7 +34,6 @@ module ViewHelper
   end
   
   # Turn a key into a label
-  # 
   # _text { String, ??? } The key
   def labelify( _text )
     text = _text.to_s.gsub!( '_', ' ' )
