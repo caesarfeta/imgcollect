@@ -6,7 +6,11 @@
 		<%# IMAGES %>
 		<div class="samples">
 			<% if @col.has_key?(:images) %>
-				<% @col[:images].each do | urn | %>
+				<% @col[:images].each_with_index do | urn, i | %>
+				<% if i > 4 %>
+					<span class="total">...<%= @col[:images].length %> total</span>
+					<% break %>
+				<% end %>
 				<% img = imgPreview( urn ) %>
 				<img src="<%= img %>" />
 				<% end %>
@@ -26,10 +30,7 @@
 			</div>
 			<img class="citeified" src="/img/check.svg" />
 			<% end %>
-			
-			<%# COUNTS %>
-			<h3 class="value-count"><span class="n"><%= count( @col[:images] ) %></span> images</h3>
-			
+						
 			<%# KEYWORDS %>
 			<% if @col.has_key?( :keywords ) && @col[:keywords].length > 0 %>
 			<div class="keywords">
@@ -38,17 +39,6 @@
 				<% end %>
 			</div>
 			<% end %>
-			
-			<%# DATES %>
-			<div class="date-person">
-				<h3 class="header">Last Updated</h3>
-				<h3 class="date"><%= readTime( @col[:edited] ) %></h3>
-			</div>
-			<div class="date-person">
-				<h3 class="header">Created</h3>
-				<h3 class="date"><%= readTime( @col[:created] ) %></h3>
-			</div>
-			
 		</div>
 		
 		<%# ACTIVATE %>
@@ -58,6 +48,9 @@
 			<a data-urn="<%= @col[:urn] %>" class="button secondary tiny dark citeify">CITEify</a>
 			<% end %>
 		</div>
+		
+		<%# DATES %>
+		<div class="date-person smaller"><%= shortTime( @col[:edited] ) %></div>
 	</div>
 	<div class="clearfix"></div>
 </div>

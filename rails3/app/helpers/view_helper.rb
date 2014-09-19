@@ -49,7 +49,6 @@ module ViewHelper
   end
   
   # Create readable time output
-  #
   # _time { Integer } 
   def readTime( _time )
     if _time.class.superclass != Integer
@@ -59,8 +58,17 @@ module ViewHelper
     return time.strftime( "%B %d, %Y -- %I:%M%p %Z" )
   end
   
+  # Create short readable time output
+  # _time { Integer } 
+  def shortTime( time )
+    if time.class.superclass != Integer
+      return _time
+    end
+    time = Time.at( time )
+    return time.strftime( "%B %d, %Y" )
+  end
+  
   # Look up dimension size.
-  #
   # _size { String }
   def dimensions( _size, _width, _height )
     _width = _width.to_f

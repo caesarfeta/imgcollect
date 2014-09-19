@@ -410,6 +410,13 @@ a.edit img {
 	display:inline-block;
 }
 
+span.total {
+	background-color: #222;
+	padding: 10px;
+	text-align:center;
+	display: inline-block;
+}
+
 /* dropzone */
 .dz-preview {
 	display:none;

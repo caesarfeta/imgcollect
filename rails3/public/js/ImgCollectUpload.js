@@ -121,6 +121,7 @@ ImgCollectUpload.prototype.success = function ( data ) {
 	// Close the Reveal modal window
 	self.waitOver();
 	$('.reveal-modal').trigger( 'reveal:close' );
+	self.utils.clearResults();
 
 	// Load the uploaded images
 	self.latest( data );
