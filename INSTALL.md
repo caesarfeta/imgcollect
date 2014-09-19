@@ -76,15 +76,15 @@
 
 ## Install jena-fuseki
 	cd /var/www/imgcollect
-	curl -O http://apache.mesi.com.ar//jena/binaries/jena-fuseki-1.0.2-distribution.tar.gz
-	tar xvzf jena-fuseki-1.0.2-distribution.tar.gz
-	ln -s jena-fuseki-1.0.2 fuseki
-	chmod +x fuseki/fuseki-server fuseki/s-**
+	rake install:fuseki
 
 ## Configuration
 Edit the following files for any custom environment configuration
 
-	/var/www/imgcollect/fuseki_config
+### Fuseki
+	/var/www/imgcollect/Rakefile
+
+### Rails
 	/var/www/imgcollect/rails3/config/application.rb
 
 ## Start it up!
