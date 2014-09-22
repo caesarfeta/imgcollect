@@ -5,9 +5,9 @@ FUSEKI_VERSION = "1.0.2"
 FUSEKI_DIR = "jena-fuseki-#{FUSEKI_VERSION}"
 FUSEKI_TAR = "#{FUSEKI_DIR}-distribution.tar.gz"
 FUSEKI_EXE = "fuseki/#{FUSEKI_DIR}/fuseki-server"
-FUSEKI_TRIPLES = "/usr/local/imgcollect/triples"
+FUSEKI_TRIPLES = "/var/www/tools/imgcollect/triples"
 FUSEKI_HOST = "http://localhost"
-FUSEKI_PORT = "8080"
+FUSEKI_PORT = "4567"
 FUSEKI_DATA = "ds"
 FUSEKI_ENDPOINT = "#{FUSEKI_HOST}:#{FUSEKI_PORT}/#{FUSEKI_DATA}"
 RAILS = 'rails3'
@@ -28,8 +28,9 @@ namespace :start do
   
   desc 'Start fuseki'
   task :fuseki do
-    Dir.chdir( FUSEKI )
-    `touch #{FUSEKI_PID}; ./fuseki-server --update --loc=#{FUSEKI_TRIPLES} --port=#{FUSEKI_PORT} /#{FUSEKI_DATA}& echo $! > #{FUSEKI_PID}`
+    Dir.chdir( "#{FUSEKI}/#{FUSEKI_DIR}" )
+	`mkdir -p #{FUSEKI_TRIPLES}`
+    	`touch ../#{FUSEKI_PID}; ./fuseki-server --update --loc=#{FUSEKI_TRIPLES} --port=#{FUSEKI_PORT} /#{FUSEKI_DATA}& echo $! > ../#{FUSEKI_PID}`
   end
 end
 
@@ -45,8 +46,8 @@ namespace :install do
   task :fuseki do
     `curl -O http://archive.apache.org/dist/jena/binaries/#{FUSEKI_TAR}`
     `mkdir fuseki`
-    `tar xzvf #{FUSEKI_TAR} -C fuseki`
-    `chmod +x #{FUSEKI_EXE} fuseki/#{FUSEKI_DIR}/s-**`
+    `tar xzvf #{FUSEKI_TAR} -C #{FUSEKI}`
+    `chmod +x #{FUSEKI_EXE} #{FUSEKI}/#{FUSEKI_DIR}/s-**`
     `rm #{FUSEKI_TAR}`
   end
   
