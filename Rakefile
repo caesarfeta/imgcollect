@@ -51,6 +51,11 @@ namespace :install do
     `rm #{FUSEKI_TAR}`
   end
   
+  desc 'Install rails and dependencies'
+  task :rails do
+    Dir.chdir( RAILS )
+    `bundle install`
+  end
 end
 
 namespace :stop do
