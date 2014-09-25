@@ -34,4 +34,13 @@ Imgcollect::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+  
+  # Filesystem
+  config.public_dir = '/usr/local/imgcollect/rails3/public'
+  config.upload_dir = '/usr/local/imgcollect/uploads'
+  config.img_dir = '/usr/local/imgcollect/images'
+  
+  # Sparql
+  config.sparql_endpoint = "http://localhost:4321/ds"
+  config.sparql_external_endpoint = "http://localhost:4321/ds"
 end

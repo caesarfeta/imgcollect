@@ -64,4 +64,14 @@ Imgcollect::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+  
+  config.url_root = '/imgcollect/'
+  
+  # Filesystem
+  config.public_dir = '/var/www/tools/imgcollect/rails3/public'
+  config.upload_dir = '/var/www/tools/imgcollect/uploads'
+  config.img_dir = '/var/www/tools/imgcollect/images'
+  
+  config.sparql_endpoint = "http://localhost:4321/ds"
+  config.sparql_external_endpoint = "/fuseki/ds"
 end

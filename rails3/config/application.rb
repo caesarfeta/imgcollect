@@ -66,13 +66,9 @@ module Imgcollect
       g.template_engine :haml
     end
     
-    # Sparql
-    config.sparql_endpoint = "http://localhost:4321/ds"
+    config.url_root = '/'
 
     # Filesystem
-    config.public_dir = '/var/www/tools/imgcollect/rails3/public'
-    config.upload_dir = '/var/www/tools/imgcollect/uploads'
-    config.img_dir = '/var/www/tools/imgcollect/images'
     config.original_dir = 'original'
     
     config.thumb_dir = 'thumb'

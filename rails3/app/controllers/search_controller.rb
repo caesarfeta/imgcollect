@@ -6,7 +6,8 @@ class SearchController < ActionController::Base
     img = Image.new
     sub = Subregion.new
     config = {
-      'endpoint' => Rails.configuration.sparql_endpoint+"/query",
+      'endpoint' => Rails.configuration.sparql_external_endpoint+"/query",
+      'url_root' => Rails.configuration.url_root,
       'image' => {
         'prefixes' => img.prefixes,
         'attributes' => img.attributes

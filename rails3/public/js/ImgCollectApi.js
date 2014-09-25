@@ -117,7 +117,7 @@ ImgCollectApi = function() {
 		url = url.join('/');
 		
 		// Remember we want an absolute path
-		url = '/'+url;
+		url = ImgCollectConfig.config.url_root+url;
 
 		$.ajax({
 			url: url,
