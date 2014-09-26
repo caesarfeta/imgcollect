@@ -28,8 +28,8 @@ namespace :start do
   
   desc 'Start fuseki'
   task :fuseki do
-    Dir.chdir( "#{FUSEKI}/#{FUSEKI_DIR}" )
-	`mkdir -p #{FUSEKI_TRIPLES}`
+    Dir.chdir( "#{FUSEKI_DIR}" )
+      `mkdir -p #{FUSEKI_TRIPLES}`
     	`touch ../#{FUSEKI_PID}; ./fuseki-server --update --loc=#{FUSEKI_TRIPLES} --port=#{FUSEKI_PORT} /#{FUSEKI_DATA}& echo $! > ../#{FUSEKI_PID}`
   end
 end
