@@ -37,6 +37,7 @@ class ImgSize
     res = self.uniq_path( src, dir )
     image = MiniMagick::Image.open( src )
     image.resize( size )
+    image.format( 'jpg' )
     image.write( res['path'] )
     res['path']
   end
