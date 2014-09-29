@@ -85,15 +85,35 @@ ImgCollectApi = function() {
 		}
 	};
 	
-	/**
-	 * Make the request
-	 *
-	 * @param { String } _model The model name
-	 * @param { String } _action The action name
-	 * @param { Obj } _data The data object to send
-	 * @param { String } _context A string for marking the context of the send method call
-	 */
-	this.send = function( _model, _action, _data, _context ) {
+	this.send_file = function( _model, _action, _data, _context ) {
+		var self = this;
+		var config = self.send_prep( _model, _action, _data );
+		$.ajax({
+			url: config.url,
+			type: config.method,
+			data: config.data,
+			cache: false,
+			dataType: 'json',
+			processData: false,
+			contentType: false,
+			success: function( _data, _status ) {
+				$( document ).trigger( self.events.success, { 
+					context: _context, 
+					data: _data } 
+				);
+			},
+			error: function( _error ) {
+				$( document ).trigger( self.events.error, { 
+					context: _context, 
+					data: null, 
+					error: _error } 
+				);
+			}
+		});
+	}
+	
+	// Shared preparation methods used by send() and send_file()
+	this.send_prep = function( _model, _action, _data ) {
 		var self = this;
 		var url = [ _model, _action ];
 		lookup = url.join('/');
@@ -119,10 +139,29 @@ ImgCollectApi = function() {
 		// Remember we want an absolute path
 		url = ImgCollectConfig.config.url_root+url;
 
-		$.ajax({
+		return {
 			url: url,
-			type: method,
 			data: _data,
+			method: method
+		}
+	}
+	
+	/**
+	 * Make the request
+	 *
+	 * @param { String } _model The model name
+	 * @param { String } _action The action name
+	 * @param { Obj } _data The data object to send
+	 * @param { String } _context A string for marking the context of the send method call
+	 */
+	this.send = function( _model, _action, _data, _context ) {
+		var self = this;
+		var config = self.send_prep( _model, _action, _data );
+
+		$.ajax({
+			url: config.url,
+			type: config.method,
+			data: config.data,
 			success: function( _data, _status ) {
 				$( document ).trigger( self.events.success, { 
 					context: _context, 

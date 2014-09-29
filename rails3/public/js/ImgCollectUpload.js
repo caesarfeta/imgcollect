@@ -3,6 +3,7 @@ ImgCollectUpload = function() {
 	this.input = '#uploader_url input';
 	this.utils = new ImgCollectUtils();
 	this.start();
+	this.files = [];
 }
 
 /**
@@ -23,6 +24,13 @@ ImgCollectUpload.prototype.start = function() {
 	catch( error ) {
 		console.log( error );
 	}
+	self.api_events();
+	self.url_upload_events();
+	self.file_upload_events();
+}
+
+ImgCollectUpload.prototype.api_events = function() {
+	var self = this;
 	
 	//  A successful upload!
 	$( document ).on( 'ImgCollectApi-SUCCESS', function( e, data ) {
@@ -38,7 +46,22 @@ ImgCollectUpload.prototype.start = function() {
 		}
 		self.error( data.data );
 	});
+}
 
+ImgCollectUpload.prototype.file_upload_events = function() {
+	var self = this;
+	$('input[type=file]').on('change', function(e){ 
+		self.files = e.target.files;
+	} );
+	$('#uploader_standard form').on('submit', function(e){
+		e.preventDefault();
+		self.upload_file( self.files[0] );
+	});
+}
+
+ImgCollectUpload.prototype.url_upload_events = function() {
+	var self = this;
+	
 	//  Listen for the enter key press
 	$( self.input ).on( 'keydown', function( e ) {
 		switch( e.which ) {
@@ -48,7 +71,7 @@ ImgCollectUpload.prototype.start = function() {
 				break;
 		}
 	});
-
+	
 	//  You can also click a button...
 	$( '#uploader_url .button' ).on( 'touchstart click', function( e ) {
 		e.preventDefault();
@@ -57,12 +80,21 @@ ImgCollectUpload.prototype.start = function() {
 }
 
 /**
- * Upload a file
+ * Upload a file accessible at url
  */
-ImgCollectUpload.prototype.upload = function( file ) {
+ImgCollectUpload.prototype.upload = function( url ) {
 	var self = this;
 	self.wait();
-	self.api.send( 'image', 'upload', { file: file }, 'ImgCollectUpload' );
+	self.api.send( 'image', 'upload', { file: url }, 'ImgCollectUpload' );
+}
+ImgCollectUpload.prototype.upload_file = function( file ) {
+	var self = this;
+	var form = new FormData();
+	$.each( self.files, function( key, val ) {
+		form.append( key, val );
+	});
+	self.wait();
+	self.api.send_file( 'image', 'upload', { file: form }, 'ImgCollectUpload' );
 }
 
 /**

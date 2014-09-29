@@ -84,6 +84,14 @@
 					<!-- Dropzone accessible user param -->
 					<input type="hidden" name="user" />
 				</form>
+				
+				<!-- Standard upload -->
+				<div id="uploader_standard">
+					<form action="<%= pre %>image/upload">
+						<input type="file" name="img_upload" accept="image/*" />
+						<input id="standard_submit" type="submit" />
+					</form>
+				</div>
 			</div>
 			<!-- URL upload -->
 			<div id="uploader_url" class="columns small-12 medium-6">

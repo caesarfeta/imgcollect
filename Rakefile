@@ -32,17 +32,23 @@ namespace :start do
       `mkdir -p #{FUSEKI_TRIPLES}`
     	`touch ../#{FUSEKI_PID}; ./fuseki-server --update --loc=#{FUSEKI_TRIPLES} --port=#{FUSEKI_PORT} /#{FUSEKI_DATA}& echo $! > ../#{FUSEKI_PID}`
   end
+  
+  desc 'Start rails & fuseki'
+  task :all do
+    Rake::Task["start:rails"].invoke
+    Rake::Task["start:fuseki"].invoke
+  end
 end
 
 namespace :deploy do
-  desc 'Deploy imgcollect in Apache with Phusion Passenger'
+  desc 'Deploy imgcollect in apache with Phusion Passenger'
   task :apche do
     puts "TODO..."
   end
 end
 
 namespace :install do
-  desc 'Download and install Fuseki'
+  desc 'Download & install fuseki'
   task :fuseki do
     `curl -O http://archive.apache.org/dist/jena/binaries/#{FUSEKI_TAR}`
     `mkdir fuseki`
@@ -51,7 +57,7 @@ namespace :install do
     `rm #{FUSEKI_TAR}`
   end
   
-  desc 'Install rails and dependencies'
+  desc 'Install rails & dependencies'
   task :rails do
     Dir.chdir( RAILS )
     `bundle install`
