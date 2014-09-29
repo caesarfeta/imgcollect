@@ -33,10 +33,19 @@ namespace :start do
     	`touch ../#{FUSEKI_PID}; ./fuseki-server --update --loc=#{FUSEKI_TRIPLES} --port=#{FUSEKI_PORT} /#{FUSEKI_DATA}& echo $! > ../#{FUSEKI_PID}`
   end
   
+  desc 'Start redis'
+  task :redis do
+    `redis-server /usr/local/etc/redis.conf`
+    DIR.chdir( RAILS )
+      `bundle exec sidekiq`
+      `bundle exec sidekiq -q high,5 default`
+  end
+  
   desc 'Start rails & fuseki'
   task :all do
     Rake::Task["start:rails"].invoke
     Rake::Task["start:fuseki"].invoke
+    Rake::Task["start:redis"].invoke
   end
 end
 

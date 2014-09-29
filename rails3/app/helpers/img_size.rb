@@ -1,5 +1,7 @@
 class ImgSize
-  
+  include Sidekiq::Worker
+  sidekiq_options queue: "high"
+    
   def self.thumb( src )
     dim = Rails.configuration.thumb_max_width.to_s + 'x' + Rails.configuration.thumb_max_height.to_s
     dir = UploadUtils.monthDir( Rails.configuration.img_dir, Rails.configuration.thumb_dir )
@@ -22,23 +24,14 @@ class ImgSize
   def self.subregion( src, x, y, width, height )
     dir = UploadUtils.monthDir( Rails.configuration.img_dir, Rails.configuration.subregion_dir )
     res = self.uniq_path( src, dir )
-    image = MiniMagick::Image.open( src )
-    px_w = ( image[:width] * width.to_f ).floor
-    px_h = ( image[:height ] * height.to_f ).floor
-    px_x = ( image[:width] * x.to_f ).floor
-    px_y = ( image[:height] * y.to_f ).floor
-    image.crop( "#{px_w}x#{px_h}+#{px_x}+#{px_y}" )
-    image.write( res['path'] )
+    CropWorker.perform_async( src, res, x, y, width, height )
     res['path']
   end
   
   
   def self.create( src, size, dir )
     res = self.uniq_path( src, dir )
-    image = MiniMagick::Image.open( src )
-    image.resize( size )
-    image.format( 'jpg' )
-    image.write( res['path'] )
+    SizeWorker.perform_async( src, size, res )
     res['path']
   end
   
