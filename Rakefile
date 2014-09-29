@@ -67,7 +67,7 @@ end
 namespace :stop do
   desc 'Stop rails server'
   task :rails do
-    Process.kill 15, File.read( RAILS_PID ).to_i
+    Process.kill( 15, File.read( RAILS_PID ).to_i )
   end
   
   desc 'Stop fuseki server'
