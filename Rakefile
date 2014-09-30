@@ -30,7 +30,7 @@ namespace :start do
   task :fuseki do
     Dir.chdir( "#{FUSEKI_DIR}" )
       `mkdir -p #{FUSEKI_TRIPLES}`
-      `touch ../#{FUSEKI_PID}; ./fuseki-server --update --loc=#{FUSEKI_TRIPLES} --port=#{FUSEKI_PORT} /#{FUSEKI_DATA}& echo $! > ../#{FUSEKI_PID}`
+      `touch ../#{FUSEKI_PID}; ./fuseki-server --update --loc=#{FUSEKI_TRIPLES} --port=#{FUSEKI_PORT} /#{FUSEKI_DATA}& echo $! > ../pids/#{FUSEKI_PID}`
   end
   
   desc 'Start sidekiq'
