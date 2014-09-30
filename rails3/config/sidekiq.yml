@@ -1,4 +1,5 @@
 ---
+:verbose: true
 :concurrency: 5
 :pidfile: /usr/local/imgcollect/pids/sidekiq.pid
 staging:

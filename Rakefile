@@ -1,25 +1,30 @@
 require 'rake/testtask'
 require 'sparql_model'
 
+IMGCOLLECT = File.dirname(__FILE__)
 FUSEKI_VERSION = "1.0.2"
 FUSEKI_DIR = "jena-fuseki-#{FUSEKI_VERSION}"
 FUSEKI_TAR = "#{FUSEKI_DIR}-distribution.tar.gz"
 FUSEKI_EXE = "fuseki/#{FUSEKI_DIR}/fuseki-server"
-FUSEKI_TRIPLES = "/var/www/tools/imgcollect/triples"
+FUSEKI_TRIPLES = "#{IMGCOLLECT}/triples"
 FUSEKI_HOST = "http://localhost"
 FUSEKI_PORT = "4321"
 FUSEKI_DATA = "ds"
 FUSEKI_ENDPOINT = "#{FUSEKI_HOST}:#{FUSEKI_PORT}/#{FUSEKI_DATA}"
-RAILS = 'rails3'
-RAILS_PID = "#{RAILS}/tmp/pids/server.pid"
-RAILS_ENV = 'development'
-FUSEKI = 'fuseki'
+FUSEKI = "fuseki"
 FUSEKI_PID = "fuseki.pid"
+RAILS = "#{IMGCOLLECT}/rails3"
+RAILS_CONFIG = "#{RAILS}/config"
+RAILS_ENV = "development"
+REDIS_CONFIG = "#{RAILS_CONFIG}/redis.conf"
+SIDEKIQ_CONFIG = "#{RAILS_CONFIG}/sidekiq.yml"
+LOG =  "#{RAILS}/log"
 
 desc "Run tests"
 task :default => :test
 
 namespace :start do
+  
   desc 'Start rails server'
   task :rails do
   	Dir.chdir( RAILS )
@@ -35,16 +40,17 @@ namespace :start do
   
   desc 'Start sidekiq'
   task :sidekiq do
-    `redis-server /usr/local/etc/redis.conf`
+    puts "redis-server #{REDIS_CONFIG}"
     Dir.chdir( RAILS )
-      `bundle exec sidekiq -d -L log/sidekiq.log`
+      puts "bundle exec sidekiq -C #{SIDEKIQ_CONFIG} -d -L #{LOG}/sidekiq.log"
+      
   end
   
   desc 'Start rails & fuseki'
   task :all do
-    Rake::Task["start:rails"].invoke
     Rake::Task["start:fuseki"].invoke
     Rake::Task["start:sidekiq"].invoke
+    Rake::Task["start:rails"].invoke
   end
 end
 
