@@ -24,14 +24,14 @@ class ImgSize
   def self.subregion( src, x, y, width, height )
     dir = UploadUtils.monthDir( Rails.configuration.img_dir, Rails.configuration.subregion_dir )
     res = self.uniq_path( src, dir )
-    CropWorker.perform_async( src, res, x, y, width, height )
+    CropWorker.perform_async( src, res['path'], x, y, width, height )
     res['path']
   end
   
-  
   def self.create( src, size, dir )
     res = self.uniq_path( src, dir )
-    SizeWorker.perform_async( src, size, res )
+    SizeWorker.perform_async( src, res['path'], size )
+    TestWorker.perform_async
     res['path']
   end
   
@@ -39,6 +39,10 @@ class ImgSize
     file = File.basename( src )
     path = File.join( dir, file )
     UploadUtils.filename( path )
+  end
+  
+  # Save a placeholder image
+  def self.placehold( path, size )
   end
   
 end

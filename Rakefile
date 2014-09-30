@@ -23,29 +23,28 @@ namespace :start do
   desc 'Start rails server'
   task :rails do
   	Dir.chdir( RAILS )
-  	`bundle exec rails server -e #{RAILS_ENV}`
+      `bundle exec rails server -e #{RAILS_ENV}`
   end
   
   desc 'Start fuseki'
   task :fuseki do
     Dir.chdir( "#{FUSEKI_DIR}" )
       `mkdir -p #{FUSEKI_TRIPLES}`
-    	`touch ../#{FUSEKI_PID}; ./fuseki-server --update --loc=#{FUSEKI_TRIPLES} --port=#{FUSEKI_PORT} /#{FUSEKI_DATA}& echo $! > ../#{FUSEKI_PID}`
+      `touch ../#{FUSEKI_PID}; ./fuseki-server --update --loc=#{FUSEKI_TRIPLES} --port=#{FUSEKI_PORT} /#{FUSEKI_DATA}& echo $! > ../#{FUSEKI_PID}`
   end
   
-  desc 'Start redis'
-  task :redis do
+  desc 'Start sidekiq'
+  task :sidekiq do
     `redis-server /usr/local/etc/redis.conf`
-    DIR.chdir( RAILS )
-      `bundle exec sidekiq`
-      `bundle exec sidekiq -q high,5 default`
+    Dir.chdir( RAILS )
+      `bundle exec sidekiq -d -L log/sidekiq.log`
   end
   
   desc 'Start rails & fuseki'
   task :all do
     Rake::Task["start:rails"].invoke
     Rake::Task["start:fuseki"].invoke
-    Rake::Task["start:redis"].invoke
+    Rake::Task["start:sidekiq"].invoke
   end
 end
 
@@ -82,6 +81,11 @@ namespace :stop do
   desc 'Stop fuseki server'
   task :fuseki do
     puts "TODO..."
+  end
+  
+  desc 'Stop sidekiq'
+  task :sidekiq do
+    
   end
 end
 
@@ -120,5 +124,12 @@ namespace :destroy do
     else
       STDOUT.puts "No data was destroyed.  It's still all there :)"
     end
+  end
+  
+  desc 'Destroy all data'
+  task :all do
+    Rake::Task["destroy:uploads"].invoke
+    Rake::Task["destroy:images"].invoke
+    Rake::Task["destroy:triples"].invoke
   end
 end
