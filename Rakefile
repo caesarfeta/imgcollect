@@ -18,7 +18,7 @@ RAILS_CONFIG = "#{RAILS}/config"
 RAILS_ENV = "development"
 REDIS_CONFIG = "#{RAILS_CONFIG}/redis.conf"
 SIDEKIQ_CONFIG = "#{RAILS_CONFIG}/sidekiq.yml"
-LOG =  "#{RAILS}/log"
+LOG = "#{RAILS}/log"
 
 desc "Run tests"
 task :default => :test
@@ -40,10 +40,9 @@ namespace :start do
   
   desc 'Start sidekiq'
   task :sidekiq do
-    puts "redis-server #{REDIS_CONFIG}"
+    `redis-server #{REDIS_CONFIG}`
     Dir.chdir( RAILS )
-      puts "bundle exec sidekiq -C #{SIDEKIQ_CONFIG} -d -L #{LOG}/sidekiq.log"
-      
+      `bundle exec sidekiq -C #{SIDEKIQ_CONFIG} -d -L #{LOG}/sidekiq.log`
   end
   
   desc 'Start rails & fuseki'
@@ -56,7 +55,7 @@ end
 
 namespace :deploy do
   desc 'Deploy imgcollect in apache with Phusion Passenger'
-  task :apche do
+  task :apache do
     puts "TODO..."
   end
 end
@@ -91,7 +90,6 @@ namespace :stop do
   
   desc 'Stop sidekiq'
   task :sidekiq do
-    
   end
 end
 
@@ -132,10 +130,23 @@ namespace :destroy do
     end
   end
   
+  desc 'Destroy logs'
+  task :logs do
+    STDOUT.puts "Are you sure you want to destroy all the logs? (y/n)"
+    input = STDIN.gets.strip
+    if input == 'y'
+      FileUtils.rm_rf( "#{RAILS}/log" )
+      FileUtils.mkdir( "#{RAILS}/log" )
+    else
+      STDOUT.puts "No data was destroyed.  It's still all there :)"
+    end
+  end
+  
   desc 'Destroy all data'
   task :all do
     Rake::Task["destroy:uploads"].invoke
     Rake::Task["destroy:images"].invoke
     Rake::Task["destroy:triples"].invoke
+    Rake::Task["destroy:logs"].invoke
   end
 end
