@@ -28,6 +28,15 @@ class String
     /\d+/.match( self ).to_s.to_i
   end
   
+  # Prefix a period
+  def predot
+    out = self
+    if out[0,1] != "."
+      return ".#{out}"
+    end
+    out
+  end
+  
   # Add urn
   def add_urn
     urn = "urn:"

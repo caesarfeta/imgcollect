@@ -31,13 +31,18 @@ class ImgSize
   def self.create( src, size, dir )
     res = self.uniq_path( src, dir )
     SizeWorker.perform_async( src, res['path'], size )
-    TestWorker.perform_async
     res['path']
   end
   
-  def self.uniq_path( src, dir )
-    file = File.basename( src )
-    path = File.join( dir, file )
+  # ImgSize.uniq_path( "/usr/local/imgcollect/images/2014/SEP/original/travel-to-hungary.tiff", "/usr/local/imgcollect/images/2014/SEP/thumb/" )
+  def self.uniq_path( src, dir, form=nil )
+    ext =  File.extname( src )
+    if form == nil
+      form = ext
+    end
+    form = form.predot
+    file = File.basename( src, ext )
+    path = File.join( dir, "#{file}#{form}" )
     UploadUtils.filename( path )
   end
   
