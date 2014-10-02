@@ -58,8 +58,6 @@ Pinterest
 ## Peer-to-peer CDNs
 Most commercial applications use peer-to-peer CDNs ( Content delivery networks ).
 
-
-
 ## Replacing
 http://sosol.perseids.org/collections/
 

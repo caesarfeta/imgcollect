@@ -184,14 +184,11 @@ Try this...
 
 	 ln -s /var/www/imgcollect /Users/username/imgcollect
 
-# Install redis & sidekiq
-Change redis log directory.
+# Config redis & sidekiq
 
-	mate /usr/local/etc/redis.conf
+	rails3/config/redis.conf
+	rails3/config/sidekiq.yml
 
- around line 103.
- 
-	 logfile "/usr/local/imgcollect/rails3/log/redis.log"
 
 ## Test redis 
 Ping it.
@@ -205,3 +202,8 @@ Set keys and values.
 		set key val
 		get key
 
+## Test sidekiq
+Check the web interface
+
+	http://127.0.0.1:3000/sidekiq
+	http://your.host.org/sidekiq

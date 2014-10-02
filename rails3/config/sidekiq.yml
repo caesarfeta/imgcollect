@@ -7,6 +7,5 @@ staging:
 production:
   :concurrency: 20
 :queues:
-  - test
   - resize
   - crop
