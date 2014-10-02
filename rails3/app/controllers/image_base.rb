@@ -17,4 +17,13 @@ class ImageBase < ActionController::Base
     end
   end
   
+  def imgProcessing
+    send_file processImg, :disposition => 'inline'
+    return
+  end
+  
+  def processImg
+    File.join( Rails.configuration.public_dir, 'img', 'img_processing.png' )
+  end
+  
 end

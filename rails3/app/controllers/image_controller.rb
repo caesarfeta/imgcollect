@@ -9,10 +9,15 @@ class ImageController < ImageBase
     file = File.join( Rails.configuration.img_dir, params[:dir]+'.'+params[:format] )
     
     # If file isn't found return the 'IMAGE NOT FOUND' image
-    imgNotFound( file )
+    # imgNotFound( file )
     
     # Send the image file
-    returnFile( file )
+    # If the file isn't found then it's processing.
+    begin
+      returnFile( file )
+    rescue
+      imgProcessing
+    end
   end
   
   # Display an image by passing a URN
@@ -111,7 +116,6 @@ class ImageController < ImageBase
         
         # Create an image record in the triplestore
         image = Image.new
-        
         begin
           image.create({ 
             :user => params[:user].tagify,

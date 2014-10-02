@@ -81,10 +81,10 @@
 ## Configuration
 Edit the following files for any custom environment configuration
 
-### Fuseki
+### fuseki
 	/var/www/imgcollect/Rakefile
 
-### Rails
+### rails
 	/var/www/imgcollect/rails3/config/application.rb
 
 ## Start it up!
@@ -97,7 +97,7 @@ if you need a console...
 
 	rails console development
 
-# Securing Fuseki
+# Securing fuseki
 The easiest way I know to basically secure Fuseki is to use an Apache proxy.
 If anyone knows a better way of doing this let me know.
 
@@ -131,7 +131,7 @@ To undo this...
 	sudo iptables -D INPUT -p tcp -s localhost --dport 8080 -j ACCEPT
 	sudo iptables -D INPUT -p tcp --dport 8080 -j DROP
 
-# Deploying in Apache with Phusion Passenger
+# Deploying in apache with Phusion Passenger
 
 	gem install passenger
 	passenger-install-apache2-module
@@ -183,3 +183,27 @@ If you get an error message like this...
 Try this...
 
 	 ln -s /var/www/imgcollect /Users/username/imgcollect
+
+# Config redis & sidekiq
+
+	rails3/config/redis.conf
+	rails3/config/sidekiq.yml
+
+
+## Test redis 
+Ping it.
+
+	redis-cli ping
+	> PONG
+
+Set keys and values.
+
+	redis-cli
+		set key val
+		get key
+
+## Test sidekiq
+Check the web interface
+
+	http://127.0.0.1:3000/sidekiq
+	http://your.host.org/sidekiq

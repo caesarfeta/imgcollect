@@ -1,3 +1,4 @@
+require 'sparql_model'
 class Collection < SparqlModel
 
   def initialize( _key=nil )

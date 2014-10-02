@@ -1,5 +1,0 @@
-RDF_DATA="/usr/local/imgcollect/triples"
-SPARQL_HOST="http://localhost"
-SPARQL_PORT="8080"
-SPARQL_DATA="ds"
-SPARQL_ENDPOINT=$SPARQL_HOST:$SPARQL_PORT/$SPARQL_DATA

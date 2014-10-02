@@ -2,14 +2,14 @@ ImgCollectConfig = function() {
 	this.get();
 }
 ImgCollectConfig.config = null;
-ImgCollectConfig.prototype.configUrl = '/search/config';
+ImgCollectConfig.prototype.configUrl = $("input[name='configurl']").val();
 ImgCollectConfig.prototype.events = {
 	ready: 'ImgCollectConfig-READY',
 	error: 'ImgCollectConfig-ERROR'
 }
 ImgCollectConfig.prototype.get = function() {
 	var self = this;
-	jQuery.ajax({
+	$.ajax({
 		dataType: "json",
 		url: self.configUrl,
 		timeout: 10*1000, // 10 second timeout

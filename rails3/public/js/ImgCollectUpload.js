@@ -3,6 +3,7 @@ ImgCollectUpload = function() {
 	this.input = '#uploader_url input';
 	this.utils = new ImgCollectUtils();
 	this.start();
+	this.files = [];
 }
 
 /**
@@ -23,8 +24,15 @@ ImgCollectUpload.prototype.start = function() {
 	catch( error ) {
 		console.log( error );
 	}
+	self.api_events();
+	self.url_upload_events();
+	self.file_upload_events();
+}
+
+ImgCollectUpload.prototype.api_events = function() {
+	var self = this;
 	
-	//  A successful upload!
+	// A successful upload!
 	$( document ).on( 'ImgCollectApi-SUCCESS', function( e, data ) {
 		if ( data.context != 'ImgCollectUpload' ) {
 			return;
@@ -38,8 +46,25 @@ ImgCollectUpload.prototype.start = function() {
 		}
 		self.error( data.data );
 	});
+}
 
-	//  Listen for the enter key press
+ImgCollectUpload.prototype.file_upload_events = function() {
+	/*
+	var self = this;
+	$('input[type=file]').on('change', function(e){ 
+		self.files = this.files[0];
+	} );
+	$('#uploader_standard form').on('submit', function(e){
+		e.preventDefault();
+		self.upload_file( self.files[0] );
+	});
+	*/
+}
+
+ImgCollectUpload.prototype.url_upload_events = function() {
+	var self = this;
+	
+	// Listen for the enter key press
 	$( self.input ).on( 'keydown', function( e ) {
 		switch( e.which ) {
 			case 13:
@@ -48,8 +73,8 @@ ImgCollectUpload.prototype.start = function() {
 				break;
 		}
 	});
-
-	//  You can also click a button...
+	
+	// You can also click a button...
 	$( '#uploader_url .button' ).on( 'touchstart click', function( e ) {
 		e.preventDefault();
 		self.upload( $( self.input ).val() );
@@ -57,12 +82,19 @@ ImgCollectUpload.prototype.start = function() {
 }
 
 /**
- * Upload a file
+ * Upload a file accessible at url
  */
-ImgCollectUpload.prototype.upload = function( file ) {
+ImgCollectUpload.prototype.upload = function( url ) {
 	var self = this;
 	self.wait();
-	self.api.send( 'image', 'upload', { file: file }, 'ImgCollectUpload' );
+	self.api.send( 'image', 'upload', { file: url }, 'ImgCollectUpload' );
+}
+
+ImgCollectUpload.prototype.upload_file = function( file ) {
+	var self = this;
+	var form = new FormData( self.files[0] );
+	self.wait();
+	self.api.send_file( 'image', 'upload', { file: form }, 'ImgCollectUpload' );
 }
 
 /**
@@ -86,7 +118,7 @@ ImgCollectUpload.prototype.waitOver = function() {
 ImgCollectUpload.prototype.latest = function( data ) {
 	var self = this;
 
-	//  Retrieve the new records
+	// Retrieve the new records
 	var urns = [];
 	for ( var i=0; i<data.length; i++ ) {
 		if ( data[i].message == 'Success' ) {
@@ -94,7 +126,7 @@ ImgCollectUpload.prototype.latest = function( data ) {
 		}
 	}
 
-	//  Loop through the urns and download 'em!
+	// Loop through the urns and download 'em!
 	for ( var i=0; i<urns.length; i++ ) {
 		wait = 1;
 		self.api.get( 'image', urns[i].lastInt() );
@@ -109,7 +141,10 @@ ImgCollectUpload.prototype.error = function ( data ) {
 	self.waitOver();
 	
 	// Something went wrong how will it be handled?
-	$( '#uploader_message' ).html( data.error );
+	if ( typeof data == "Object" && 'error' in data ) {
+		return $( '#uploader_message' ).html( data.error );
+	}
+	return $( '#uploader_message' ).html( "Error: Something is seriously rotten." );
 }
 
 /**

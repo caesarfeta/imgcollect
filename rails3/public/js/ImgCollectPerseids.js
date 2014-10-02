@@ -12,8 +12,8 @@ ImgCollectPerseids = function() {
 	ImgCollectPerseids.prototype.me = this;
 	
 	
-	// this.url = "http://sosol.perseids.org/sosol/dmm_api/ping";
-	this.url = "/json/user_ping.json";
+	//this.url = "http://sosol.perseids.org/sosol/dmm_api/ping";
+	this.url = ImgCollectConfig.config.url_root+"json/user_ping.json";
 	
 	this.oe = new ObjectExt();
 	

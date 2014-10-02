@@ -52,3 +52,5 @@ gem 'rest_client'
 gem 'mimemagic'
 gem 'fastimage'
 gem 'sparql_model'
+gem 'sidekiq'
+gem 'sinatra', '>= 1.3.0', :require => nil

@@ -4,26 +4,26 @@ class ImgUpload
   # Save a file to the upload directory
   def save( _upload )
 
-    #  Build
+    # Build
     @uploadDir = UploadUtils.monthDir( Rails.configuration.upload_dir )
     case _upload['file'].class.to_s
 
-      #  File is an upload from the users local filesystem...
+      # File is an upload from the users local filesystem...
       when 'ActionDispatch::Http::UploadedFile'
         check( _upload['file'].original_filename )
 
-        #  Write the file
+        # Write the file
         File.open( @uploadPath, "wb" ) { |f| 
           f.write( _upload['file'].read ) 
         }
         
-      #  URL pointint to a file on 
+      # URL pointint to a file on 
       when 'String'
         @url = _upload['file']
         uri = URI.parse( @url )
         check( File.basename( uri.path ) )
         
-        #  Write the file
+        # Write the file
         open( @uploadPath, 'wb' ) do |f|
           f << open( @url ).read
         end
@@ -83,8 +83,3 @@ end
 # rest.post( 'image/upload', {:file => remote })
 # 
 # {"file"=>#<ActionDispatch::Http::UploadedFile:0x48729352 @original_filename="forest1.JPG", @headers="Content-Disposition: form-data; name=\"file\"; filename=\"forest1.JPG\"\r\nContent-Type: text/plain\r\n", @tempfile=#<Tempfile:/var/folders/yp/_dkxrwzd043dnbckn8w4hr880000gn/T/RackMultipart20140724-58195-13na2mj>, @content_type="text/plain">, "controller"=>"image", "action"=>"upload"}
-# 
-# 
-# 
-# 
-# 

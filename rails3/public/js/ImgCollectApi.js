@@ -85,28 +85,67 @@ ImgCollectApi = function() {
 		}
 	};
 	
-	/**
-	 * Make the request
-	 *
-	 * @param { String } _model The model name
-	 * @param { String } _action The action name
-	 * @param { Obj } _data The data object to send
-	 * @param { String } _context A string for marking the context of the send method call
-	 */
-	this.send = function( _model, _action, _data, _context ) {
+	this.send_file = function( _model, _action, _data, _context ) {
+		var self = this;
+		var config = self.send_prep( _model, _action, _data, true );
+		$.ajax({
+			url: config.url,
+			type: config.method,
+			
+			// Required for the progress bar
+			xhr: function() {
+				var me = $.ajaxSettings.xhr();
+				if ( me.upload ) {
+					me.upload.addEventListener( 'progress', function(){
+						
+					}, false );
+				}
+				return me;
+			},
+			
+			data: config.data,
+			cache: false,
+			dataType: 'json',
+			processData: false,
+			contentType: false,
+			success: function( _data, _status ) {
+				$( document ).trigger( self.events.success, { 
+					context: _context, 
+					data: _data } 
+				);
+			},
+			error: function( _error ) {
+				$( document ).trigger( self.events.error, { 
+					context: _context, 
+					data: null, 
+					error: _error } 
+				);
+			}
+		});
+	}
+	
+	// Shared preparation methods used by send() and send_file()
+	this.send_prep = function( _model, _action, _data, _send_file ) {
 		var self = this;
 		var url = [ _model, _action ];
 		lookup = url.join('/');
 		
-		//  What's the method? 
+		// What's the method? 
 		var method = self.httpMethod( lookup );
 		
 		// Only Perseidslogged-in users have access to POST.
 		if ( self.userReq( lookup ) ) {
-			_data.user = self.perseids.user;
+			if ( _send_file == true ) {
+				_data.append( 'user', self.perseids.user );
+			}
+			else {
+				_data.user = self.perseids.user;
+			}
 		}
 		
-		//  Append path data
+		console.log( _data );
+		
+		// Append path data
 		var pathVars = self.pathVars( lookup );
 		for ( var i=0; i<pathVars.length; i++ ) {
 			if ( pathVars[i] in _data ) {
@@ -117,12 +156,31 @@ ImgCollectApi = function() {
 		url = url.join('/');
 		
 		// Remember we want an absolute path
-		url = '/'+url;
+		url = ImgCollectConfig.config.url_root+url;
+
+		return {
+			url: url,
+			data: _data,
+			method: method
+		}
+	}
+	
+	/**
+	 * Make the request
+	 *
+	 * @param { String } _model The model name
+	 * @param { String } _action The action name
+	 * @param { Obj } _data The data object to send
+	 * @param { String } _context A string for marking the context of the send method call
+	 */
+	this.send = function( _model, _action, _data, _context ) {
+		var self = this;
+		var config = self.send_prep( _model, _action, _data );
 
 		$.ajax({
-			url: url,
-			type: method,
-			data: _data,
+			url: config.url,
+			type: config.method,
+			data: config.data,
 			success: function( _data, _status ) {
 				$( document ).trigger( self.events.success, { 
 					context: _context, 
