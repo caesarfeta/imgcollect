@@ -101,16 +101,37 @@ $( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
  * If search results are returned retrieve them!
  */
 $( document ).on( 'ImgCollectSearch-SUCCESS', function() {
-
-	//  Retrieve the search results
+	
+	// Retrieve the search results
 	var results = search.results[ search.results.length-1 ];
 	wait = results.length;
 	loaded = 0;
-	for ( var i=0; i<results.length; i++ ) {
-		var arr = results[i].split('.');
+	
+	// Add pagination
+	var per_page = 10;
+	var p = pages( results, per_page );
+	
+	// Remove paginator UI
+	if ( p > 1 ) {
+		// Add paginator UI
+	}
+	search_get( results.slice(0,per_page-1) );
+});
+
+function paginator_remove() {}
+
+function paginator_add() {}
+
+function search_get( items ) {
+	for ( var i=0; i<items.length; i++ ) {
+		var arr = items[i].split('.');
 		api.get( arr[0], arr[1] );
 	}
-});
+}
+
+function pages( results, per_page ) {
+	return Math.ceil( results.length / per_page );
+}
 
 function masonrify() {
 	utils.wall.masonry( 'reloadItems' );
