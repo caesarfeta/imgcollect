@@ -41,16 +41,6 @@ ImgCollectCol.prototype.start = function() {
 				
 			});
 		});
-		
-		// Show more button
-		$('.image-full .button.new.more' ).each( function() {
-			$( this ).removeClass( 'new' );
-			$( this ).on( 'touchstart click', function( e ) {
-				e.preventDefault();
-				$( this ).parents( '.image-full' ).toggleClass( 'show' );
-			});
-		});
-		
 	});
 	
 
