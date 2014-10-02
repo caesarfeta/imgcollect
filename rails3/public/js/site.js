@@ -4,9 +4,6 @@ var input = null;
 var perseids = null;
 var utils = null;
 
-var wait = 0;
-var loaded = 0;
-
 var per_page = 10;
 var results = [];
 
@@ -70,31 +67,8 @@ $( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	//  Create an input listener
 	input.start( data );
 	col.activate( data );
-	loaded++;
 	
-	//  When all the search results are loaded...
-	if ( loaded == wait ) {
-//		masonrify();
-		var imageloads = [];
-		$( '#results' ).find( 'img' ).each(function () {
-			var dfd = $.Deferred();
-				$( this ).on( 'load', function () {
-				    dfd.resolve();
-				});
-
-				// Is image cached?
-				if ( this.complete ) {
-				    $( this ).trigger( 'load' );
-				}
-				imageloads.push( dfd );
-		});
-
-		//  Scroll to bottom again after all the images load
-	    $.when.apply( undefined, imageloads ).done( function () {
-			$( document ).trigger( 'ImgsLoaded-START' );
-			masonrify();
-		});
-	}
+	$( document ).trigger( 'ImgsLoaded-START' );
 });
 
 /**************************
@@ -112,8 +86,6 @@ $( document ).on( 'ImgCollectSearch-SUCCESS', function() {
 	var p = pages( results, per_page );
 	
 	// Reset wait load and current_page schtuff.
-	wait = ( results.length < per_page ) ? results.length: per_page;
-	loaded = 0;
 	current_page = 0;
 	
 	// Remove paginator UI
