@@ -3,8 +3,12 @@ var search = null;
 var input = null;
 var perseids = null;
 var utils = null;
+
 var wait = 0;
 var loaded = 0;
+
+var per_page = 10;
+var results = [];
 
 /**************************
  * Get ready...
@@ -96,21 +100,64 @@ $( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 /**************************
  * Search event listeners
  **************************/
-
 /**
  * If search results are returned retrieve them!
  */
 $( document ).on( 'ImgCollectSearch-SUCCESS', function() {
-
-	//  Retrieve the search results
-	var results = search.results[ search.results.length-1 ];
-	wait = results.length;
+	
+	// Retrieve the search results
+	results = search.results[ search.results.length-1 ];
+	
+	// Add pagination
+	var p = pages( results, per_page );
+	
+	// Reset wait load and current_page schtuff.
+	wait = ( results.length < per_page ) ? results.length: per_page;
 	loaded = 0;
-	for ( var i=0; i<results.length; i++ ) {
-		var arr = results[i].split('.');
+	current_page = 0;
+	
+	// Remove paginator UI
+	paginator_remove();
+	if ( p > 1 ) {
+		// Add paginator UI
+		paginator_add( p );
+	}
+	search_get( current_page );
+});
+
+function paginator_remove() {
+	$('#paginator').remove();
+}
+
+function paginator_add( pages ) {
+	$('body').append('<div id="paginator"><div class="smaller">pages</div></div>');
+	for (var i=1; i<= pages; i++) {
+		$('#paginator').append('<a data-pageid="'+i+'" href="">'+i+'</a>');
+	}
+	$('#paginator a[data-pageid="1"]').addClass('selected');
+	$('#paginator a').on('touchstart click', function(e) {
+		e.preventDefault();
+		$('#paginator a').removeClass('selected');
+		$(this).addClass('selected');
+		var page = parseInt($(this).attr('data-pageid'))-1;
+		utils.clearResults();
+		search_get( page );
+	});
+}
+
+function search_get( page ) {
+	var start = page*per_page;
+	var end = start+per_page-1;
+	var items = results.slice(start,end);
+	for ( var i=0; i<items.length; i++ ) {
+		var arr = items[i].split('.');
 		api.get( arr[0], arr[1] );
 	}
-});
+}
+
+function pages( results, per_page ) {
+	return Math.ceil( results.length / per_page );
+}
 
 function masonrify() {
 	utils.wall.masonry( 'reloadItems' );
