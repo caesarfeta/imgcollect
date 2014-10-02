@@ -3,13 +3,11 @@ class ImageController < ImageBase
   # Display an image
   # TODO: Secure this sunnamabitch.
   def show
+    # If the file doesn't exist return the image error file
     if params[:dir] == nil || params[:format] == nil
       returnFile( errorImg )
     end
     file = File.join( Rails.configuration.img_dir, params[:dir]+'.'+params[:format] )
-    
-    # If file isn't found return the 'IMAGE NOT FOUND' image
-    # imgNotFound( file )
     
     # Send the image file
     # If the file isn't found then it's processing.

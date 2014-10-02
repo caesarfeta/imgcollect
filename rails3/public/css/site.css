@@ -275,7 +275,7 @@ a.edit img {
 #imgcollect_search input {
 	display:inline-block;
 	box-sizing:border-box;
-	width:400px;
+	width:200px;
 	padding:8px;
 	margin:0;
 	opacity:0.25;
@@ -405,14 +405,14 @@ a.edit img {
 	display:none;
 }
 #results.active .image-full a.add {
-	width: 60px;
-	position: absolute;
+	width:60px;
+	position:absolute;
 	display:inline-block;
 }
 
 span.total {
-	background-color: #222;
-	padding: 10px;
+	background-color:#222;
+	padding:10px;
 	text-align:center;
 	display: inline-block;
 }
@@ -420,4 +420,25 @@ span.total {
 /* dropzone */
 .dz-preview {
 	display:none;
+}
+
+/* paginator */
+#paginator {
+	background-color:#222;
+	position:fixed;
+	top:25%;
+	right:0;
+	z-index:500;
+	max-width:50px;
+	padding:5px;
+}
+#paginator a {
+	width:50px;
+	padding:5px;
+	text-align: center;
+	display:block;
+	margin:5px;
+}
+#paginator a.selected {
+	background-color:#333;
 }

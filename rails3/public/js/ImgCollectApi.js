@@ -143,8 +143,6 @@ ImgCollectApi = function() {
 			}
 		}
 		
-		console.log( _data );
-		
 		// Append path data
 		var pathVars = self.pathVars( lookup );
 		for ( var i=0; i<pathVars.length; i++ ) {
