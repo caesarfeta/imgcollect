@@ -12,7 +12,7 @@ function ImgCollectUtils() {
 	 * "Clear" the results
 	 */
 	this.clearResults = function() {
-		$( '#results > *' ).hide();
+		$( '#results > *' ).remove();
 	}
 	
 	/**

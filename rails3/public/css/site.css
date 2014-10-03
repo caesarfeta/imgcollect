@@ -429,11 +429,15 @@ span.total {
 /* paginator */
 #paginator {
 	position:fixed;
-	top:25%;
+	top:50px;
 	right:0;
 	z-index:500;
 	max-width:65px;
 	padding:5px;
+}
+#paginator .inner {
+	max-height: 400px;
+	overflow-y: scroll;
 }
 #paginator a {
 	width:50px;

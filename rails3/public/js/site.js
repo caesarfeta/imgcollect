@@ -123,9 +123,14 @@ function paginator_remove() {
 }
 
 function paginator_add( pages ) {
-	$('body').append('<div id="paginator"><div class="smaller">pages</div></div>');
+	$('body').append('\
+		<div id="paginator">\
+			<div class="smaller">pages</div>\
+			<div class="inner"></div>\
+		</div>'
+	);	
 	for (var i=1; i<= pages; i++) {
-		$('#paginator').append('<a data-pageid="'+i+'" href="">'+i+'</a>');
+		$('#paginator .inner').append('<a data-pageid="'+i+'" href="">'+i+'</a>');
 	}
 	$('#paginator a[data-pageid="1"]').addClass('selected');
 	$('#paginator a').on('touchstart click', function(e) {
