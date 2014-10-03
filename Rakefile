@@ -5,13 +5,12 @@ IMGCOLLECT = File.dirname(__FILE__)
 FUSEKI_VERSION = "1.0.2"
 FUSEKI_DIR = "jena-fuseki-#{FUSEKI_VERSION}"
 FUSEKI_TAR = "#{FUSEKI_DIR}-distribution.tar.gz"
-FUSEKI_EXE = "fuseki/#{FUSEKI_DIR}/fuseki-server"
+FUSEKI_EXE = "#{FUSEKI_DIR}/fuseki-server"
 FUSEKI_TRIPLES = "#{IMGCOLLECT}/triples"
 FUSEKI_HOST = "http://localhost"
 FUSEKI_PORT = "4321"
 FUSEKI_DATA = "ds"
 FUSEKI_ENDPOINT = "#{FUSEKI_HOST}:#{FUSEKI_PORT}/#{FUSEKI_DATA}"
-FUSEKI = "fuseki"
 FUSEKI_PID = "fuseki.pid"
 RAILS = "#{IMGCOLLECT}/rails3"
 RAILS_CONFIG = "#{RAILS}/config"
@@ -64,9 +63,9 @@ namespace :install do
   desc 'Download & install fuseki'
   task :fuseki do
     `curl -O http://archive.apache.org/dist/jena/binaries/#{FUSEKI_TAR}`
-    `mkdir fuseki`
-    `tar xzvf #{FUSEKI_TAR} -C #{FUSEKI}`
-    `chmod +x #{FUSEKI_EXE} #{FUSEKI}/#{FUSEKI_DIR}/s-**`
+    `mkdir #{FUSEKI_DIR}`
+    `tar xzvf #{FUSEKI_TAR} -C #{FUSEKI_DIR}`
+    `chmod +x #{FUSEKI_EXE} #{FUSEKI_DIR}/s-**`
     `rm #{FUSEKI_TAR}`
   end
   
