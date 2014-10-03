@@ -4,7 +4,7 @@
 	<title>imgcollect: Home</title>
 </head>
 <body>
-	<input type="hidden" name="configurl" value="<%= pre %>search/config" />
+	<input type="hidden" name="configurl" value="<%= pre %>/search/config" />
 	
 	<!-- Results -->
 	<section id="results"></section>
@@ -12,17 +12,17 @@
 	
 	<!-- Image upload button -->
 	<a class="modal button dark" href="#" data-reveal-id="imageModal" id="imgUploader">
-		<img src="<%= pre %>img/upload_file.svg" />
+		<img src="<%= pre %>/img/upload_file.svg" />
 	</a>
 	
 	<!-- Create collection button -->
 	<a class="modal button dark" href="#" data-reveal-id="collectionModal" id="collectionCreate">
-		<img src="<%= pre %>img/collection.svg" />
+		<img src="<%= pre %>/img/collection.svg" />
 	</a>
 	
 	<!-- Create "home" button -->
 	<a class="modal button dark" href="#" id="homeButton">
-		<img src="<%= pre %>img/home.svg" />
+		<img src="<%= pre %>/img/home.svg" />
 	</a>
 	
 	<!-- Collection -->
@@ -34,7 +34,7 @@
 		</div>
 		<div class="row">
 			<div class="columns small-12 medium-6">
-				<form action="<%= pre %>collection/create">
+				<form action="<%= pre %>/collection/create">
 					<input id="collectionName" type="text" placeholder="Name" />
 					<input id="collectionLabel" type="text" placeholder="Label" />
 					<a href="" class="button secondary large">Create</a>
@@ -53,7 +53,7 @@
 		</div>
 		<div class="row">
 			<div class="columns small-12 medium-6">
-				<form action="<%= pre %>collection/citeify">
+				<form action="<%= pre %>/collection/citeify">
 					<input id="citeUrn" type="text" placeholder="CITE URN e.g. urn:cite:perseus:collection, or simplified, perseus:collection" />
 					<a href="" class="button secondary large">Create</a>
 				</form>
@@ -85,13 +85,13 @@
 		<div class="row">
 			<!-- Drag and drop upload -->
 			<div id="uploader_dragdrop" class="columns small-12 medium-6">
-				<form action="<%= pre %>image/upload" class="dropzone">
+				<form action="<%= pre %>/image/upload" class="dropzone">
 					<!-- Dropzone accessible user param -->
 					<input type="hidden" name="user" />
 				</form>
 				<!-- Standard upload -->
 				<div id="uploader_standard">
-					<form action="<%= pre %>image/upload">
+					<form action="<%= pre %>/image/upload">
 						<input type="file" name="img_upload" accept="image/*" />
 						<input id="standard_submit" type="submit" />
 					</form>
@@ -99,7 +99,7 @@
 			</div>
 			<!-- URL upload -->
 			<div id="uploader_url" class="columns small-12 medium-6">
-				<form action="<%= pre %>image/upload">
+				<form action="<%= pre %>/image/upload">
 					<input type="text" placeholder="Copy URL to image here" />
 					<a href="" class="button secondary large">Upload</a>
 				</form>

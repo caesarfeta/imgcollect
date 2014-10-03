@@ -1,7 +1,7 @@
 ---
 :verbose: true
 :concurrency: 5
-:pidfile: /usr/local/imgcollect/pids/sidekiq.pid
+:pidfile: /var/www/tools/imgcollect/pids/sidekiq.pid
 staging:
   :concurrency: 10
 production:

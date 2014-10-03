@@ -154,7 +154,7 @@ ImgCollectApi = function() {
 		url = url.join('/');
 		
 		// Remember we want an absolute path
-		url = ImgCollectConfig.config.url_root+url;
+		url = ImgCollectConfig.config.url_root+"/"+url;
 
 		return {
 			url: url,

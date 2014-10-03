@@ -1,3 +1,4 @@
+<% pre = Rails.configuration.url_root %>
 <% key = locals[:key] %>
 <% val = locals[:val] %>
 <% editable = locals[:editable] %>
@@ -19,6 +20,6 @@
 		<% end %>
 		</span>
 	</td>
-	<td><% if editable.include?(key) == true %><a class="edit"><img src="/img/edit_pencil.svg" /></a><% end %></td>
+	<td><% if editable.include?(key) == true %><a class="edit"><img src="<%= pre %>/img/edit_pencil.svg" /></a><% end %></td>
 </tr>
 <% end %>

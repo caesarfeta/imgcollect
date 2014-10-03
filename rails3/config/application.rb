@@ -66,7 +66,7 @@ module Imgcollect
       g.template_engine :haml
     end
     
-    config.url_root = '/'
+    config.url_root = ''
 
     # Filesystem
     config.original_dir = 'original'

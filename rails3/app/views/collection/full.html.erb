@@ -1,4 +1,5 @@
 <%# Hash the collection been CITEified %>
+<% pre = Rails.configuration.url_root %>
 <% citeified = CiteHelper.exists?( @col ) %>
 
 <div data-urn="<%= @col[:urn] %>" class="collection-box brick">
@@ -26,9 +27,9 @@
 			<%# CITE LINK %>
 			<% if citeified == true  %>
 			<div class="cite_urn">
-				<a href="collection/report/<%= @col[:cite_urn].urn_to_path %>"><%= @col[:cite_urn] %></a>
+				<a href="<%= pre %>/collection/report/<%= @col[:cite_urn].urn_to_path %>"><%= @col[:cite_urn] %></a>
 			</div>
-			<img class="citeified" src="/img/check.svg" />
+			<img class="citeified" src="<%= pre %>/img/check.svg" />
 			<% end %>
 						
 			<%# KEYWORDS %>

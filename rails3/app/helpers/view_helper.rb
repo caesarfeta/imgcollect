@@ -12,9 +12,10 @@ module ViewHelper
   # If image is stored locally build the url to the image/show method
   # url { String } Image url
   def imgSrc( url )
+    root = Rails.configuration.url_root
     if url.index( Rails.configuration.img_dir ) != nil
       path = url.sub( Rails.configuration.img_dir, '' )
-      return "/image/show#{path}"
+      return "#{root}/image/show#{path}"
     end
     url
   end
