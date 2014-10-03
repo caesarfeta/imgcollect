@@ -6,23 +6,7 @@ function ImgCollectUtils() {
 	}
 	arguments.callee.me = this;
 	this.timestamp = new TimeStamp();
-	
-	/**
-	 * Mark what you've done.
-	 */
-	this.mark = function( type, search ) {
-		$( '#results' ).append( '\
-			<div class="row">\
-				<div class="columns small-12">\
-					<h2 class="search_string">\
-						<span class="smaller time_of_day">'+this.timestamp.timeOfDay()+'</span>\
-						<span class="smaller">'+type+':</span> '+search+'\
-					</h2>\
-				</div>\
-			</div>' 
-		);
-		$.scrollToBottom( .5 );
-	}
+	this.wall = $( '#results' );
 	
 	/**
 	 * "Clear" the results
@@ -32,13 +16,38 @@ function ImgCollectUtils() {
 	}
 	
 	/**
-	 * Get masonry handle.
+	 * Build the sparql query
+	 *
+	 * @param { string } SPARQL query string
+	 * @return { string } fuseki query URL
 	 */
-	this.masonry = function() {
-		this.wall = $( '#results' );
-		this.wall.masonry( {
-		    columnWidth:  350,
-		    itemSelector: '.brick'
-		});
+	this.sparql_query = function( query ) {
+		return this.escapeURI( ImgCollectConfig.config.endpoint+"?query="+query+"&format=json" )
+	}
+	
+	/**
+	 * Clean up the results
+	 *
+	 * @param { json } results Values returned by jQuery ajax call
+	 * @return { json } Simplified results
+	 */
+	this.sparql_results = function( results ) {
+		var vals = results.results.bindings;
+		var clean = [];
+		for ( var i=0; i<vals.length; i++ ) {
+			clean.push(vals[i].s.value.replace("urn:sparql_model:",""));
+		}
+		return clean;
+	}
+	
+	/**
+	 * Escape the query uri including any # characters
+	 *
+	 * @param { string } _uri The uri
+	 */
+	this.escapeURI = function( _uri ) {
+		//  %23 is the url encoding for a hashmark.
+		//  encodeURI ignores it.
+		return encodeURI( _uri ).replace( /#/g, '%23' );
 	}
 }

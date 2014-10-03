@@ -3,6 +3,8 @@ var search = null;
 var input = null;
 var perseids = null;
 var utils = null;
+var recent = null;
+var upload = null;
 
 var per_page = 10;
 var results = [];
@@ -31,29 +33,34 @@ $( document ).on( 'ImgCollectConfig-READY', function() {
 	api = new ImgCollectApi();
 	input = new ImgCollectInput();
 	col = new ImgCollectCol();
-	new ImgCollectUpload();
+	upload = new ImgCollectUpload();
 	uploadPop();
+	
+	// Get Perseids user
 	perseids = new ImgCollectPerseids();
 	perseids.start();
-	utils.masonry()
+	
 });
 
-
-//  Whoop there's an error
 $( document ).on( 'ImgCollectConfig-ERROR', function() {
-	alert( 'Could not contact ImgCollect server.' );
+	console.log( 'Could not contact ImgCollect server.' );
 });
-$( document ).on( 'ImgCollectApi-ERROR', function( _e, _data ) {
-	// console.log( _data['error'] );
+$( document ).on ('ImgCollectPerseids-SUCCESS', function() {
+	// Get recent user activity
+	recent = new RecentActivity();
 });
 
 /**************************
  * API event listeners
  **************************/
-$( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
+$( document ).on( 'ImgCollectApi-ERROR', function( e, data ) {
+	console.log( data['error'] );
+});
+
+$( document ).on( 'ImgCollectApi-SUCCESS', function( e, data ) {
 
 	//  Check the context of the API call
-	if ( _data['context'] != 'LoadFull' ) {
+	if ( data['context'] != 'LoadFull' ) {
 		return;
 	}
 
@@ -61,7 +68,7 @@ $( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
 	uploadHide();
 
 	//  Append the search results data
-	var data = $( _data['data'] );
+	data = $( data['data'] );
 	utils.wall.append( data );
 
 	//  Create an input listener
@@ -78,9 +85,15 @@ $( document ).on( 'ImgCollectApi-SUCCESS', function( _e, _data ) {
  * If search results are returned retrieve them!
  */
 $( document ).on( 'ImgCollectSearch-SUCCESS', function() {
-	
+	get_items( search.results[ search.results.length-1 ] );
+});
+$( document ).on( 'RecentActivity-SUCCESS', function() {
+	get_items( recent.results[ recent.results.length-1 ] );
+})
+
+function get_items( search_results ) {
 	// Retrieve the search results
-	results = search.results[ search.results.length-1 ];
+	results = search_results;
 	
 	// Add pagination
 	var p = pages( results, per_page );
@@ -95,7 +108,7 @@ $( document ).on( 'ImgCollectSearch-SUCCESS', function() {
 		paginator_add( p );
 	}
 	search_get( current_page );
-});
+}
 
 function paginator_remove() {
 	$('#paginator').remove();
@@ -141,6 +154,12 @@ function masonrify() {
  */
 function welcome() {
 	$( '#welcomeModal' ).foundation( 'reveal', 'open' );
+	$( document ).on( 'closed.fndtn.reveal', '[data-reveal]', function() {
+		if ( recent.shown == false ) {
+			recent.start();
+			recent.shown = true;
+		}
+	});
 }
 
 /**

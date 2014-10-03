@@ -197,7 +197,7 @@ ImgCollectSearch.prototype.search = function( _search ) {
 		url: query,
 		timeout: 10*1000, // 10 second timeout
 		success: function( data ) {
-			self.results.push( self.cleanResults( data ) );
+			self.results.push( self.utils.sparql_results( data ) );
 			jQuery( document ).trigger( self.events.success );
 		},
 		error: function( e ) {
@@ -206,20 +206,7 @@ ImgCollectSearch.prototype.search = function( _search ) {
 	});
 }
 
-/**
- * Clean up the results
- *
- * @param { json } _results Values returned by jQuery ajax call
- * @return { json } Simplified results
- */
-ImgCollectSearch.prototype.cleanResults = function( _results ) {
-	var vals = _results.results.bindings;
-	var clean = [];
-	for ( var i=0; i<vals.length; i++ ) {
-		clean.push(vals[i].s.value.replace("urn:sparql_model:",""));
-	}
-	return clean;
-}
+
 
 /**
  * Clean up the results
@@ -245,19 +232,7 @@ ImgCollectSearch.prototype.buildQuery = function( _model, _pred, _search ) {
 			FILTER regex( ?o, "'+_search+'", "i" )\
 		}\
 	';
-	return this.escapeURI( ImgCollectConfig.config.endpoint+"?query="+query+"&format=json" );
-}
-
-/**
- * Escape the query uri including any # characters
- *
- * @param { string } _uri The uri
- */
-ImgCollectSearch.prototype.escapeURI = function( _uri ) {
-
-	//  %23 is the url encoding for a hashmark.
-	//  encodeURI ignores it.
-	return encodeURI( _uri ).replace( /#/g, '%23' );
+	return this.utils.sparql_query( query );
 }
 
 /**

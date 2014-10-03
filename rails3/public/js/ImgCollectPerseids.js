@@ -2,10 +2,6 @@
 
 ( function( global ) {
 ImgCollectPerseids = function() {
-	
-	/**
-	 *  There can be only one!
-	 */ 
 	if ( ImgCollectPerseids.prototype.me ) {
 		return ImgCollectPerseids.prototype.me;
 	}
@@ -38,6 +34,7 @@ ImgCollectPerseids = function() {
 					return;
 				}
 				self.user = data.user.uri;
+				self.short_user = self.user.replace( 'http://data.perseus.org/sosol/users/', '' );
 				$( 'input[name="user"]' ).val( data.user.uri );
 				$( document ).trigger( self.events.success );
 			},
