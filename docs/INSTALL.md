@@ -24,22 +24,22 @@
 	sudo apt-get install git
 	sudo apt-get install openjdk-6-jre
 
-## Setup shell
+## Setup shell -- optional
 	mkdir ~/lib
 	git clone http://github.com/caesarfeta/bash_lib ~/lib/bash_lib
 	echo 'source ~/lib/bash_lib/profile' >> ~/.profile
 	source ~/.profile
 
-## Install rbenv
+## Install rbenv -- optional
 	git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
 	echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
 	echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 	source ~/.profile
 
-## Install ruby-build
+## Install ruby-build -- optional
 	git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-## Install jruby-1.7.11
+## Install jruby-1.7.11 -- optional
 	rbenv install jruby-1.7.11
 	rbenv global jruby-1.7.11
 	rbenv rehash
@@ -52,17 +52,6 @@
 ## Install imagemagick
 	sudo apt-get install imagemagick --fix-missing
 
-## Install required gems
-	gem install haml-rails
-	gem install linkeddata
-	gem install sparql
-	gem install rubyzip
-	gem install mini_magick
-	gem install exifr
-	gem install xmp
-	gem install rest_client
-	gem install mimemagic
-
 ## Install sparql_model gem
 	cd /var/www
 	git clone https://github.com/caesarfeta/sparql_model.git
@@ -73,31 +62,52 @@
 ## Install imgcollect
 	sudo chown ubuntu /var/www
 	git clone https://github.com/caesarfeta/imgcollect.git /var/www/imgcollect
+	cd /var/www/imgcollect/rails3
+	bundle install
 
 ## Install jena-fuseki
 	cd /var/www/imgcollect
 	rake install:fuseki
 
+
+## Install redis
+	sudo apt-add-repository ppa:chris-lea/redis-server
+	sudo apt-get update
+	sudo apt-get install redis-server
+
 ## Configuration
 Edit the following files for any custom environment configuration
 
 ### fuseki
-	/var/www/imgcollect/Rakefile
+	Rakefile
 
 ### rails
-	/var/www/imgcollect/rails3/config/application.rb
+	rails3/config/application.rb
+	rails3/config/environments/development.rb
+	rails3/config/environments/production.rb
+
+### redis
+	rails3/config/redis.conf
+
+### sidekiq
+	rails3/config/sidekiq.yml
 
 ## Start it up!
 The easiest way is to just use...
 
+	rake start:all
+
+or the individual component servers...
+
 	rake start:rails
 	rake start:fuseki
+	rake start:sidekiq
 
 if you need a console...
 
 	rails console development
 
-# Securing fuseki
+## Securing fuseki
 The easiest way I know to basically secure Fuseki is to use an Apache proxy.
 If anyone knows a better way of doing this let me know.
 
@@ -131,8 +141,7 @@ To undo this...
 	sudo iptables -D INPUT -p tcp -s localhost --dport 8080 -j ACCEPT
 	sudo iptables -D INPUT -p tcp --dport 8080 -j DROP
 
-# Deploying in apache with Phusion Passenger
-
+## Deploying in apache with Phusion Passenger
 	gem install passenger
 	passenger-install-apache2-module
 
@@ -162,10 +171,10 @@ At the end of the install, you'll be given a **passenger_module** configuration 
 Add it to your Apache configuration file, most likely in **/etc/apache2/httpd.conf**.
 
 Create a Virtual Host configuration.  If you're using a non-standard port number make sure you add a Listen config.
-Replace **/var/www/cite_collections_rails** with your path to cite_collection_rails
+Replace **/var/www/imgcollect** with your path to imgcollect
 
-	Listen 7890
-	<VirtualHost *:7890>
+	Listen 80
+	<VirtualHost *:80>
 		PassengerEnabled On
 		DocumentRoot /var/www/imgcollect/rails3/public
 		RailsBaseURI /var/www/imgcollect/rails3
@@ -176,33 +185,44 @@ Replace **/var/www/cite_collections_rails** with your path to cite_collection_ra
 		</Directory>
 	</VirtualHost>
 
-If you get an error message like this...
+### Setup proxy
+If you can't run imgcollect off port 80 at the root of the webserver you'll need to setup a proxy.
+Here's an example apache proxy config.
 
-	/Users/username/imgcollect/config/config.yml could not be found
+	Listen 7890
+	<VirtualHost *:7890>
+	     PassengerEnabled On
+	     DocumentRoot /var/www/tools/imgcollect/rails3/public
+	     RailsBaseURI /var/www/tools/imgcollect/rails3
+	     RailsEnv production
+		<Directory /var/www/tools/imgcollect/rails3/public >
+		    Allow from all
+		    Options -MultiViews
+		</Directory>
+	</VirtualHost>
+	<Location /imgcollect>
+	        ProxyPass http://localhost:7890
+		ProxyPassReverse http://localhost:7890
+	</Location>
 
-Try this...
 
-	 ln -s /var/www/imgcollect /Users/username/imgcollect
+# Troubleshooting
+### logs
+	rails3/logs
 
-# Config redis & sidekiq
-
-	rails3/config/redis.conf
-	rails3/config/sidekiq.yml
-
-
-## Test redis 
+### Test redis 
 Ping it.
 
 	redis-cli ping
 	> PONG
 
-Set keys and values.
+Make sure you can set a key value pair.
 
 	redis-cli
 		set key val
 		get key
 
-## Test sidekiq
+### Test sidekiq
 Check the web interface
 
 	http://127.0.0.1:3000/sidekiq
