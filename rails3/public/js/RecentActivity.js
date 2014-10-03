@@ -3,14 +3,32 @@ function RecentActivity() {
 		return arguments.callee.me;
 	}
 	arguments.callee.me = this;
+	this.utils = new ImgCollectUtils();
+	this.results = [];
+	this.events = {
+		success: 'RecentActivity-SUCCESS',
+		error: 'RecentActivity-ERROR'
+	};
+	this.error = null;
+	this.results = [];
+	this.shown = false;
+	this.perseids = new ImgCollectPerseids();
 	
 	this.start = function() {
+		var self = this;
 		$.ajax({
 			dataType: "json",
-			url: this.query,
+			url: self.utils.sparql_query( self.query ),
 			timeout: 10*1000,
-			success: function( data ) {},
-			error: function( e ) {}
+			success: function( data ) {
+				self.results.push( self.utils.sparql_results( data ) );
+				self.error = null;
+				$( document ).trigger( self.events['success'] );
+			},
+			error: function( e ) {
+				self.error = e;
+				$( document ).trigger( self.events['error'] );
+			}
 		})
 	},
 	
@@ -21,10 +39,9 @@ function RecentActivity() {
 		SELECT ?s\
 		WHERE { \
 			{ ?s image:edited ?o.\
-			  ?s ?p users:Adam%20Tavares }\
+			  ?s ?p users:"+this.perseids.short_user+" }\
 			UNION \
 			{ ?s col:edited ?o.\
-			  ?s ?p users:Adam%20Tavares }\
-		} ORDER BY DESC( ?o )\
-	"
+			  ?s ?p users:"+this.perseids.short_user+" }\
+		} ORDER BY DESC( ?o )"
 }
