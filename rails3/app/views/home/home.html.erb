@@ -20,6 +20,11 @@
 		<img src="<%= pre %>img/collection.svg" />
 	</a>
 	
+	<!-- Create "home" button -->
+	<a class="modal button dark" href="#" id="homeButton">
+		<img src="<%= pre %>img/home.svg" />
+	</a>
+	
 	<!-- Collection -->
 	<div id="collectionModal" class="reveal-modal" data-reveal>
 		<div class="row">
@@ -84,7 +89,6 @@
 					<!-- Dropzone accessible user param -->
 					<input type="hidden" name="user" />
 				</form>
-				
 				<!-- Standard upload -->
 				<div id="uploader_standard">
 					<form action="<%= pre %>image/upload">

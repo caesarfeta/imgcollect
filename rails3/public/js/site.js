@@ -19,7 +19,6 @@ Dropzone.options.dropzone = {
 	createImageThumbnails: false
 }
 
-
 //  Get the config.
 $( document ).ready( function(){
 	new ImgCollectConfig();
@@ -48,6 +47,12 @@ $( document ).on( 'ImgCollectConfig-ERROR', function() {
 $( document ).on ('ImgCollectPerseids-SUCCESS', function() {
 	// Get recent user activity
 	recent = new RecentActivity();
+	
+	// Home button is clicked recent activity shows up
+	$( '#homeButton' ).on( 'touchstart, click', function() {
+		utils.clearResults();
+		recent.start();
+	})
 });
 
 /**************************
@@ -92,6 +97,9 @@ $( document ).on( 'RecentActivity-SUCCESS', function() {
 })
 
 function get_items( search_results ) {
+	// Clear the old results
+	utils.clearResults();
+	
 	// Retrieve the search results
 	results = search_results;
 	
@@ -142,11 +150,6 @@ function search_get( page ) {
 
 function pages( results, per_page ) {
 	return Math.ceil( results.length / per_page );
-}
-
-function masonrify() {
-	utils.wall.masonry( 'reloadItems' );
-	utils.wall.masonry( 'layout' );
 }
 
 /**

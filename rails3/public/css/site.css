@@ -290,25 +290,31 @@ a.edit img {
 
 /* upload file icon */
 #imgUploader,
-#collectionCreate {
+#collectionCreate,
+#homeButton {
 	padding:5px;
 	position:fixed;
 }
+
+#imgUploader img,
+#collectionCreate img,
+#homeButton img {
+	height:25px;
+}
+
 #imgUploader {
 	top:0;
 	right:20px;
 }
-#imgUploader img {
-	width:25px;
-}
 
-/* create collection icon */
 #collectionCreate {
 	top:0;
 	right:60px;
 }
-#collectionCreate img {
-	width:25px;
+
+#homeButton {
+	top:0;
+	right:100px;
 }
 
 /* collection pop-up */

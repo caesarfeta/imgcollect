@@ -45,9 +45,9 @@
 
 * What do we do when a drone is decommisioned?
 	* Their images and complete metadata must be hosted somewhere.
-	* Mother-Brain must be updated.
-
+	* Mother-Brain must be updated, URN find and replace.
 	All data produced by imgcollect must be easily machine readable!
+	I mean easy... like GET a url and have the data traversable without any intermediate processing.
 
 ## Prominent Image Hosting/Archiving Applications
 Google Image Search
@@ -63,3 +63,18 @@ http://sosol.perseids.org/collections/
 
 Controls the mapping in Sosol.
 https://github.com/caesarfeta/imgcollect/blob/deployment/rails3/public/js/ImgCollectPerseids.js
+
+## Video Outline
+I'm going to show you imgcollect a project that makes collecting and annotating images.
+
+When you go to imgcollect you're presented with a welcome screen.
+You might be watching this video on the welcome screen right now.
+
+Clicking outside the welcome pop-up will start the application.
+
+List of recent activity.
+
+Let's upload an image.
+
+	URL
+	
