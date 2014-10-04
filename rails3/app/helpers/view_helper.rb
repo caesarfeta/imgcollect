@@ -20,6 +20,10 @@ module ViewHelper
     url
   end
   
+  def imgspect_url( urn )
+    return Rails.configuration.url_root+'/imgspect/'+urn.urn_to_path
+  end
+  
   # Return urn leaf
   # urn { String } urn
   def urnLeaf( urn )

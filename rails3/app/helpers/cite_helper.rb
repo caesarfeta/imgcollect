@@ -159,6 +159,17 @@ module CiteHelper
     @map
   end
   
+  def self.imgAka( urn )
+    urn = urn.colonize('/').tagify
+    sparql = self.sparql
+    urns = sparql.get_subjects([ "rdfs:isDefinedBy", urn ])
+    aka = []
+    urns.each do | urn |
+      aka.push( urn[:s].to_s.tagify )
+    end
+    return aka
+  end
+  
   private
   
   # Make sure you're dealing with a SparqlModel Collection

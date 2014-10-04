@@ -1,8 +1,9 @@
 <html>
+<% pre = Rails.configuration.url_root %>
 <head>
-<link rel="stylesheet" href="/third-party/imgspect/third_party/menumucil/css/menumucil.css">
-<link rel="stylesheet" href="/third-party/imgspect/src/css/imgspect.css">
-<link rel="stylesheet" href="/third-party/imgspect/src/css/imgbit.css">
+<link rel="stylesheet" href="<%= pre %>/third-party/imgspect/third_party/menumucil/css/menumucil.css">
+<link rel="stylesheet" href="<%= pre %>/third-party/imgspect/src/css/imgspect.css">
+<link rel="stylesheet" href="<%= pre %>/third-party/imgspect/src/css/imgbit.css">
 <style type="text/css">
 	body {
 		margin: 0;
@@ -27,20 +28,21 @@
 </body>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-<script src="/third-party/imgspect/third_party/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
-<script src="/third-party/jslib/src/js/jQueryPlus.js"></script>
-<script src="/third-party/jslib/src/js/StringExt.js"></script>
-<script src="/third-party/jslib/third_party/datejs/date.js"></script>
-<script src="/third-party/jslib/src/js/TimeStamp.js"></script>
-<script src="/third-party/jslib/src/js/ObjectExt.js"></script>
-<script src="/third-party/jslib/src/js/Culuh.js"></script>
-<script src="/third-party/jslib/src/js/Sorted.js"></script>
-<script src="/third-party/imgspect/third_party/menumucil/menumucil.js"></script>
-<script src="/third-party/imgspect/src/js/imgspect.js"></script>
-<script src="/third-party/imgspect/src/js/imgbit.js"></script>
-<script src="/js/ImgCollectApi.js"></script>
-<script src="/js/ImgCollectPerseids.js"></script>
-<script src="/js/ImgSpectBridge.js"></script>
+<script src="<%= pre %>/third-party/imgspect/third_party/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+<script src="<%= pre %>/third-party/jslib/src/js/jQueryPlus.js"></script>
+<script src="<%= pre %>/third-party/jslib/src/js/StringExt.js"></script>
+<script src="<%= pre %>/third-party/jslib/third_party/datejs/date.js"></script>
+<script src="<%= pre %>/third-party/jslib/src/js/TimeStamp.js"></script>
+<script src="<%= pre %>/third-party/jslib/src/js/ObjectExt.js"></script>
+<script src="<%= pre %>/third-party/jslib/src/js/Culuh.js"></script>
+<script src="<%= pre %>/third-party/jslib/src/js/Sorted.js"></script>
+<script src="<%= pre %>/third-party/imgspect/third_party/menumucil/menumucil.js"></script>
+<script src="<%= pre %>/third-party/imgspect/src/js/imgspect.js"></script>
+<script src="<%= pre %>/third-party/imgspect/src/js/imgbit.js"></script>
+<script src="<%= pre %>/js/ImgCollectConfig.js"></script>
+<script src="<%= pre %>/js/ImgCollectApi.js"></script>
+<script src="<%= pre %>/js/ImgCollectPerseids.js"></script>
+<script src="<%= pre %>/js/ImgSpectBridge.js"></script>
 <script type="text/javascript">
 	var spect = null;
 	$(window).load( function(){

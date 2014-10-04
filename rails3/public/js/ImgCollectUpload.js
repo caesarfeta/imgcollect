@@ -101,7 +101,7 @@ ImgCollectUpload.prototype.upload_file = function( file ) {
  * Display wait image
  */
 ImgCollectUpload.prototype.wait = function() {
-	$( '#uploader_message' ).html( '<img src="/img/loader.gif" />' );
+	$( '#uploader_message' ).html( '<img src="'+ImgCollectConfig.config.url_root+'/img/loader.gif" />' );
 }
 
 /**
@@ -157,7 +157,5 @@ ImgCollectUpload.prototype.success = function ( data ) {
 	self.waitOver();
 	$('.reveal-modal').trigger( 'reveal:close' );
 	self.utils.clearResults();
-
-	// Load the uploaded images
-	self.latest( data );
+	$( '#uploader_message' ).html( "File Uploaded Successfully!" );
 }

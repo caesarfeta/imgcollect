@@ -39,6 +39,7 @@ class ImageController < ImageBase
     img = Image.new
     img.byId( params[:id] )
     @img = img.all
+    @cite = CiteHelper.imgAka( img.urn )
     render 'image/full'
   end
   
