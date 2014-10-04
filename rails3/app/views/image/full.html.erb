@@ -20,11 +20,10 @@
 	<div class="metadata">
 
 		<div class="size">
-			<% img_keys.each do |key| %>
+			<% key = img_keys.last %>
 			<a class="button tiny dark" href="<%= imgSrc(@img[key]) %>" target="_blank">
-				<%= "#{dimensions(key,@img[:width],@img[:height])}" %>
+			<%= "#{dimensions(key,@img[:width],@img[:height])}" %>
 			</a>
-			<% end %>
 		</div>
 		
 		<%# creation and edit times %>
