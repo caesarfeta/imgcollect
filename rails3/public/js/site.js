@@ -36,24 +36,14 @@ $( document ).on( 'ImgCollectConfig-READY', function() {
 	uploadPop();
 	
 	// Get Perseids user
-	perseids = new ImgCollectPerseids();
-	perseids.start();
+	ping_perseids();
 	
 });
 
 $( document ).on( 'ImgCollectConfig-ERROR', function() {
 	console.log( 'Could not contact ImgCollect server.' );
 });
-$( document ).on ('ImgCollectPerseids-SUCCESS', function() {
-	// Get recent user activity
-	recent = new RecentActivity();
-	
-	// Home button is clicked recent activity shows up
-	$( '#homeButton' ).on( 'touchstart, click', function() {
-		utils.clearResults();
-		recent.start();
-	})
-});
+
 
 /**************************
  * API event listeners
@@ -155,6 +145,38 @@ function search_get( page ) {
 
 function pages( results, per_page ) {
 	return Math.ceil( results.length / per_page );
+}
+
+function ping_perseids() {
+	$( document ).on ('ImgCollectPerseids-SUCCESS', function() {
+		// Get recent user activity
+		recent = new RecentActivity();
+	
+		// Home button is clicked recent activity shows up
+		$( '#homeButton' ).on( 'touchstart, click', function() {
+			utils.clearResults();
+			recent.start();
+		})
+	});
+	$( document ).on( 'ImgCollectPerseids-ERROR', function() {
+		login_error();
+	});
+	perseids = new ImgCollectPerseids();
+	perseids.start();
+}
+
+function login_error() {
+	$( '#welcomeModal' ).foundation( 'reveal', 'close' );
+	var msg = "\
+		<div>I do not know your Perseids identity.</div>\
+		<div><a target=\"_blank\" href=\"http://sosol.perseids.org/sosol/\">Please login to Perseids.</a></div>\
+		<div>Then refresh this page.</div>";
+	modal_error( msg );
+}
+
+function modal_error( msg ) {
+	$( '#error_message' ).html( msg );
+	$( '#errorModal' ).foundation( 'reveal', 'open' );
 }
 
 /**

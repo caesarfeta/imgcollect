@@ -34,6 +34,7 @@ ImgCollectPerseids = function() {
 					$( document ).trigger( self.events.no_user );
 					return;
 				}
+				// Stash the important data
 				self.user = data.user.uri;
 				self.short_user = self.user.replace( 'http://data.perseus.org/sosol/users/', '' );
 				$( 'input[name="user"]' ).val( data.user.uri );
@@ -47,14 +48,6 @@ ImgCollectPerseids = function() {
 	
 	// TODO: Build a better alert system!
 	this.start = function() {
-		var self = this;
-		$( document ).on( self.events.success, function() {});
-		$( document ).on( self.events.error, function() {
-			alert( 'Could not contact Perseids to retrieve user info!' );
-		});
-		$( document ).on( self.events.no_user, function() {
-			alert( 'Please login to Perseids!' );
-		});
 		this.check();
 	}
 };
